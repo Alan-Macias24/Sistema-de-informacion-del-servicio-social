@@ -9,7 +9,12 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["udg", "servicio-social", "nodejs", "mysql"],
+  "keywords": [
+    "udg",
+    "servicio-social",
+    "nodejs",
+    "mysql"
+  ],
   "author": "Tu equipo",
   "license": "ISC",
   "dependencies": {

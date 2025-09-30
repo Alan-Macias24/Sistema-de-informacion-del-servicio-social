@@ -249,6 +249,255 @@ app.get("/estadisticas/:codigoUdg", authenticateToken, (req, res) => {
   });
 });
 
+// Ruta para crear reportes (MEJORADA CON DEBUG)
+app.post("/reportes", authenticateToken, (req, res) => {
+  console.log("📥 Solicitud POST /reportes recibida");
+  console.log("📋 Datos recibidos:", req.body);
+  console.log("👤 Usuario autenticado:", req.user);
+
+  const {
+    tipo,
+    periodo_inicio,
+    periodo_fin,
+    actividades_realizadas,
+    logros,
+    dificultades,
+    aprendizajes,
+    horas_reportadas,
+    estado,
+    fecha_entrega,
+    turno,
+    fecha_elaboracion,
+    expectativas_programa,
+    porcentaje_conocimientos,
+    porcentaje_experiencias,
+    porcentaje_profesionales,
+    porcentaje_habilidades,
+    aportaciones_institucion,
+    cumplimiento_satisfactorio
+  } = req.body;
+
+  // Validar datos requeridos
+  if (!periodo_inicio || !periodo_fin || !actividades_realizadas || !horas_reportadas) {
+    console.log("❌ Faltan campos requeridos");
+    return res.status(400).json({ 
+      status: "error", 
+      message: "Faltan campos requeridos: periodo_inicio, periodo_fin, actividades_realizadas, horas_reportadas" 
+    });
+  }
+
+  // Primero obtener la asignación activa del usuario
+  const getAsignacionSql = `
+    SELECT id FROM asignaciones 
+    WHERE prestador_codigo_udg = ? AND estado = 'activa'
+    LIMIT 1;
+  `;
+
+  console.log("🔍 Buscando asignación activa para:", req.user.codigo_udg);
+
+  db.query(getAsignacionSql, [req.user.codigo_udg], (err, asignacionResults) => {
+    if (err) {
+      console.error("❌ Error en consulta de asignación:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    console.log("📊 Resultados de asignación:", asignacionResults);
+
+    if (asignacionResults.length === 0) {
+      console.log("❌ No se encontró asignación activa");
+      return res.status(400).json({ 
+        status: "error", 
+        message: "No tienes una asignación activa. Contacta al administrador." 
+      });
+    }
+
+    const asignacion_id = asignacionResults[0].id;
+    console.log("✅ Asignación encontrada ID:", asignacion_id);
+
+    // Insertar el reporte
+    const insertReporteSql = `
+      INSERT INTO reportes (
+        asignacion_id, tipo, periodo_inicio, periodo_fin, actividades_realizadas,
+        logros, dificultades, aprendizajes, horas_reportadas, estado, fecha_entrega,
+        turno, fecha_elaboracion, expectativas_programa,
+        porcentaje_conocimientos, porcentaje_experiencias, porcentaje_profesionales,
+        porcentaje_habilidades, aportaciones_institucion, cumplimiento_satisfactorio
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    `;
+
+    const valores = [
+      asignacion_id, 
+      tipo || 'mensual',
+      periodo_inicio, 
+      periodo_fin, 
+      actividades_realizadas,
+      logros || '',
+      dificultades || '',
+      aprendizajes || '',
+      parseFloat(horas_reportadas),
+      estado || 'borrador',
+      fecha_entrega || new Date().toISOString(),
+      turno || '',
+      fecha_elaboracion || new Date().toISOString().split('T')[0],
+      expectativas_programa || 'Si',
+      parseInt(porcentaje_conocimientos) || 0,
+      parseInt(porcentaje_experiencias) || 0,
+      parseInt(porcentaje_profesionales) || 0,
+      parseInt(porcentaje_habilidades) || 0,
+      aportaciones_institucion || '',
+      cumplimiento_satisfactorio || 'Si'
+    ];
+
+    console.log("💾 Insertando reporte con valores:", valores);
+
+    db.query(insertReporteSql, valores, (err, result) => {
+      if (err) {
+        console.error("❌ Error al insertar reporte:", err);
+        return res.status(500).json({ 
+          status: "error", 
+          message: "Error al guardar el reporte en la base de datos: " + err.message 
+        });
+      }
+
+      console.log("✅ Reporte insertado exitosamente. ID:", result.insertId);
+
+      // Actualizar horas acumuladas en la asignación si el reporte fue enviado
+      if (estado === 'enviado') {
+        console.log("🔄 Actualizando horas acumuladas...");
+        const updateHorasSql = `
+          UPDATE asignaciones 
+          SET horas_acumuladas = horas_acumuladas + ? 
+          WHERE id = ?;
+        `;
+
+        db.query(updateHorasSql, [parseFloat(horas_reportadas), asignacion_id], (updateErr) => {
+          if (updateErr) {
+            console.error("❌ Error al actualizar horas:", updateErr);
+          } else {
+            console.log("✅ Horas actualizadas exitosamente");
+          }
+        });
+      }
+
+      res.json({
+        status: "ok",
+        message: estado === 'borrador' ? "Borrador guardado exitosamente" : "Reporte enviado exitosamente",
+        reporte_id: result.insertId
+      });
+    });
+  });
+});
+
+// Ruta para obtener reportes del usuario
+app.get("/reportes/mis-reportes", authenticateToken, (req, res) => {
+  const sql = `
+    SELECT r.*, a.plaza_id, p.titulo as plaza_titulo
+    FROM reportes r
+    JOIN asignaciones a ON r.asignacion_id = a.id
+    JOIN plazas p ON a.plaza_id = p.id
+    WHERE a.prestador_codigo_udg = ?
+    ORDER BY r.fecha_entrega DESC;
+  `;
+
+  db.query(sql, [req.user.codigo_udg], (err, results) => {
+    if (err) {
+      console.error("❌ Error en consulta de reportes:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    res.json({ status: "ok", reportes: results });
+  });
+});
+
+// Ruta para registrar asistencia
+app.post("/asistencia", authenticateToken, (req, res) => {
+  const { fecha, hora_entrada, hora_salida, actividades_realizadas } = req.body;
+
+  // Primero obtener la asignación activa del prestador
+  const getAsignacionSql = `
+    SELECT id FROM asignaciones 
+    WHERE prestador_codigo_udg = ? AND estado = 'activa'
+    LIMIT 1;
+  `;
+
+  db.query(getAsignacionSql, [req.user.codigo_udg], (err, asignacionResults) => {
+    if (err) {
+      console.error("❌ Error en consulta:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (asignacionResults.length === 0) {
+      return res.json({ status: "error", message: "No tienes una asignación activa" });
+    }
+
+    const asignacionId = asignacionResults[0].id;
+
+    const insertAsistenciaSql = `
+      INSERT INTO asistencia (asignacion_id, fecha, hora_entrada, hora_salida, actividades_realizadas, estado)
+      VALUES (?, ?, ?, ?, ?, 'registrada');
+    `;
+
+    db.query(insertAsistenciaSql, [asignacionId, fecha, hora_entrada, hora_salida, actividades_realizadas], (err, results) => {
+      if (err) {
+        console.error("❌ Error al registrar asistencia:", err);
+        return res.status(500).json({ status: "error", message: "Error al registrar asistencia" });
+      }
+
+      res.json({ status: "ok", message: "Asistencia registrada correctamente" });
+    });
+  });
+});
+
+// Ruta para obtener el historial de asistencia de un prestador
+app.get("/asistencia/:codigoUdg", authenticateToken, (req, res) => {
+  const codigoUdg = parseInt(req.params.codigoUdg);
+
+  const sql = `
+    SELECT a.fecha, a.hora_entrada, a.hora_salida, a.horas_realizadas, 
+           a.actividades_realizadas, a.estado, a.fecha_registro
+    FROM asistencia a
+    INNER JOIN asignaciones asig ON a.asignacion_id = asig.id
+    WHERE asig.prestador_codigo_udg = ?
+    ORDER BY a.fecha DESC;
+  `;
+
+  db.query(sql, [codigoUdg], (err, results) => {
+    if (err) {
+      console.error("❌ Error en consulta:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    res.json({ status: "ok", asistencia: results });
+  });
+});
+
+// Ruta para obtener información de asignación activa
+app.get("/asignacion-activa", authenticateToken, (req, res) => {
+  const sql = `
+    SELECT a.*, p.titulo as plaza_titulo, p.descripcion as plaza_descripcion,
+           r.organizacion, r.departamento, u.nombre as receptor_nombre
+    FROM asignaciones a
+    JOIN plazas p ON a.plaza_id = p.id
+    JOIN receptores r ON a.receptor_codigo_udg = r.codigo_udg
+    JOIN usuarios u ON r.codigo_udg = u.codigo_udg
+    WHERE a.prestador_codigo_udg = ? AND a.estado = 'activa'
+    LIMIT 1;
+  `;
+
+  db.query(sql, [req.user.codigo_udg], (err, results) => {
+    if (err) {
+      console.error("❌ Error en consulta:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (results.length > 0) {
+      res.json({ status: "ok", asignacion: results[0] });
+    } else {
+      res.json({ status: "error", message: "No se encontró asignación activa" });
+    }
+  });
+});
+
 // Ruta de salud del servidor
 app.get("/health", (req, res) => {
   // Verificar conexión a la base de datos
@@ -271,6 +520,27 @@ app.get("/health", (req, res) => {
   });
 });
 
+// Servir archivos estáticos para las páginas
+app.get("/dashboard_prestador.html", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dashboard_prestador.html'));
+});
+
+app.get("/dashboard_receptor.html", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dashboard_receptor.html'));
+});
+
+app.get("/dashboard_admin.html", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dashboard_admin.html'));
+});
+
+app.get("/crear_reporte.html", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/crear_reporte.html'));
+});
+
+app.get("/mis_reportes.html", (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/mis_reportes.html'));
+});
+
 // Manejo de rutas no encontradas
 app.use((req, res) => {
   res.status(404).json({ status: "error", message: "Ruta no encontrada" });
@@ -288,6 +558,10 @@ app.listen(PORT, () => {
   console.log(`📊 Panel de salud: http://localhost:${PORT}/health`);
   console.log(`🔑 Endpoints disponibles:`);
   console.log(`   POST /login - Iniciar sesión`);
+  console.log(`   POST /reportes - Crear reporte mensual`);
+  console.log(`   GET  /reportes/mis-reportes - Obtener mis reportes`);
+  console.log(`   POST /asistencia - Registrar asistencia`);
+  console.log(`   GET  /asignacion-activa - Obtener asignación activa`);
   console.log(`   GET  /verify - Verificar token`);
   console.log(`   GET  /perfil/:codigoUdg - Obtener perfil`);
   console.log(`   GET  /plazas - Obtener plazas disponibles`);

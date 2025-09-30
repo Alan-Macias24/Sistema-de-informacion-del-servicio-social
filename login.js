@@ -1,10 +1,10 @@
 function login() {
   const codigo = document.getElementById("codigo").value;
-  const password = document.getElementById("password").value;
+  const contraseña = document.getElementById("password").value; // Cambié el nombre de la variable para coincidir con el HTML
   const errorMsg = document.getElementById("error");
 
   // Validaciones básicas
-  if (!codigo || !password) {
+  if (!codigo || !contraseña) {
     errorMsg.textContent = "Por favor, completa todos los campos";
     return;
   }
@@ -27,30 +27,36 @@ function login() {
     },
     body: JSON.stringify({ 
       codigo: codigo, 
-      password: password 
+      password: contraseña  // Cambié a 'contraseña' para coincidir con la variable
     })
   })
   .then(res => {
     if (!res.ok) {
-      throw new Error('Error en la respuesta del servidor');
+      // Si el servidor responde con error, intentar leer el mensaje
+      return res.json().then(errorData => {
+        throw new Error(errorData.message || `Error HTTP: ${res.status}`);
+      });
     }
     return res.json();
   })
   .then(data => {
     if (data.status === "ok") {
-      // Guardar usuario en localStorage
+      // Guardar usuario y token en localStorage
       localStorage.setItem("usuario", JSON.stringify(data.user));
-      localStorage.setItem("token", Date.now()); // Token simple para demo
+      localStorage.setItem("token", data.token);
+      
+      console.log("✅ Login exitoso, token guardado");
+      console.log("👤 Usuario:", data.user);
       
       // Redirigir según el tipo de usuario
       redirectByUserType(data.user.tipo);
     } else {
-      errorMsg.textContent = data.message;
+      errorMsg.textContent = data.message || "Error desconocido en el login";
     }
   })
   .catch(err => {
-    console.error('Error:', err);
-    errorMsg.textContent = "Error de conexión con el servidor. Verifica que el servidor esté ejecutándose.";
+    console.error('Error completo:', err);
+    errorMsg.textContent = err.message || "Error de conexión con el servidor. Verifica que el servidor esté ejecutándose.";
   })
   .finally(() => {
     // Restaurar botón
@@ -60,6 +66,7 @@ function login() {
 }
 
 function redirectByUserType(tipo) {
+  console.log("🔀 Redirigiendo según tipo:", tipo);
   switch(tipo) {
     case 'prestador':
       window.location.href = "dashboard_prestador.html";
@@ -71,6 +78,7 @@ function redirectByUserType(tipo) {
       window.location.href = "dashboard_admin.html";
       break;
     default:
+      console.warn("Tipo de usuario no reconocido:", tipo);
       window.location.href = "pagina_inicio.html";
   }
 }

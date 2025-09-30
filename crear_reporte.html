@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Reporte Mensual - Servicio Social</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #010248;
+            color: white;
+            padding: 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        header img {
+            width: 80px;
+            height: auto;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .user-type {
+            font-size: 0.9em;
+            color: #ccc;
+        }
+
+        .logout-btn {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: #b71c1c;
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, #010248, #003366);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* FORMULARIO */
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 2px solid #010248;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            color: #010248;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #010248;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #010248;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #010248;
+            outline: none;
+        }
+
+        .info-box {
+            background: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 4px solid #010248;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #010248;
+        }
+
+        .percentage-input {
+            width: 80px !important;
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .percentage-label {
+            display: inline-block;
+            width: 200px;
+        }
+
+        .buttons-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-primary {
+            background: #010248;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #003366;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .required {
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="Logo UDG.png" alt="Logo UDG">
+                <h1>Crear Reporte Mensual - Servicio Social</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Cargando...</div>
+                    <div class="user-type">Prestador de Servicio Social</div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="dashboard-container">
+        <!-- SECCIÓN DE BIENVENIDA -->
+        <div class="welcome-section">
+            <h1>Reporte Mensual de Actividades</h1>
+            <p>Centro Universitario de la Ciénega - Universidad de Guadalajara</p>
+        </div>
+
+        <!-- ALERTAS -->
+        <div id="alertSuccess" class="alert alert-success">
+            Reporte guardado exitosamente. Redirigiendo...
+        </div>
+        <div id="alertError" class="alert alert-error">
+            Error al guardar el reporte. Por favor, intenta nuevamente.
+        </div>
+
+        <!-- FORMULARIO -->
+        <div class="form-container">
+            <form id="reporteForm">
+                <!-- INFORMACIÓN GENERAL -->
+                <div class="form-section">
+                    <h2 class="section-title">Información General</h2>
+                    
+                    <div class="info-box">
+                        <div><span class="info-label">Alumno:</span> <span id="infoAlumno">Cargando...</span></div>
+                        <div><span class="info-label">Carrera:</span> <span id="infoCarrera">Cargando...</span></div>
+                        <div><span class="info-label">Plaza:</span> <span id="infoPlaza">Cargando...</span></div>
+                        <div><span class="info-label">Receptor:</span> <span id="infoReceptor">Cargando...</span></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="turno">Turno <span class="required">*</span></label>
+                        <select id="turno" name="turno" required>
+                            <option value="">Seleccionar turno</option>
+                            <option value="Matutino">Matutino</option>
+                            <option value="Vespertino">Vespertino</option>
+                            <option value="Mixto">Mixto</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fechaElaboracion">Fecha de Elaboración <span class="required">*</span></label>
+                        <input type="date" id="fechaElaboracion" name="fechaElaboracion" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="periodoInicio">Periodo del Reporte <span class="required">*</span></label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="date" id="periodoInicio" name="periodoInicio" placeholder="Fecha inicio" required style="flex: 1;">
+                            <span style="line-height: 40px;">al</span>
+                            <input type="date" id="periodoFin" name="periodoFin" placeholder="Fecha fin" required style="flex: 1;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horasReportadas">Horas Reportadas en el Periodo <span class="required">*</span></label>
+                        <input type="number" id="horasReportadas" name="horasReportadas" min="1" max="200" required>
+                    </div>
+                </div>
+
+                <!-- ACTIVIDADES REALIZADAS -->
+                <div class="form-section">
+                    <h2 class="section-title">Actividades Realizadas</h2>
+                    
+                    <div class="form-group">
+                        <label for="actividadesRealizadas">Descripción de Actividades Realizadas <span class="required">*</span></label>
+                        <textarea id="actividadesRealizadas" name="actividadesRealizadas" placeholder="Describe detalladamente las actividades que realizaste durante este período..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="logros">Logros Alcanzados</label>
+                        <textarea id="logros" name="logros" placeholder="Describe los logros o resultados obtenidos durante este período..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dificultades">Dificultades Encontradas</label>
+                        <textarea id="dificultades" name="dificultades" placeholder="Describe las dificultades o problemas que enfrentaste..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aprendizajes">Aprendizajes Obtenidos</label>
+                        <textarea id="aprendizajes" name="aprendizajes" placeholder="Describe los conocimientos y habilidades que adquiriste..."></textarea>
+                    </div>
+                </div>
+
+                <!-- EVALUACIÓN -->
+                <div class="form-section">
+                    <h2 class="section-title">Evaluación del Servicio Social</h2>
+                    
+                    <div class="form-group">
+                        <label>¿Las actividades que estás realizando, se ajustan a las expectativas del programa? <span class="required">*</span></label>
+                        <div>
+                            <input type="radio" id="expectativasSi" name="expectativasPrograma" value="Si" required>
+                            <label for="expectativasSi" style="display: inline; margin-right: 20px;">Sí</label>
+                            <input type="radio" id="expectativasNo" name="expectativasPrograma" value="No">
+                            <label for="expectativasNo" style="display: inline;">No</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿En qué porcentaje tu servicio social está aportando? <span class="required">*</span></label>
+                        <div style="margin: 10px 0;">
+                            <span class="percentage-label">Nuevos conocimientos:</span>
+                            <input type="number" class="percentage-input" id="porcentajeConocimientos" name="porcentajeConocimientos" min="0" max="100" value="0" required> %
+                        </div>
+                        <div style="margin: 10px 0;">
+                            <span class="percentage-label">Experiencias formativas personales:</span>
+                            <input type="number" class="percentage-input" id="porcentajeExperiencias" name="porcentajeExperiencias" min="0" max="100" value="0" required> %
+                        </div>
+                        <div style="margin: 10px 0;">
+                            <span class="percentage-label">Experiencias profesionales:</span>
+                            <input type="number" class="percentage-input" id="porcentajeProfesionales" name="porcentajeProfesionales" min="0" max="100" value="0" required> %
+                        </div>
+                        <div style="margin: 10px 0;">
+                            <span class="percentage-label">Adquisición de habilidades:</span>
+                            <input type="number" class="percentage-input" id="porcentajeHabilidades" name="porcentajeHabilidades" min="0" max="100" value="0" required> %
+                        </div>
+                        <small style="color: #666; font-style: italic;">Puedes ingresar cualquier valor entre 0 y 100 según tu criterio</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aportaciones">¿Cuáles consideras que son las principales aportaciones que estás brindando a la institución? <span class="required">*</span></label>
+                        <textarea id="aportaciones" name="aportaciones" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Consideras que estás cumpliendo las actividades asignadas satisfactoriamente? <span class="required">*</span></label>
+                        <div>
+                            <input type="radio" id="cumplimientoSi" name="cumplimientoSatisfactorio" value="Si" required>
+                            <label for="cumplimientoSi" style="display: inline; margin-right: 20px;">Sí</label>
+                            <input type="radio" id="cumplimientoNo" name="cumplimientoSatisfactorio" value="No">
+                            <label for="cumplimientoNo" style="display: inline;">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTONES -->
+                <div class="buttons-container">
+                    <button type="button" class="btn btn-secondary" onclick="cancelar()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="guardarBorrador()">Guardar Borrador</button>
+                    <button type="submit" class="btn btn-success">Enviar Reporte</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let usuario = null;
+
+        // Cargar información al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            usuario = JSON.parse(localStorage.getItem('usuario'));
+            if (!usuario) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Mostrar información del usuario
+            document.getElementById('userName').textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
+            
+            // Cargar información de la asignación
+            cargarInformacionAsignacion(usuario.codigo_udg);
+            
+            // Establecer fecha actual como predeterminada
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('fechaElaboracion').value = today;
+            
+            // Establecer período del mes anterior como predeterminado
+            const firstDay = new Date();
+            firstDay.setDate(1);
+            firstDay.setMonth(firstDay.getMonth() - 1);
+            
+            const lastDay = new Date();
+            lastDay.setDate(0); // Último día del mes anterior
+            
+            document.getElementById('periodoInicio').value = firstDay.toISOString().split('T')[0];
+            document.getElementById('periodoFin').value = lastDay.toISOString().split('T')[0];
+
+            // Verificar sesión al cargar la página
+            verificarSesion();
+        });
+
+        function cargarInformacionAsignacion(codigoUdg) {
+            // Simular carga de información de la asignación
+            setTimeout(() => {
+                document.getElementById('infoAlumno').textContent = `${codigoUdg} - ${usuario.nombre} ${usuario.apellido_paterno} ${usuario.apellido_materno || ''}`;
+                document.getElementById('infoCarrera').textContent = usuario.carrera || 'INGENIERIA EN COMPUTACION';
+                document.getElementById('infoPlaza').textContent = 'APOYO A LA COORDINACIÓN DE CARRERAS DE COMPUTO E INFORMÁTICA';
+                document.getElementById('infoReceptor').textContent = 'DRA. LILIA DEL CARMEN CASTILLO VILLARRUEL';
+            }, 1000);
+        }
+
+        // Función para verificar el token
+        function verificarToken(token) {
+            return fetch('http://localhost:3000/verify', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Token inválido');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status !== 'ok') {
+                    throw new Error('Token inválido');
+                }
+                return data;
+            });
+        }
+
+        function verificarSesion() {
+            const token = localStorage.getItem('token');
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+            
+            if (!token || !usuario) {
+                mostrarAlerta('error', 'No hay sesión activa. Redirigiendo al login...');
+                setTimeout(() => window.location.href = 'login.html', 2000);
+                return;
+            }
+
+            // Verificar token válido
+            verificarToken(token)
+                .then(() => {
+                    console.log('✅ Sesión válida');
+                })
+                .catch(() => {
+                    mostrarAlerta('error', 'Sesión expirada. Redirigiendo al login...');
+                    setTimeout(() => window.location.href = 'login.html', 2000);
+                });
+        }
+
+        // Función auxiliar para obtener etiquetas de campos
+        function getFieldLabel(fieldName) {
+            const labels = {
+                'turno': 'Turno',
+                'fechaElaboracion': 'Fecha de Elaboración',
+                'periodoInicio': 'Periodo del Reporte (inicio)',
+                'periodoFin': 'Periodo del Reporte (fin)',
+                'horasReportadas': 'Horas Reportadas',
+                'actividadesRealizadas': 'Actividades Realizadas',
+                'expectativasPrograma': '¿Se ajusta a las expectativas del programa?',
+                'porcentajeConocimientos': 'Porcentaje de nuevos conocimientos',
+                'porcentajeExperiencias': 'Porcentaje de experiencias formativas',
+                'porcentajeProfesionales': 'Porcentaje de experiencias profesionales',
+                'porcentajeHabilidades': 'Porcentaje de adquisición de habilidades',
+                'aportaciones': 'Aportaciones a la institución',
+                'cumplimientoSatisfactorio': '¿Cumplimiento satisfactorio?'
+            };
+            return labels[fieldName] || fieldName;
+        }
+
+        // Función de validación mejorada
+        function validarFormulario() {
+            const requiredFields = [
+                'turno', 'fechaElaboracion', 'periodoInicio', 'periodoFin', 
+                'horasReportadas', 'actividadesRealizadas', 'expectativasPrograma',
+                'porcentajeConocimientos', 'porcentajeExperiencias', 
+                'porcentajeProfesionales', 'porcentajeHabilidades',
+                'aportaciones', 'cumplimientoSatisfactorio'
+            ];
+
+            for (let field of requiredFields) {
+                const element = document.querySelector(`[name="${field}"]`);
+                if (!element) continue;
+                
+                if (element.type === 'radio') {
+                    const checked = document.querySelector(`[name="${field}"]:checked`);
+                    if (!checked) {
+                        mostrarAlerta('error', `Por favor, selecciona una opción para: ${getFieldLabel(field)}`);
+                        element.focus();
+                        return false;
+                    }
+                } else if (!element.value.trim()) {
+                    mostrarAlerta('error', `Por favor, completa el campo: ${getFieldLabel(field)}`);
+                    element.focus();
+                    return false;
+                }
+            }
+
+            // Validar fechas
+            const inicio = new Date(document.getElementById('periodoInicio').value);
+            const fin = new Date(document.getElementById('periodoFin').value);
+            if (inicio >= fin) {
+                mostrarAlerta('error', 'La fecha de inicio debe ser anterior a la fecha de fin');
+                return false;
+            }
+
+            // Validar horas
+            const horas = parseInt(document.getElementById('horasReportadas').value);
+            if (horas < 1 || horas > 200) {
+                mostrarAlerta('error', 'Las horas reportadas deben estar entre 1 y 200');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Función para enviar los datos del reporte
+        function enviarDatosReporte(reporteData, token, estado) {
+            // Mostrar loading
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const guardarBtn = document.querySelector('button[onclick="guardarBorrador()"]');
+            const originalSubmitText = submitBtn.textContent;
+            const originalGuardarText = guardarBtn.textContent;
+            
+            submitBtn.textContent = estado === 'borrador' ? 'Guardando...' : 'Enviando...';
+            guardarBtn.textContent = 'Guardando...';
+            submitBtn.disabled = true;
+            guardarBtn.disabled = true;
+
+            fetch('http://localhost:3000/reportes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(reporteData)
+            })
+            .then(response => {
+                console.log("📨 Respuesta del servidor status:", response.status);
+                if (!response.ok) {
+                    // Si la respuesta no es OK, intentar leer el mensaje de error
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || `Error HTTP: ${response.status}`);
+                    }).catch(() => {
+                        throw new Error(`Error del servidor: ${response.status}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("✅ Respuesta exitosa:", data);
+                if (data.status === 'ok') {
+                    mostrarAlerta('success', estado === 'borrador' ? 
+                        'Borrador guardado exitosamente.' : 
+                        'Reporte enviado exitosamente.');
+                    
+                    // Redirigir después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = 'dashboard_prestador.html';
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || 'Error desconocido del servidor');
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error completo:', error);
+                let mensajeError = 'Error al guardar el reporte: ';
+                
+                if (error.message.includes('Failed to fetch')) {
+                    mensajeError += 'No se pudo conectar con el servidor. Verifica que el servidor esté ejecutándose.';
+                } else if (error.message.includes('asignación activa')) {
+                    mensajeError += 'No tienes una asignación activa. Contacta al administrador.';
+                } else if (error.message.includes('Token')) {
+                    mensajeError += 'Sesión expirada. Por favor, inicia sesión nuevamente.';
+                    setTimeout(() => window.location.href = 'login.html', 2000);
+                } else {
+                    mensajeError += error.message;
+                }
+                
+                mostrarAlerta('error', mensajeError);
+            })
+            .finally(() => {
+                // Restaurar botones
+                submitBtn.textContent = originalSubmitText;
+                guardarBtn.textContent = originalGuardarText;
+                submitBtn.disabled = false;
+                guardarBtn.disabled = false;
+            });
+        }
+
+        // Función mejorada para enviar reporte
+        function enviarReporte(estado) {
+            console.log("🔄 Iniciando envío de reporte...");
+            
+            // Validar formulario antes de enviar
+            if (!validarFormulario()) {
+                mostrarAlerta('error', 'Por favor, completa todos los campos requeridos correctamente.');
+                return;
+            }
+
+            const formData = new FormData(document.getElementById('reporteForm'));
+            const reporteData = {
+                tipo: 'mensual',
+                periodo_inicio: formData.get('periodoInicio'),
+                periodo_fin: formData.get('periodoFin'),
+                actividades_realizadas: formData.get('actividadesRealizadas'),
+                logros: formData.get('logros') || '',
+                dificultades: formData.get('dificultades') || '',
+                aprendizajes: formData.get('aprendizajes') || '',
+                horas_reportadas: parseFloat(formData.get('horasReportadas')),
+                estado: estado,
+                fecha_entrega: new Date().toISOString(),
+                // Datos adicionales del formato
+                turno: formData.get('turno'),
+                fecha_elaboracion: formData.get('fechaElaboracion'),
+                expectativas_programa: formData.get('expectativasPrograma'),
+                porcentaje_conocimientos: parseInt(formData.get('porcentajeConocimientos')) || 0,
+                porcentaje_experiencias: parseInt(formData.get('porcentajeExperiencias')) || 0,
+                porcentaje_profesionales: parseInt(formData.get('porcentajeProfesionales')) || 0,
+                porcentaje_habilidades: parseInt(formData.get('porcentajeHabilidades')) || 0,
+                aportaciones_institucion: formData.get('aportaciones'),
+                cumplimiento_satisfactorio: formData.get('cumplimientoSatisfactorio')
+            };
+
+            console.log("📤 Enviando datos:", reporteData);
+
+            // Obtener token de autenticación
+            const token = localStorage.getItem('token');
+            const usuario = JSON.parse(localStorage.getItem('usuario'));
+            
+            if (!token || !usuario) {
+                mostrarAlerta('error', 'No hay sesión activa. Por favor, inicia sesión nuevamente.');
+                setTimeout(() => window.location.href = 'login.html', 2000);
+                return;
+            }
+
+            console.log("🔐 Token encontrado:", token ? 'Sí' : 'No');
+            console.log("👤 Usuario:", usuario);
+
+            // Verificar token antes de enviar
+            verificarToken(token)
+                .then(() => {
+                    // Token válido, proceder con el envío
+                    enviarDatosReporte(reporteData, token, estado);
+                })
+                .catch(error => {
+                    console.error('❌ Token inválido:', error);
+                    mostrarAlerta('error', 'Sesión expirada. Por favor, inicia sesión nuevamente.');
+                    setTimeout(() => window.location.href = 'login.html', 2000);
+                });
+        }
+
+        function guardarBorrador() {
+            enviarReporte('borrador');
+        }
+
+        function mostrarAlerta(tipo, mensaje) {
+            const successAlert = document.getElementById('alertSuccess');
+            const errorAlert = document.getElementById('alertError');
+            
+            if (tipo === 'success') {
+                successAlert.textContent = mensaje;
+                successAlert.style.display = 'block';
+                errorAlert.style.display = 'none';
+            } else {
+                errorAlert.textContent = mensaje;
+                errorAlert.style.display = 'block';
+                successAlert.style.display = 'none';
+            }
+        }
+
+        function cancelar() {
+            if (confirm('¿Estás seguro de que deseas cancelar? Los datos no guardados se perderán.')) {
+                window.location.href = 'dashboard_prestador.html';
+            }
+        }
+
+        function logout() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('usuario');
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Validación de porcentajes - SOLO LIMITA, NO CAMBIA AUTOMÁTICAMENTE
+        document.querySelectorAll('.percentage-input').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value < 0) this.value = 0;
+                if (this.value > 100) this.value = 100;
+            });
+            
+            // Remover cualquier valor por defecto que fuerce 100
+            input.addEventListener('input', function() {
+                // Solo validar, no forzar valores
+                if (this.value > 100) {
+                    this.value = 100;
+                } else if (this.value < 0) {
+                    this.value = 0;
+                }
+            });
+        });
+
+        // Validar fechas
+        document.getElementById('periodoInicio').addEventListener('change', validarFechas);
+        document.getElementById('periodoFin').addEventListener('change', validarFechas);
+
+        function validarFechas() {
+            const inicio = document.getElementById('periodoInicio');
+            const fin = document.getElementById('periodoFin');
+            
+            if (inicio.value && fin.value) {
+                const fechaInicio = new Date(inicio.value);
+                const fechaFin = new Date(fin.value);
+                
+                if (fechaInicio >= fechaFin) {
+                    mostrarAlerta('error', 'La fecha de inicio debe ser anterior a la fecha de fin', false);
+                    fin.value = '';
+                } else {
+                    document.getElementById('alertError').style.display = 'none';
+                }
+            }
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('reporteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            enviarReporte('enviado');
+        });
+    </script>
+</body>
+</html>
