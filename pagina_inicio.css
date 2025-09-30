@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #480101;
+    color: white;
+    padding: 10px 20px; /* un poco más de espacio */
+}
+
+.header-content {
+    display: flex;
+    align-items: center; /* centra verticalmente */
+    justify-content: center; /* centra horizontalmente */
+    gap: 15px; /* espacio entre logo y título */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em; /* ajusta tamaño del título */
+}
+
+header img {
+    width: 80px; /* tamaño del logo */
+    height: auto;
+    display: block;
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Información y Administracion del Servicio Social</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #010248;
+            color: white;
+            padding: 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em; 
+            text-align: center;
+        }
+
+        header img {
+            width: 100px; 
+            height: auto;
+            display: block;
+        }
+
+        /* MENÚ CON FONDO */
+        .menu-container {
+            background-image: url('fondo-menu.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 20px 0;
+        }
+
+        .menu-container .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* DROPDOWNS */
+        .dropdown {
+            margin: 15px 0;
+            border: 2px solid #003366; 
+            border-radius: 8px;
+            background: rgba(255,255,255,0.95); 
+            overflow: hidden;
+        }
+
+        .dropdown button {
+            width: 100%;
+            padding: 25px; 
+            border: none;
+            outline: none;
+            background: #010248;
+            color: white;
+            text-align: left;
+            font-size: 26px; 
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .dropdown button:hover {
+            background: #003366;
+        }
+
+        .dropdown-content {
+            display: none;
+            background: #f1f1f1;
+            padding-left: 20px;
+        }
+
+        .dropdown-content li {
+            list-style: none;
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #ccc;
+            font-size: 20px; 
+        }
+
+        .dropdown-content li:hover {
+            background: #ddd;
+        }
+
+        .sub-menu {
+            margin-left: 20px;
+            display: none;
+            background: #e9ecef;
+        }
+
+        .sub-menu li {
+            border: none;
+            padding: 12px;
+            font-size: 18px; 
+        }
+
+        /* Estilo para enlaces en sub-menú */
+        .sub-menu li a {
+            text-decoration: none;
+            color: #010248;
+            font-weight: bold;
+            display: block;
+        }
+
+        .sub-menu li a:hover {
+            color: #003366;
+        }
+
+    </style>
+</head>
+<body style="margin:0; height:150vh; background-image:url('Fondo_Pag.jpg'); background-size:cover; background-repeat:no-repeat; background-position:center;">
+
+    <!-- HEADER CON LOGO Y TITULO -->
+    <header>
+        <div class="header-content">
+            <img src="Logo UDG.png" alt="Logo UDG">
+            <h1>Sistema de Información y Administracion del Servicio Social</h1>
+        </div>
+    </header>
+
+    <!-- MENÚ CON FONDO DE IMAGEN -->
+    <div class="menu-container">
+        <div class="container">
+        
+            <!-- Menú principal Alumno -->
+            <div class="dropdown">
+                <button onclick="toggleMenu('menuAlumno')">Alumno ▼</button>
+                <ul id="menuAlumno" class="dropdown-content">
+
+                    <!-- General -->
+                    <li onclick="toggleMenu('submenuGeneral')">General ▼</li>
+                    <ul id="submenuGeneral" class="sub-menu">
+                        <li><a href="datos_personales.html">Datos personales</a></li>
+                    </ul>
+
+                    <!-- Aspirante -->
+                    <li onclick="toggleMenu('submenuAspirante')">Aspirante ▼</li>
+                    <ul id="submenuAspirante" class="sub-menu">
+                        <li>Listado de plazas</li>
+                        <li>Registro</li>
+                    </ul>
+
+                    <!-- Prestador -->
+                    <li onclick="toggleMenu('submenuPrestador')">Prestador ▼</li>
+                    <ul id="submenuPrestador" class="sub-menu">
+                        <li>Plaza asignada</li>
+                        <li>Creación de reportes bimestrales</li>
+                        <li>Asistencia</li>
+                        <li onclick="toggleMenu('submenuAcreditacion')">Acreditación ▼</li>
+                        <ul id="submenuAcreditacion" class="sub-menu">
+                            <li>Orden de pago</li>
+                        </ul>
+                    </ul>
+
+                </ul>
+            </div>
+
+            <!-- Comunicación -->
+            <div class="dropdown">
+                <button onclick="toggleMenu('menuComunicacion')">Comunicación ▼</button>
+                <ul id="menuComunicacion" class="dropdown-content">
+                    <li>Mensajes</li>
+                    <li>Notificaciones</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu(id) {
+            let menu = document.getElementById(id);
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Plazas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f7f7f7;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .tabla-container {
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 1000px;
+            margin: auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background-color: #eaeaea;
+            font-weight: bold;
+        }
+        .detalle-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .detalle-btn:hover {
+            background-color: #0056b3;
+        }
+         button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+
+        .save-btn {
+            background: #010248;
+        }
+
+        .save-btn:hover {
+            background: #003366;
+        }
+
+        .back-btn {
+            background: #777;
+        }
+
+        .back-btn:hover {
+            background: #555
+        }
+
+        /* Estilos del modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+            max-width: 600px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .modal h3 {
+            margin-top: 0;
+        }
+        .close {
+            float: right;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: red;
+        }
+        /*Boton de Registro */
+        .registro-btn {
+          display: block;
+          margin: 20px auto 0 auto;
+          background-color: #28a745;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 6px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        .registro-btn:hover {
+          background-color: #0053b3
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h2>Listado de plazas</h2>
+
+    <div class="tabla-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>No. Oficio</th>
+                    <th>Estatus</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Horas</th>
+                    <th>Dependencia</th>
+                    <th>Programa</th>
+                    <th>Detalle plaza</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>199/CUCI/2024B</td>
+                    <td>DISPONIBLE</td>
+                    <td>01/09/2024</td>
+                    <td>29/03/2025</td>
+                    <td>480</td>
+                    <td>Ayuntamiento de Tototlán, Jalisco</td>
+                    <td>Municipio en Desarrollo</td>
+                    <td><button class="detalle-btn" onclick="mostrarDetalle(1)">Detalle</button></td>
+                </tr>
+                <tr>
+                    <td>200/CUCI/2024B</td>
+                    <td>DISPONIBLE</td>
+                    <td>15/09/2024</td>
+                    <td>15/03/2025</td>
+                    <td>480</td>
+                    <td>Hospital General Ocotlán</td>
+                    <td>Salud Comunitaria</td>
+                    <td><button class="detalle-btn" onclick="mostrarDetalle(2)">Detalle</button></td>
+                </tr>
+                <tr>
+                    <td>201/CUCI/2024B</td>
+                    <td>DISPONIBLE</td>
+                    <td>01/10/2024</td>
+                    <td>30/04/2025</td>
+                    <td>480</td>
+                    <td>Biblioteca Pública del Estado</td>
+                    <td>Fomento a la Lectura</td>
+                    <td><button class="detalle-btn" onclick="mostrarDetalle(3)">Detalle</button></td>
+                </tr>
+                 <tr>
+                    <td>202/CUCI/2024B</td>
+                    <td>DISPONIBLE</td>
+                    <td>01/10/2024</td>
+                    <td>30/04/2025</td>
+                    <td>480</td>
+                    <td>Centro Comunitario Juvenil</td>
+                    <td>Actividades Culturales</td>
+                    <td><button class="detalle-btn" onclick="mostrarDetalle(3)">Detalle</button></td>
+                </tr>
+                 <tr>
+                    <td>203/CUCI/2024B</td>
+                    <td>DISPONIBLE</td>
+                    <td>01/10/2024</td>
+                    <td>30/04/2025</td>
+                    <td>480</td>
+                    <td>Instituto Municipal de la Mujer</td>
+                    <td>Atencion y Apoyo Social</td>
+                    <td><button class="detalle-btn" onclick="mostrarDetalle(3)">Detalle</button></td>
+                </tr>
+                 <tr>
+                    <td>204/CUCI/2024B</td>
+                    <td>DISPONIBLE</td>
+                    <td>01/10/2024</td>
+                    <td>30/04/2025</td>
+                    <td>480</td>
+                    <td>Parque Ecologico Regional</td>
+                    <td>Medio Ambiente</td>
+                    <td><button class="detalle-btn" onclick="mostrarDetalle(3)">Detalle</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <h3 id="modalTitulo"></h3>
+            <p><strong>Horario:</strong> <span id="modalHorario"></span></p>
+            <p><strong>Cupos disponibles:</strong> <span id="modalCupos"></span></p>
+            <p><strong>Turno:</strong> <span id="modalTurno"></span></p>
+            <p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+            <button class="registro-btn">Registrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Datos de detalle de plazas
+        const detalles = {
+            1: {
+                titulo: "Ayuntamiento de Tototlán",
+                horario: "Lunes a Viernes, 9:00 AM - 2:00 PM",
+                cupos: "10",
+                turno: "Matutino",
+                descripcion: "Apoyo en proyectos de desarrollo comunitario y gestión administrativa."
+            },
+            2: {
+                titulo: "Hospital General Ocotlán",
+                horario: "Lunes a Viernes, 8:00 AM - 1:00 PM",
+                cupos: "5",
+                turno: "Matutino",
+                descripcion: "Colaboración en programas de salud comunitaria y apoyo en campañas médicas."
+            },
+            3: {
+                titulo: "Biblioteca Pública del Estado",
+                horario: "Lunes a Viernes, 2:00 PM - 6:00 PM",
+                cupos: "8",
+                turno: "Vespertino",
+                descripcion: "Fomento a la lectura, organización de talleres y apoyo en actividades culturales."
+            },
+            4: {
+                titulo: "Centro Comunitario Juvenil",
+                horario: "Sabado Y Domingo, 9:00 AM - 5:00 PM",
+                cupos: "3",
+                turno: "Sabatino",
+                descripcion: "Actividades Culturales."
+            },
+            5: {
+                titulo: "Instituto Municipal de la Mujer",
+                horario: "Lunes a Viernes, 7:00 AM - 3:00 PM",
+                cupos: "9",
+                turno: "Matutino",
+                descripcion: "Atencion y Apoyo Social."
+            },
+            6: {
+                titulo: "Parque Ecologico Regional",
+                horario: "Lunes a Viernes, 9:00 PM - 5:00 PM",
+                cupos: "4",
+                turno: "Matutino",
+                descripcion: "Medio Ambiente."
+            }
+        };
+        let plazaSeleccionada = null;
+
+
+        function mostrarDetalle(id) {
+            plazaSeleccionada = id;
+            document.getElementById("modalTitulo").innerText = detalles[id].titulo;
+            document.getElementById("modalHorario").innerText = detalles[id].horario;
+            document.getElementById("modalCupos").innerText = detalles[id].cupos;
+            document.getElementById("modalTurno").innerText = detalles[id].turno;
+            document.getElementById("modalDescripcion").innerText = detalles[id].descripcion;
+            document.getElementById("modal").style.display = "block";
+        }
+
+        function cerrarModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+
+        function registrarPlaza(){
+          if(plazaSeleccionada) {
+            alert("✅ Te has registrado a la plaza: " + detalles[plazaSeleccionada].titulo);
+            cerrarModal();
+          }
+        
+        }
+         <div class="button-group">
+                <button type="button" class="back-btn" onclick="volverMenu()">Volver al menú principal</button>
+            </div>
+
+        // Cerrar modal al hacer click fuera del contenido
+        window.onclick = function(event) {
+            const modal = document.getElementById("modal");
+            if (event.target === modal) {
+                cerrarModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
