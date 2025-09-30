@@ -1,72 +1,163 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #010248 0%, #003366 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
 }
 
 .login-box {
   background: white;
-  padding: 20%;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  width: 300px;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  width: 350px;
+  text-align: center;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
 }
 
 .login-box h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  color: #010248;
+  font-size: 24px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 14px;
 }
 
 .login-box input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.login-box input:focus {
+  border-color: #010248;
+  outline: none;
 }
 
 .login-box button {
   width: 100%;
-  padding: 10px;
-  background: #0056b3;
+  padding: 12px;
+  background: #010248;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background 0.3s;
 }
 
 .login-box button:hover {
-  background: #00408a;
+  background: #003366;
+}
+
+.login-box button:active {
+  transform: translateY(1px);
 }
 
 .error {
-  color: red;
+  color: #d32f2f;
   font-size: 14px;
-  margin-top: 5px;
-}
-/* Barra de navegación */
-.navbar {
-  background: #fff;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ccc;
-  text-align: left; /* Menú alineado a la izquierda */
+  margin-top: 10px;
+  min-height: 20px;
 }
 
-.navbar a {
-  color: #004080;
+.help-links {
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+}
+
+.help-links a {
+  color: #010248;
   text-decoration: none;
-  margin: 0 10px;
-  font-weight: bold;
+  font-size: 12px;
 }
 
-.navbar a:hover {
+.help-links a:hover {
   text-decoration: underline;
 }
 
+.help-links p {
+  margin: 5px 0;
+}
+
+/* Barra de navegación para páginas después del login */
+.navbar {
+  background: #010248;
+  padding: 15px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar-user span {
+  color: white;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #4d94ff;
+  text-decoration: none;
+}
+
 .navbar .active {
-  color: #00264d;
-  font-weight: bolder;
+  color: #4d94ff;
+}
+
+.logout-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.logout-btn:hover {
+  background: #b71c1c;
 }
