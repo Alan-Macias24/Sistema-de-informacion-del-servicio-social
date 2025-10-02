@@ -1,0 +1,55 @@
+/* common.css - Estilos compartidos entre todas las páginas */
+
+/* Header styles */
+.header-common {
+    background-color: var(--header-color, #010248);
+    color: white;
+    padding: 20px;
+}
+
+.header-content-common {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left-common {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right-common {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Button styles */
+.btn-common {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-primary-common {
+    background: var(--primary-color, #010248);
+    color: white;
+}
+
+.btn-danger-common {
+    background: #d32f2f;
+    color: white;
+}
+
+/* Card styles */
+.card-common {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}

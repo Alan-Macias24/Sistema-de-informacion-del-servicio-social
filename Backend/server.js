@@ -472,30 +472,49 @@ app.get("/asistencia/:codigoUdg", authenticateToken, (req, res) => {
 });
 
 // Ruta para obtener información de asignación activa
+// Mejorar la consulta SQL en server.js para incluir nombre completo del receptor
 app.get("/asignacion-activa", authenticateToken, (req, res) => {
-  const sql = `
-    SELECT a.*, p.titulo as plaza_titulo, p.descripcion as plaza_descripcion,
-           r.organizacion, r.departamento, u.nombre as receptor_nombre
-    FROM asignaciones a
-    JOIN plazas p ON a.plaza_id = p.id
-    JOIN receptores r ON a.receptor_codigo_udg = r.codigo_udg
-    JOIN usuarios u ON r.codigo_udg = u.codigo_udg
-    WHERE a.prestador_codigo_udg = ? AND a.estado = 'activa'
-    LIMIT 1;
-  `;
+    const sql = `
+        SELECT 
+            a.*, 
+            p.titulo as plaza_titulo, 
+            p.descripcion as plaza_descripcion,
+            p.ubicacion as plaza_ubicacion,
+            p.actividades as plaza_actividades,
+            r.organizacion, 
+            r.departamento, 
+            r.puesto,
+            r.direccion,
+            r.telefono_oficina,
+            u.nombre as receptor_nombre,
+            u.apellido_paterno as receptor_apellido_paterno,
+            u.apellido_materno as receptor_apellido_materno,
+            u.email as receptor_email
+        FROM asignaciones a
+        JOIN plazas p ON a.plaza_id = p.id
+        JOIN receptores r ON a.receptor_codigo_udg = r.codigo_udg
+        JOIN usuarios u ON r.codigo_udg = u.codigo_udg
+        WHERE a.prestador_codigo_udg = ? AND a.estado = 'activa'
+        LIMIT 1;
+    `;
 
-  db.query(sql, [req.user.codigo_udg], (err, results) => {
-    if (err) {
-      console.error("❌ Error en consulta:", err);
-      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
-    }
+    db.query(sql, [req.user.codigo_udg], (err, results) => {
+        if (err) {
+            console.error("❌ Error en consulta de asignación:", err);
+            return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+        }
 
-    if (results.length > 0) {
-      res.json({ status: "ok", asignacion: results[0] });
-    } else {
-      res.json({ status: "error", message: "No se encontró asignación activa" });
-    }
-  });
+        if (results.length > 0) {
+            // Combinar nombre completo del receptor
+            const asignacion = results[0];
+            asignacion.receptor_nombre_completo = 
+                `${asignacion.receptor_nombre} ${asignacion.receptor_apellido_paterno} ${asignacion.receptor_apellido_materno || ''}`.trim();
+            
+            res.json({ status: "ok", asignacion: asignacion });
+        } else {
+            res.json({ status: "error", message: "No se encontró asignación activa" });
+        }
+    });
 });
 
 // Ruta de salud del servidor
@@ -574,4 +593,127 @@ process.on('SIGINT', () => {
   console.log('\n🛑 Apagando servidor...');
   db.end();
   process.exit(0);
+});
+// Ruta para crear reporte final
+app.post("/reportes/final", authenticateToken, (req, res) => {
+    console.log("📥 Solicitud POST /reportes/final recibida");
+    
+    const {
+        studentInfo,
+        career,
+        commissionDocument,
+        shift,
+        program,
+        dependency,
+        head,
+        receptor,
+        calendar,
+        startDate,
+        endDate,
+        hoursReported,
+        objectives,
+        activities,
+        goals,
+        methodology,
+        conclusions,
+        innovations
+    } = req.body;
+
+    // Validar datos requeridos
+    if (!studentInfo || !career || !commissionDocument || !startDate || !endDate || !hoursReported) {
+        return res.status(400).json({ 
+            status: "error", 
+            message: "Faltan campos requeridos" 
+        });
+    }
+
+    // Obtener la asignación activa del usuario
+    const getAsignacionSql = `
+        SELECT id, horas_acumuladas, horas_requeridas 
+        FROM asignaciones 
+        WHERE prestador_codigo_udg = ? AND estado = 'activa'
+        LIMIT 1;
+    `;
+
+    db.query(getAsignacionSql, [req.user.codigo_udg], (err, asignacionResults) => {
+        if (err) {
+            console.error("❌ Error en consulta de asignación:", err);
+            return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+        }
+
+        if (asignacionResults.length === 0) {
+            return res.status(400).json({ 
+                status: "error", 
+                message: "No tienes una asignación activa." 
+            });
+        }
+
+        const asignacion = asignacionResults[0];
+        
+        // Verificar que tenga las horas completas
+        if (asignacion.horas_acumuladas < asignacion.horas_requeridas) {
+            return res.status(400).json({ 
+                status: "error", 
+                message: `No puedes generar el reporte final. Te faltan ${asignacion.horas_requeridas - asignacion.horas_acumuladas} horas por completar.` 
+            });
+        }
+
+        const asignacion_id = asignacion.id;
+
+        // Insertar el reporte final
+        const insertReporteFinalSql = `
+            INSERT INTO reportes (
+                asignacion_id, tipo, periodo_inicio, periodo_fin, actividades_realizadas,
+                logros, dificultades, aprendizajes, horas_reportadas, estado, fecha_entrega,
+                turno, fecha_elaboracion, expectativas_programa, aportaciones_institucion,
+                cumplimiento_satisfactorio
+            ) VALUES (?, 'final', ?, ?, ?, ?, ?, ?, ?, 'borrador', ?, ?, ?, 'Si', ?, 'Si');
+        `;
+
+        const valores = [
+            asignacion_id,
+            startDate,
+            endDate,
+            activities || '',
+            goals || '',
+            '', // dificultades
+            methodology || '', // aprendizajes se usa para metodología
+            parseFloat(hoursReported.replace('hrs.', '').trim()),
+            new Date().toISOString(),
+            shift || '',
+            new Date().toISOString().split('T')[0],
+            innovations || ''
+        ];
+
+        db.query(insertReporteFinalSql, valores, (err, result) => {
+            if (err) {
+                console.error("❌ Error al insertar reporte final:", err);
+                return res.status(500).json({ 
+                    status: "error", 
+                    message: "Error al guardar el reporte final" 
+                });
+            }
+
+            // Marcar asignación como concluida
+            const updateAsignacionSql = `
+                UPDATE asignaciones 
+                SET estado = 'concluida',
+                    fecha_termino_real = ?
+                WHERE id = ?;
+            `;
+
+            db.query(updateAsignacionSql, [new Date(), asignacion_id], (updateErr) => {
+                if (updateErr) {
+                    console.error("❌ Error al actualizar asignación:", updateErr);
+                }
+
+                res.json({
+                    status: "ok",
+                    message: "Reporte final guardado exitosamente. El servicio social ha sido marcado como concluido.",
+                    reporte_id: result.insertId,
+                    asignacion_actualizada: true
+                });
+            });
+        });
+    });
 });
