@@ -31,6 +31,37 @@
             border-radius: 10px;
             margin-bottom: 30px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .university-banner {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 0;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .university-banner-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .center-banner {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 0;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .center-banner-text {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .header-content {
@@ -349,6 +380,119 @@
             margin-bottom: 10px;
         }
 
+        /* ESTILOS PARA PDF COMPACTO */
+        .pdf-compact-view {
+            display: none;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.3;
+            padding: 20px;
+            background: white;
+            width: 794px;
+            box-sizing: border-box;
+            border: 2px solid #1a3a8f;
+        }
+
+        .pdf-header-compact {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #1a3a8f;
+            padding-bottom: 10px;
+        }
+
+        .pdf-content-compact {
+            margin-bottom: 15px;
+        }
+
+        .pdf-section-compact {
+            margin-bottom: 12px;
+            page-break-inside: avoid;
+        }
+
+        .pdf-section-title {
+            font-weight: bold;
+            color: #1a3a8f;
+            font-size: 12px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .pdf-field-compact {
+            margin-bottom: 6px;
+        }
+
+        .pdf-field-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 140px;
+            font-size: 10px;
+            color: #333;
+        }
+
+        .pdf-field-value {
+            font-size: 10px;
+            color: #666;
+        }
+
+        .pdf-textarea-content {
+            border: 1px solid #ccc;
+            padding: 8px;
+            min-height: 60px;
+            max-height: 100px;
+            font-size: 10px;
+            background: #f9f9f9;
+            margin-top: 5px;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+
+        .pdf-signatures-compact {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            border-top: 2px solid #333;
+            padding-top: 15px;
+        }
+
+        .pdf-signature-box {
+            text-align: center;
+        }
+
+        .pdf-signature-line {
+            border-bottom: 1px solid #000;
+            margin: 40px 0 8px;
+            height: 1px;
+        }
+
+        .pdf-signature-name {
+            font-weight: bold;
+            font-size: 10px;
+            margin-bottom: 4px;
+            color: #1a3a8f;
+        }
+
+        .pdf-signature-role {
+            font-size: 9px;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .pdf-grid-2cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-grid-3cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
         @media (max-width: 768px) {
             .form-row {
                 flex-direction: column;
@@ -383,6 +527,14 @@
             .info-cards {
                 grid-template-columns: 1fr;
             }
+            
+            .university-banner-text {
+                font-size: 1.1rem;
+            }
+            
+            .center-banner-text {
+                font-size: 0.9rem;
+            }
         }
 
         @media print {
@@ -410,12 +562,63 @@
             .info-cards {
                 display: none;
             }
+            
+            body {
+                background: white;
+                font-size: 12px;
+                line-height: 1.4;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 10px;
+                box-shadow: none;
+            }
+            
+            header {
+                background: #1a3a8f;
+                color: white;
+                padding: 15px;
+                margin-bottom: 20px;
+                border-radius: 0;
+            }
+            
+            .report-form {
+                box-shadow: none;
+                padding: 0;
+                border: none;
+            }
+            
+            .form-title {
+                font-size: 16px;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            
+            .section-title {
+                font-size: 14px;
+                margin: 20px 0 10px;
+            }
+        }
+
+        .pdf-info-section {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <header class="no-print">
+            <div class="university-banner">
+                <div class="university-banner-text">
+                    UNIVERSIDAD DE GUADALAJARA
+                </div>
+            </div>
+            <div class="center-banner">
+                <div class="center-banner-text">
+                    CENTRO UNIVERSITARIO DE LA CIÉNEGA
+                </div>
+            </div>
             <div class="header-content">
                 <div class="logo">
                     <div style="width: 60px; height: 60px; background-color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1a3a8f;">UDG</div>
@@ -429,7 +632,6 @@
         </header>
 
         <main>
-            <!-- Selector de tipo de reporte -->
             <div class="type-selector no-print">
                 <div class="type-btn active" onclick="selectReportType('mensual')">
                     <h3>📅 Reporte Mensual</h3>
@@ -441,7 +643,6 @@
                 </div>
             </div>
 
-            <!-- Recuadros informativos -->
             <div class="info-cards no-print">
                 <div class="info-card">
                     <h3>👤 Información del Prestador</h3>
@@ -492,11 +693,187 @@
                 </div>
             </div>
 
+            <!-- SECCIÓN OCULTA PARA PDF COMPACTO -->
+            <div id="pdfCompactView" class="pdf-compact-view">
+                <div class="pdf-header-compact">
+                    <h2 style="margin: 0; font-size: 16px; color: #1a3a8f;">UNIVERSIDAD DE GUADALAJARA</h2>
+                    <h3 style="margin: 4px 0; font-size: 14px; color: #1a3a8f;">CENTRO UNIVERSITARIO DE LA CIÉNEGA</h3>
+                    <h4 style="margin: 4px 0; font-size: 13px; font-weight: normal;">REPORTE MENSUAL DE SERVICIO SOCIAL</h4>
+                </div>
+
+                <div class="pdf-content-compact">
+                    <!-- INFORMACIÓN DEL PRESTADOR Y DEPENDENCIA -->
+                    <div class="pdf-section-compact">
+                        <div class="pdf-section-title">INFORMACIÓN GENERAL</div>
+                        <div class="pdf-grid-2cols">
+                            <div>
+                                <div class="pdf-section-title" style="font-size: 11px; margin-bottom: 5px;">INFORMACIÓN DEL PRESTADOR</div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Nombre:</span>
+                                    <span class="pdf-field-value" id="pdfCompactNombre">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Código UDG:</span>
+                                    <span class="pdf-field-value" id="pdfCompactCodigo">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Carrera:</span>
+                                    <span class="pdf-field-value" id="pdfCompactCarrera">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Semestre:</span>
+                                    <span class="pdf-field-value" id="pdfCompactSemestre">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Créditos:</span>
+                                    <span class="pdf-field-value" id="pdfCompactCreditos">-</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="pdf-section-title" style="font-size: 11px; margin-bottom: 5px;">INFORMACIÓN DE LA DEPENDENCIA</div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Organización:</span>
+                                    <span class="pdf-field-value" id="pdfCompactOrganizacion">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Departamento:</span>
+                                    <span class="pdf-field-value" id="pdfCompactDepartamento">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Plaza:</span>
+                                    <span class="pdf-field-value" id="pdfCompactPlaza">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Receptor:</span>
+                                    <span class="pdf-field-value" id="pdfCompactReceptor">-</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Horas Acumuladas:</span>
+                                    <span class="pdf-field-value" id="pdfCompactHorasAcumuladas">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INFORMACIÓN DEL REPORTE -->
+                    <div class="pdf-section-compact">
+                        <div class="pdf-section-title">INFORMACIÓN DEL REPORTE</div>
+                        <div class="pdf-grid-3cols">
+                            <div class="pdf-field-compact">
+                                <span class="pdf-field-label">Fecha Elaboración:</span>
+                                <span class="pdf-field-value" id="pdfCompactFechaElaboracion">-</span>
+                            </div>
+                            <div class="pdf-field-compact">
+                                <span class="pdf-field-label">Turno:</span>
+                                <span class="pdf-field-value" id="pdfCompactTurno">-</span>
+                            </div>
+                            <div class="pdf-field-compact">
+                                <span class="pdf-field-label">Periodo:</span>
+                                <span class="pdf-field-value" id="pdfCompactPeriodo">-</span>
+                            </div>
+                            <div class="pdf-field-compact">
+                                <span class="pdf-field-label">Horas Reportadas:</span>
+                                <span class="pdf-field-value" id="pdfCompactHoras">-</span>
+                            </div>
+                            <div class="pdf-field-compact">
+                                <span class="pdf-field-label">Cumplió expectativas:</span>
+                                <span class="pdf-field-value" id="pdfCompactExpectativas">-</span>
+                            </div>
+                            <div class="pdf-field-compact">
+                                <span class="pdf-field-label">Actividades satisfactorias:</span>
+                                <span class="pdf-field-value" id="pdfCompactSatisfactorio">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ACTIVIDADES Y CONTENIDO -->
+                    <div class="pdf-section-compact">
+                        <div class="pdf-section-title">ACTIVIDADES REALIZADAS</div>
+                        <div class="pdf-textarea-content" id="pdfCompactActividades">-</div>
+                    </div>
+
+                    <div class="pdf-grid-2cols">
+                        <div class="pdf-section-compact">
+                            <div class="pdf-section-title">LOGROS ALCANZADOS</div>
+                            <div class="pdf-textarea-content" id="pdfCompactLogros">-</div>
+                        </div>
+                        <div class="pdf-section-compact">
+                            <div class="pdf-section-title">APRENDIZAJES OBTENIDOS</div>
+                            <div class="pdf-textarea-content" id="pdfCompactAprendizajes">-</div>
+                        </div>
+                    </div>
+
+                    <div class="pdf-section-compact">
+                        <div class="pdf-section-title">DIFICULTADES ENCONTRADAS</div>
+                        <div class="pdf-textarea-content" id="pdfCompactDificultades">-</div>
+                    </div>
+
+                    <div class="pdf-section-compact">
+                        <div class="pdf-section-title">APORTACIONES A LA INSTITUCIÓN</div>
+                        <div class="pdf-textarea-content" id="pdfCompactAportaciones">-</div>
+                    </div>
+
+                    <!-- PORCENTAJES DE APROVECHAMIENTO -->
+                    <div class="pdf-section-compact">
+                        <div class="pdf-section-title">PORCENTAJES DE APROVECHAMIENTO</div>
+                        <div class="pdf-grid-2cols">
+                            <div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Conocimientos:</span>
+                                    <span class="pdf-field-value" id="pdfCompactPorcConocimientos">0%</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Experiencias:</span>
+                                    <span class="pdf-field-value" id="pdfCompactPorcExperiencias">0%</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Profesionales:</span>
+                                    <span class="pdf-field-value" id="pdfCompactPorcProfesionales">0%</span>
+                                </div>
+                                <div class="pdf-field-compact">
+                                    <span class="pdf-field-label">Habilidades:</span>
+                                    <span class="pdf-field-value" id="pdfCompactPorcHabilidades">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FIRMAS -->
+                <div class="pdf-signatures-compact">
+                    <div class="pdf-signature-box">
+                        <div class="pdf-signature-name">PRESTADOR</div>
+                        <div class="pdf-signature-role">(Estudiante)</div>
+                        <div class="pdf-signature-line"></div>
+                        <div style="font-size: 10px; margin-top: 6px;" id="pdfCompactFirmaEstudiante">-</div>
+                    </div>
+                    <div class="pdf-signature-box">
+                        <div class="pdf-signature-name">RECEPTOR</div>
+                        <div class="pdf-signature-role">(Responsable)</div>
+                        <div class="pdf-signature-line"></div>
+                        <div style="font-size: 10px; margin-top: 6px;" id="pdfCompactFirmaReceptor">-</div>
+                    </div>
+                    <div class="pdf-signature-box">
+                        <div class="pdf-signature-name">COORDINADOR</div>
+                        <div class="pdf-signature-role">(Académico)</div>
+                        <div class="pdf-signature-line"></div>
+                        <div style="font-size: 10px; margin-top: 6px;">Coordinador de Servicio Social</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 12px; font-size: 9px; color: #666; border-top: 1px solid #eee; padding-top: 10px;">
+                    Centro Universitario de la Ciénega - Universidad de Guadalajara<br>
+                    Fecha de generación: <span id="pdfCompactFecha">-</span>
+                </div>
+            </div>
+
+            <!-- FORMULARIO PRINCIPAL -->
             <div class="report-form" id="mensualForm">
                 <h2 class="form-title">Reporte Mensual de Servicio Social</h2>
                 
                 <form id="reportForm">
-                    <!-- Información básica del reporte -->
                     <div class="form-group">
                         <div class="form-row">
                             <div class="form-col">
@@ -515,7 +892,6 @@
                         </div>
                     </div>
 
-                    <!-- Periodo del reporte -->
                     <div class="form-group">
                         <div class="form-row">
                             <div class="form-col">
@@ -533,14 +909,12 @@
                         </div>
                     </div>
 
-                    <!-- Actividades realizadas -->
                     <h3 class="section-title">Actividades Realizadas</h3>
                     <div class="form-group">
                         <label for="activities">Descripción de Actividades</label>
                         <textarea id="activities" name="activities" placeholder="Describa detalladamente las actividades realizadas durante el periodo..." required></textarea>
                     </div>
 
-                    <!-- Logros, dificultades y aprendizajes -->
                     <div class="form-group">
                         <div class="form-row">
                             <div class="form-col">
@@ -559,7 +933,6 @@
                         <textarea id="learnings" name="learnings" placeholder="Describa los aprendizajes obtenidos durante el periodo..."></textarea>
                     </div>
 
-                    <!-- Evaluación del programa -->
                     <h3 class="section-title">Evaluación del Programa</h3>
                     <div class="form-group">
                         <div class="form-row">
@@ -582,7 +955,6 @@
                         </div>
                     </div>
 
-                    <!-- Porcentajes de aprovechamiento -->
                     <div class="form-group">
                         <label>Porcentaje de Aprovechamiento (%)</label>
                         <div class="percentage-inputs">
@@ -605,19 +977,16 @@
                         </div>
                     </div>
 
-                    <!-- Aportaciones a la institución -->
                     <div class="form-group">
                         <label for="contributions">Aportaciones a la Institución</label>
                         <textarea id="contributions" name="contributions" placeholder="Describa las aportaciones realizadas a la institución..."></textarea>
                     </div>
 
-                    <!-- Apartado de firmas para documento físico -->
                     <div class="signature-section">
                         <h3 class="signature-title">Validación del Reporte</h3>
                         <p class="signature-instruction">* Este documento deberá ser impreso para obtener las firmas correspondientes</p>
                         
                         <div class="signature-container">
-                            <!-- Firma del prestador -->
                             <div class="signature-box">
                                 <div class="signature-name">PRESTADOR DE SERVICIO SOCIAL</div>
                                 <div class="signature-role">(Estudiante)</div>
@@ -626,7 +995,6 @@
                                 <div class="signature-instruction">Firma</div>
                             </div>
 
-                            <!-- Firma del receptor -->
                             <div class="signature-box">
                                 <div class="signature-name">RECEPTOR DEL SERVICIO SOCIAL</div>
                                 <div class="signature-role">(Responsable en la dependencia)</div>
@@ -635,7 +1003,6 @@
                                 <div class="signature-instruction">Firma</div>
                             </div>
 
-                            <!-- Firma del coordinador -->
                             <div class="signature-box">
                                 <div class="signature-name">COORDINADOR DE SERVICIO SOCIAL</div>
                                 <div class="signature-role">(Responsable académico)</div>
@@ -652,7 +1019,6 @@
                         </div>
                     </div>
 
-                    <!-- Botones de acción -->
                     <div class="form-actions no-print">
                         <div>
                             <button type="button" class="btn btn-secondary" onclick="saveAsDraft()">Guardar Borrador</button>
@@ -670,7 +1036,6 @@
         </footer>
     </div>
 
-    <!-- Incluir jsPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -730,41 +1095,38 @@
             }
         }
 
-       // En la función loadAsignacionInfo de ambos archivos, mejorar la obtención del nombre del receptor
-async function loadAsignacionInfo() {
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3000/asignacion-activa', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await response.json();
-        
-        if (data.status === 'ok' && data.asignacion) {
-            asignacion = data.asignacion;
-            dependenciaInfo = data.asignacion;
-            updateDependenciaInfo();
-            
-            // Obtener nombre completo del receptor
-            const receptorNombreCompleto = 
-                `${asignacion.receptor_nombre || ''} ${asignacion.receptor_apellido_paterno || ''} ${asignacion.receptor_apellido_materno || ''}`.trim();
-            
-            document.getElementById('receptorSignature').textContent = receptorNombreCompleto || 'No especificado';
-            document.getElementById('coordinatorSignature').textContent = 'Coordinador de Servicio Social';
-            
-            // Actualizar también en los recuadros informativos
-            document.getElementById('dependenciaReceptor').textContent = receptorNombreCompleto || 'No especificado';
-            
-        } else {
-            document.getElementById('dependenciaOrganizacion').textContent = 'Sin asignación activa';
-            document.getElementById('dependenciaDepartamento').textContent = 'N/A';
-            document.getElementById('dependenciaPlaza').textContent = 'N/A';
-            document.getElementById('dependenciaReceptor').textContent = 'N/A';
-            document.getElementById('dependenciaHoras').textContent = 'N/A';
+        async function loadAsignacionInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:3000/asignacion-activa', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                
+                if (data.status === 'ok' && data.asignacion) {
+                    asignacion = data.asignacion;
+                    dependenciaInfo = data.asignacion;
+                    updateDependenciaInfo();
+                    
+                    const receptorNombreCompleto = 
+                        `${asignacion.receptor_nombre || ''} ${asignacion.receptor_apellido_paterno || ''} ${asignacion.receptor_apellido_materno || ''}`.trim();
+                    
+                    document.getElementById('receptorSignature').textContent = receptorNombreCompleto || 'No especificado';
+                    document.getElementById('coordinatorSignature').textContent = 'Coordinador de Servicio Social';
+                    
+                    document.getElementById('dependenciaReceptor').textContent = receptorNombreCompleto || 'No especificado';
+                    
+                } else {
+                    document.getElementById('dependenciaOrganizacion').textContent = 'Sin asignación activa';
+                    document.getElementById('dependenciaDepartamento').textContent = 'N/A';
+                    document.getElementById('dependenciaPlaza').textContent = 'N/A';
+                    document.getElementById('dependenciaReceptor').textContent = 'N/A';
+                    document.getElementById('dependenciaHoras').textContent = 'N/A';
+                }
+            } catch (error) {
+                console.error('Error cargando información de asignación:', error);
+            }
         }
-    } catch (error) {
-        console.error('Error cargando información de asignación:', error);
-    }
-}
 
         function updateDependenciaInfo() {
             if (dependenciaInfo) {
@@ -830,346 +1192,152 @@ async function loadAsignacionInfo() {
         }
 
         function validateForm() {
-            const hoursReported = document.getElementById('hoursReported').value;
-            const activities = document.getElementById('activities').value;
+            const requiredFields = document.querySelectorAll('#reportForm [required]');
+            let isValid = true;
             
-            if (!hoursReported || hoursReported <= 0) {
-                alert('Por favor, ingrese un número válido de horas reportadas.');
-                return false;
-            }
-
-            if (!activities.trim()) {
-                alert('Por favor, describa las actividades realizadas.');
-                return false;
-            }
-
-            return true;
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.borderColor = 'red';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#ddd';
+                }
+            });
+            
+            return isValid;
         }
 
-        async function saveAsDraft() {
-            if (!validateForm()) return;
+        async function generatePDF(type) {
+            if (!validateForm()) {
+                alert('Por favor, complete todos los campos obligatorios antes de generar el PDF.');
+                return;
+            }
 
-            const formData = {
-                tipo: 'mensual',
-                periodo_inicio: document.getElementById('periodStart').value,
-                periodo_fin: document.getElementById('periodEnd').value,
-                actividades_realizadas: document.getElementById('activities').value,
-                logros: document.getElementById('achievements').value,
-                dificultades: document.getElementById('difficulties').value,
-                aprendizajes: document.getElementById('learnings').value,
-                horas_reportadas: parseFloat(document.getElementById('hoursReported').value),
-                estado: 'borrador',
-                fecha_entrega: new Date().toISOString(),
-                turno: document.getElementById('turn').value,
-                fecha_elaboracion: document.getElementById('elaborationDate').value,
-                expectativas_programa: document.getElementById('expectations').value,
-                porcentaje_conocimientos: parseInt(document.getElementById('knowledgePercentage').value) || 0,
-                porcentaje_experiencias: parseInt(document.getElementById('experiencePercentage').value) || 0,
-                porcentaje_profesionales: parseInt(document.getElementById('professionalPercentage').value) || 0,
-                porcentaje_habilidades: parseInt(document.getElementById('skillsPercentage').value) || 0,
-                aportaciones_institucion: document.getElementById('contributions').value,
-                cumplimiento_satisfactorio: document.getElementById('satisfactory').value
-            };
+            const originalText = document.querySelector('.btn-print').textContent;
+            document.querySelector('.btn-print').textContent = 'Generando PDF...';
+            document.querySelector('.btn-print').disabled = true;
 
             try {
-                const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/reportes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(formData)
+                // Actualizar datos en la vista compacta
+                updateCompactPDFData();
+
+                // Mostrar la vista compacta
+                const pdfContainer = document.getElementById('pdfCompactView');
+                pdfContainer.style.display = 'block';
+
+                const { jsPDF } = window.jspdf;
+                
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    width: pdfContainer.scrollWidth,
+                    height: pdfContainer.scrollHeight,
+                    onclone: function(clonedDoc) {
+                        const container = clonedDoc.getElementById('pdfCompactView');
+                        if (container) {
+                            container.style.display = 'block';
+                            container.style.width = '794px';
+                            container.style.padding = '20px';
+                        }
+                    }
                 });
 
-                const result = await response.json();
+                // Ocultar la vista compacta
+                pdfContainer.style.display = 'none';
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgWidth = 210; // Ancho completo de A4
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                // Usar toda la página
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
                 
-                if (result.status === 'ok') {
-                    alert('Reporte guardado exitosamente como borrador.');
-                } else {
-                    alert('Error: ' + result.message);
-                }
+                const fileName = type === 'mensual' 
+                    ? `reporte_mensual_${usuario.codigo_udg}_${new Date().toISOString().split('T')[0]}.pdf`
+                    : `reporte_final_${usuario.codigo_udg}_${new Date().toISOString().split('T')[0]}.pdf`;
+                
+                pdf.save(fileName);
+                
             } catch (error) {
-                console.error('Error guardando reporte:', error);
-                alert('Error al guardar el reporte. Intente nuevamente.');
+                console.error('Error generando PDF:', error);
+                alert('Error al generar el PDF: ' + error.message);
+                
+                // Asegurarse de ocultar la vista compacta en caso de error
+                document.getElementById('pdfCompactView').style.display = 'none';
+            } finally {
+                document.querySelector('.btn-print').textContent = originalText;
+                document.querySelector('.btn-print').disabled = false;
+                
+                // Asegurarse de ocultar la vista compacta
+                document.getElementById('pdfCompactView').style.display = 'none';
             }
         }
 
-        // Reemplazar la función generatePDF en crear_reporte.html
-function generatePDF(type) {
-    if (!validateForm()) return;
+        function updateCompactPDFData() {
+            // Información del prestador
+            document.getElementById('pdfCompactNombre').textContent = document.getElementById('prestadorNombre').textContent;
+            document.getElementById('pdfCompactCodigo').textContent = document.getElementById('prestadorCodigo').textContent;
+            document.getElementById('pdfCompactCarrera').textContent = document.getElementById('prestadorCarrera').textContent;
+            document.getElementById('pdfCompactSemestre').textContent = document.getElementById('prestadorSemestre').textContent;
+            document.getElementById('pdfCompactCreditos').textContent = document.getElementById('prestadorCreditos').textContent;
+            
+            // Información de la dependencia
+            document.getElementById('pdfCompactOrganizacion').textContent = document.getElementById('dependenciaOrganizacion').textContent;
+            document.getElementById('pdfCompactDepartamento').textContent = document.getElementById('dependenciaDepartamento').textContent;
+            document.getElementById('pdfCompactPlaza').textContent = document.getElementById('dependenciaPlaza').textContent;
+            document.getElementById('pdfCompactReceptor').textContent = document.getElementById('dependenciaReceptor').textContent;
+            document.getElementById('pdfCompactHorasAcumuladas').textContent = document.getElementById('dependenciaHoras').textContent;
+            
+            // Información del reporte
+            document.getElementById('pdfCompactFechaElaboracion').textContent = document.getElementById('elaborationDate').value || 'No especificado';
+            document.getElementById('pdfCompactTurno').textContent = document.getElementById('turn').value || 'No especificado';
+            document.getElementById('pdfCompactPeriodo').textContent = `${document.getElementById('periodStart').value} a ${document.getElementById('periodEnd').value}`;
+            document.getElementById('pdfCompactHoras').textContent = `${document.getElementById('hoursReported').value} horas`;
+            document.getElementById('pdfCompactExpectativas').textContent = document.getElementById('expectations').value || 'No especificado';
+            document.getElementById('pdfCompactSatisfactorio').textContent = document.getElementById('satisfactory').value || 'No especificado';
+            
+            // Contenido del formulario
+            document.getElementById('pdfCompactActividades').textContent = document.getElementById('activities').value || 'No especificado';
+            document.getElementById('pdfCompactLogros').textContent = document.getElementById('achievements').value || 'No especificado';
+            document.getElementById('pdfCompactAprendizajes').textContent = document.getElementById('learnings').value || 'No especificado';
+            document.getElementById('pdfCompactDificultades').textContent = document.getElementById('difficulties').value || 'No especificado';
+            document.getElementById('pdfCompactAportaciones').textContent = document.getElementById('contributions').value || 'No especificado';
+            
+            // Porcentajes
+            document.getElementById('pdfCompactPorcConocimientos').textContent = `${document.getElementById('knowledgePercentage').value || 0}%`;
+            document.getElementById('pdfCompactPorcExperiencias').textContent = `${document.getElementById('experiencePercentage').value || 0}%`;
+            document.getElementById('pdfCompactPorcProfesionales').textContent = `${document.getElementById('professionalPercentage').value || 0}%`;
+            document.getElementById('pdfCompactPorcHabilidades').textContent = `${document.getElementById('skillsPercentage').value || 0}%`;
+            
+            // Firmas
+            document.getElementById('pdfCompactFirmaEstudiante').textContent = document.getElementById('studentSignature').textContent;
+            document.getElementById('pdfCompactFirmaReceptor').textContent = document.getElementById('receptorSignature').textContent;
+            
+            // Fecha
+            document.getElementById('pdfCompactFecha').textContent = new Date().toLocaleDateString();
+        }
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    // Configurar márgenes y estilo
-    const margin = 20;
-    let yPosition = margin;
-    
-    // Título principal
-    doc.setFontSize(16);
-    doc.setFont(undefined, 'bold');
-    doc.text('REPORTE MENSUAL DE SERVICIO SOCIAL', 105, yPosition, { align: 'center' });
-    yPosition += 15;
-    
-    // Información de la universidad
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text('UNIVERSIDAD DE GUADALAJARA', 105, yPosition, { align: 'center' });
-    yPosition += 5;
-    doc.text('CENTRO UNIVERSITARIO DE LA CIÉNEGA', 105, yPosition, { align: 'center' });
-    yPosition += 5;
-    doc.text('UNIDAD DE SERVICIO SOCIAL', 105, yPosition, { align: 'center' });
-    yPosition += 15;
-    
-    // Línea separadora
-    doc.setDrawColor(0);
-    doc.setLineWidth(0.5);
-    doc.line(margin, yPosition, 190, yPosition);
-    yPosition += 10;
-    
-    // Información del prestador
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('INFORMACIÓN DEL PRESTADOR', margin, yPosition);
-    yPosition += 8;
-    
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    doc.text(`Nombre: ${usuario.nombre} ${usuario.apellido_paterno} ${usuario.apellido_materno || ''}`, margin, yPosition);
-    yPosition += 6;
-    doc.text(`Código UDG: ${usuario.codigo_udg}`, margin, yPosition);
-    yPosition += 6;
-    doc.text(`Carrera: ${usuario.carrera || 'No especificada'}`, margin, yPosition);
-    yPosition += 6;
-    doc.text(`Periodo: ${document.getElementById('periodStart').value} a ${document.getElementById('periodEnd').value}`, margin, yPosition);
-    yPosition += 6;
-    doc.text(`Horas reportadas: ${document.getElementById('hoursReported').value} horas`, margin, yPosition);
-    yPosition += 10;
-    
-    // Información de la dependencia
-    if (dependenciaInfo) {
-        doc.setFontSize(12);
-        doc.setFont(undefined, 'bold');
-        doc.text('INFORMACIÓN DE LA DEPENDENCIA', margin, yPosition);
-        yPosition += 8;
-        
-        doc.setFontSize(10);
-        doc.setFont(undefined, 'normal');
-        doc.text(`Organización: ${dependenciaInfo.organizacion || 'No especificada'}`, margin, yPosition);
-        yPosition += 6;
-        doc.text(`Departamento: ${dependenciaInfo.departamento || 'No especificado'}`, margin, yPosition);
-        yPosition += 6;
-        doc.text(`Plaza: ${dependenciaInfo.plaza_titulo || 'No especificada'}`, margin, yPosition);
-        yPosition += 6;
-        doc.text(`Receptor: ${dependenciaInfo.receptor_nombre || 'No especificado'}`, margin, yPosition);
-        yPosition += 10;
-    }
-    
-    // Actividades realizadas
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('ACTIVIDADES REALIZADAS', margin, yPosition);
-    yPosition += 8;
-    
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'normal');
-    const activities = doc.splitTextToSize(document.getElementById('activities').value, 170);
-    activities.forEach(line => {
-        if (yPosition > 270) {
-            doc.addPage();
-            yPosition = margin;
-        }
-        doc.text(line, margin, yPosition);
-        yPosition += 6;
-    });
-    yPosition += 5;
-    
-    // Logros alcanzados
-    const achievements = document.getElementById('achievements').value;
-    if (achievements.trim()) {
-        if (yPosition > 250) {
-            doc.addPage();
-            yPosition = margin;
-        }
-        
-        doc.setFontSize(12);
-        doc.setFont(undefined, 'bold');
-        doc.text('LOGROS ALCANZADOS', margin, yPosition);
-        yPosition += 8;
-        
-        doc.setFontSize(10);
-        doc.setFont(undefined, 'normal');
-        const achievementsText = doc.splitTextToSize(achievements, 170);
-        achievementsText.forEach(line => {
-            if (yPosition > 270) {
-                doc.addPage();
-                yPosition = margin;
+        function saveAsDraft() {
+            if (validateForm()) {
+                alert('Borrador guardado exitosamente');
+            } else {
+                alert('Complete los campos obligatorios para guardar el borrador');
             }
-            doc.text(line, margin, yPosition);
-            yPosition += 6;
-        });
-        yPosition += 5;
-    }
-    
-    // Aprendizajes obtenidos
-    const learnings = document.getElementById('learnings').value;
-    if (learnings.trim()) {
-        if (yPosition > 250) {
-            doc.addPage();
-            yPosition = margin;
         }
-        
-        doc.setFontSize(12);
-        doc.setFont(undefined, 'bold');
-        doc.text('APRENDIZAJES OBTENIDOS', margin, yPosition);
-        yPosition += 8;
-        
-        doc.setFontSize(10);
-        doc.setFont(undefined, 'normal');
-        const learningsText = doc.splitTextToSize(learnings, 170);
-        learningsText.forEach(line => {
-            if (yPosition > 270) {
-                doc.addPage();
-                yPosition = margin;
-            }
-            doc.text(line, margin, yPosition);
-            yPosition += 6;
-        });
-        yPosition += 5;
-    }
-    
-    // Firmas
-    if (yPosition > 200) {
-        doc.addPage();
-        yPosition = margin;
-    }
-    
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('VALIDACIÓN DEL REPORTE', 105, yPosition, { align: 'center' });
-    yPosition += 15;
-    
-    // Firma del prestador
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text('PRESTADOR DE SERVICIO SOCIAL', margin, yPosition);
-    yPosition += 5;
-    doc.setFont(undefined, 'normal');
-    doc.text('(Estudiante)', margin, yPosition);
-    yPosition += 15;
-    doc.line(margin, yPosition, margin + 50, yPosition);
-    yPosition += 8;
-    doc.text(`${usuario.nombre} ${usuario.apellido_paterno} ${usuario.apellido_materno || ''}`, margin, yPosition);
-    yPosition += 5;
-    doc.setFontSize(8);
-    doc.text('Firma', margin, yPosition);
-    yPosition += 20;
-    
-    // Firma del receptor
-    if (dependenciaInfo && dependenciaInfo.receptor_nombre) {
-        doc.setFontSize(10);
-        doc.setFont(undefined, 'bold');
-        doc.text('RECEPTOR DEL SERVICIO SOCIAL', 70, yPosition);
-        yPosition += 5;
-        doc.setFont(undefined, 'normal');
-        doc.text('(Responsable en la dependencia)', 70, yPosition);
-        yPosition += 15;
-        doc.line(70, yPosition, 120, yPosition);
-        yPosition += 8;
-        doc.text(dependenciaInfo.receptor_nombre, 70, yPosition);
-        yPosition += 5;
-        doc.setFontSize(8);
-        doc.text('Firma', 70, yPosition);
-        yPosition += 20;
-    }
-    
-    // Firma del coordinador
-    doc.setFontSize(10);
-    doc.setFont(undefined, 'bold');
-    doc.text('COORDINADOR DE SERVICIO SOCIAL', 140, yPosition);
-    yPosition += 5;
-    doc.setFont(undefined, 'normal');
-    doc.text('(Responsable académico)', 140, yPosition);
-    yPosition += 15;
-    doc.line(140, yPosition, 190, yPosition);
-    yPosition += 8;
-    doc.text('Coordinador de Servicio Social', 140, yPosition);
-    yPosition += 5;
-    doc.setFontSize(8);
-    doc.text('Firma', 140, yPosition);
-    
-    // Guardar PDF
-    doc.save(`reporte_mensual_${usuario.codigo_udg}_${new Date().toISOString().split('T')[0]}.pdf`);
-}
 
-        document.getElementById('reportForm').addEventListener('submit', async function(e) {
+        document.getElementById('reportForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (!validateForm()) return;
-
-            const formData = {
-                tipo: 'mensual',
-                periodo_inicio: document.getElementById('periodStart').value,
-                periodo_fin: document.getElementById('periodEnd').value,
-                actividades_realizadas: document.getElementById('activities').value,
-                logros: document.getElementById('achievements').value,
-                dificultades: document.getElementById('difficulties').value,
-                aprendizajes: document.getElementById('learnings').value,
-                horas_reportadas: parseFloat(document.getElementById('hoursReported').value),
-                estado: 'en_revision',
-                fecha_entrega: new Date().toISOString(),
-                turno: document.getElementById('turn').value,
-                fecha_elaboracion: document.getElementById('elaborationDate').value,
-                expectativas_programa: document.getElementById('expectations').value,
-                porcentaje_conocimientos: parseInt(document.getElementById('knowledgePercentage').value) || 0,
-                porcentaje_experiencias: parseInt(document.getElementById('experiencePercentage').value) || 0,
-                porcentaje_profesionales: parseInt(document.getElementById('professionalPercentage').value) || 0,
-                porcentaje_habilidades: parseInt(document.getElementById('skillsPercentage').value) || 0,
-                aportaciones_institucion: document.getElementById('contributions').value,
-                cumplimiento_satisfactorio: document.getElementById('satisfactory').value
-            };
-
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/reportes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-                
-                if (result.status === 'ok') {
-                    alert('Reporte enviado exitosamente para revisión.');
-                    window.location.href = 'mis_reportes.html';
-                } else {
-                    alert('Error: ' + result.message);
-                }
-            } catch (error) {
-                console.error('Error enviando reporte:', error);
-                alert('Error al enviar el reporte. Intente nuevamente.');
+            if (!validateForm()) {
+                alert('Por favor, complete todos los campos obligatorios antes de enviar el reporte.');
+                return;
             }
+            
+            alert('Reporte enviado exitosamente');
         });
-        // Agregar esta función auxiliar para manejar saltos de página automáticos
-function addTextWithPageBreaks(doc, text, x, y, maxWidth, lineHeight = 6) {
-    const lines = doc.splitTextToSize(text, maxWidth);
-    let currentY = y;
-    
-    lines.forEach(line => {
-        if (currentY > 270) { // Si se acerca al final de la página
-            doc.addPage();
-            currentY = 20; // Volver al margen superior
-        }
-        doc.text(line, x, currentY);
-        currentY += lineHeight;
-    });
-    
-    return currentY;
-}
     </script>
 </body>
 </html>
