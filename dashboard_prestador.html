@@ -1,408 +1,446 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Dashboard - Prestador</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+      }
 
-        /* HEADER */
-        header {
-            background-color: #010248;
-            color: white;
-            padding: 20px;
-        }
+      /* HEADER */
+      header {
+        background-color: #010248;
+        color: white;
+        padding: 20px;
+      }
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.8em;
-        }
+      header h1 {
+        margin: 0;
+        font-size: 1.8em;
+      }
 
-        header img {
-            width: 80px;
-            height: auto;
-        }
+      header img {
+        width: 80px;
+        height: auto;
+      }
 
-        .user-info {
-            text-align: right;
-        }
+      .user-info {
+        text-align: right;
+      }
 
-        .user-name {
-            font-weight: bold;
-            font-size: 1.1em;
-        }
+      .user-name {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
 
-        .user-type {
-            font-size: 0.9em;
-            color: #ccc;
-        }
+      .user-type {
+        font-size: 0.9em;
+        color: #ccc;
+      }
 
-        .logout-btn {
-            background: #d32f2f;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+      .logout-btn {
+        background: #d32f2f;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
 
-        .logout-btn:hover {
-            background: #b71c1c;
-        }
+      .logout-btn:hover {
+        background: #b71c1c;
+      }
 
-        /* CONTENIDO PRINCIPAL */
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
+      /* CONTENIDO PRINCIPAL */
+      .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+      }
 
-        .welcome-section {
-            background: linear-gradient(135deg, #010248, #003366);
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
+      .welcome-section {
+        background: linear-gradient(135deg, #010248, #003366);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
 
-        .stat-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            border-left: 5px solid #010248;
-        }
+      .stat-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border-left: 5px solid #010248;
+      }
 
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #010248;
-            margin-bottom: 10px;
-        }
+      .stat-number {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #010248;
+        margin-bottom: 10px;
+      }
 
-        .stat-label {
-            color: #666;
-            font-size: 1.1em;
-        }
+      .stat-label {
+        color: #666;
+        font-size: 1.1em;
+      }
 
-        /* MENÚ DE ACCIONES */
-        .actions-section {
-            margin-bottom: 40px;
-        }
+      /* MENÚ DE ACCIONES */
+      .actions-section {
+        margin-bottom: 40px;
+      }
 
-        .section-title {
-            color: #010248;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+      .section-title {
+        color: #010248;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        text-align: center;
+      }
 
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
+      .actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+      }
 
-        .action-card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 2px solid #010248;
-        }
+      .action-card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: 2px solid #010248;
+      }
 
-        .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            background: #f0f8ff;
-        }
+      .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        background: #f0f8ff;
+      }
 
-        .action-icon {
-            font-size: 3em;
-            color: #010248;
-            margin-bottom: 15px;
-        }
+      .action-icon {
+        font-size: 3em;
+        color: #010248;
+        margin-bottom: 15px;
+      }
 
-        .action-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #010248;
-            margin-bottom: 10px;
-        }
+      .action-title {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #010248;
+        margin-bottom: 10px;
+      }
 
-        .action-description {
-            color: #666;
-            line-height: 1.5;
-        }
+      .action-description {
+        color: #666;
+        line-height: 1.5;
+      }
 
-        /* INFORMACIÓN DE PLAZA */
-        .plaza-info {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            border-left: 5px solid #003366;
-        }
+      /* INFORMACIÓN DE PLAZA */
+      .plaza-info {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        border-left: 5px solid #003366;
+      }
 
-        .plaza-title {
-            color: #010248;
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
+      .plaza-title {
+        color: #010248;
+        font-size: 1.5em;
+        margin-bottom: 15px;
+      }
 
-        .plaza-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
+      .plaza-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+      }
 
-        .detail-item {
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
+      .detail-item {
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 5px;
+      }
 
-        .detail-label {
-            font-weight: bold;
-            color: #010248;
-        }
+      .detail-label {
+        font-weight: bold;
+        color: #010248;
+      }
 
-        /* BARRA DE PROGRESO */
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
+      /* BARRA DE PROGRESO */
+      .progress-bar {
+        width: 100%;
+        height: 20px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        margin: 15px 0;
+        overflow: hidden;
+      }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #010248, #003366);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #010248, #003366);
+        border-radius: 10px;
+        transition: width 0.5s ease;
+      }
+
+      .unread-badge {
+        background: #ff4444;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        margin-left: 5px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- HEADER -->
     <header>
-        <div class="header-content">
-            <div class="header-left">
-                <img src="Logo UDG.png" alt="Logo UDG">
-                <h1>Sistema de Servicio Social - Prestador</h1>
-            </div>
-            <div class="header-right">
-                <div class="user-info">
-                    <div class="user-name" id="userName">Cargando...</div>
-                    <div class="user-type">Prestador de Servicio Social</div>
-                </div>
-                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
-            </div>
+      <div class="header-content">
+        <div class="header-left">
+          <img src="Logo UDG.png" alt="Logo UDG" />
+          <h1>Sistema de Servicio Social - Prestador</h1>
         </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-name" id="userName">Cargando...</div>
+            <div class="user-type">Prestador de Servicio Social</div>
+          </div>
+          <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+        </div>
+      </div>
     </header>
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="dashboard-container">
-        <!-- SECCIÓN DE BIENVENIDA -->
-        <div class="welcome-section">
-            <h1 id="welcomeMessage">Bienvenido</h1>
-            <p>Centro Universitario de la Ciénega - Universidad de Guadalajara</p>
-        </div>
+      <!-- SECCIÓN DE BIENVENIDA -->
+      <div class="welcome-section">
+        <h1 id="welcomeMessage">Bienvenido</h1>
+        <p>Centro Universitario de la Ciénega - Universidad de Guadalajara</p>
+      </div>
 
-        <!-- ESTADÍSTICAS -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="horasRealizadas">0</div>
-                <div class="stat-label">Horas Realizadas</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="horasRestantes">480</div>
-                <div class="stat-label">Horas Restantes</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="porcentajeCompletado">0%</div>
-                <div class="stat-label">Progreso Total</div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-                </div>
-            </div>
+      <!-- ESTADÍSTICAS -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="horasRealizadas">0</div>
+          <div class="stat-label">Horas Realizadas</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-number" id="horasRestantes">480</div>
+          <div class="stat-label">Horas Restantes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="porcentajeCompletado">0%</div>
+          <div class="stat-label">Progreso Total</div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              id="progressFill"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+      </div>
 
-        <!-- INFORMACIÓN DE PLAZA ASIGNADA -->
-        <div class="plaza-info">
-            <h2 class="plaza-title">Mi Plaza Asignada</h2>
-            <div id="plazaContent">
-                <p>Cargando información de plaza...</p>
-            </div>
-            <div class="plaza-details" id="plazaDetails" style="display: none;">
-                <div class="detail-item">
-                    <div class="detail-label">Organización:</div>
-                    <div id="plazaOrganizacion"></div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Departamento:</div>
-                    <div id="plazaDepartamento"></div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Horario:</div>
-                    <div id="plazaHorario">Lunes a Viernes - 4 horas diarias</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Supervisor:</div>
-                    <div id="plazaSupervisor"></div>
-                </div>
-            </div>
+      <!-- INFORMACIÓN DE PLAZA ASIGNADA -->
+      <div class="plaza-info">
+        <h2 class="plaza-title">Mi Plaza Asignada</h2>
+        <div id="plazaContent">
+          <p>Cargando información de plaza...</p>
         </div>
+        <div class="plaza-details" id="plazaDetails" style="display: none">
+          <div class="detail-item">
+            <div class="detail-label">Organización:</div>
+            <div id="plazaOrganizacion"></div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Departamento:</div>
+            <div id="plazaDepartamento"></div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Horario:</div>
+            <div id="plazaHorario">Lunes a Viernes - 4 horas diarias</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Supervisor:</div>
+            <div id="plazaSupervisor"></div>
+          </div>
+        </div>
+      </div>
 
       <!-- ACCIONES PRINCIPALES -->
-<div class="actions-section">
-    <h2 class="section-title">Acciones Disponibles</h2>
-    <div class="actions-grid">
-        <div class="action-card" onclick="registrarAsistencia()">
+      <div class="actions-section">
+        <h2 class="section-title">Acciones Disponibles</h2>
+        <div class="actions-grid">
+          <div class="action-card" onclick="registrarAsistencia()">
             <div class="action-icon">⏰</div>
             <div class="action-title">Registrar Asistencia</div>
-            <div class="action-description">Registra tu entrada y salida del servicio social</div>
-        </div>
+            <div class="action-description">
+              Registra tu entrada y salida del servicio social
+            </div>
+          </div>
 
-        <div class="action-card" onclick="verAsistencias()">
+          <div class="action-card" onclick="verAsistencias()">
             <div class="action-icon">📊</div>
             <div class="action-title">Mi Historial de Asistencias</div>
-            <div class="action-description">Consulta tu historial completo de asistencias</div>
-        </div>
+            <div class="action-description">
+              Consulta tu historial completo de asistencias
+            </div>
+          </div>
 
-        <div class="action-card" onclick="crearReporte()">
+          <div class="action-card" onclick="crearReporte()">
             <div class="action-icon">📝</div>
             <div class="action-title">Crear Reporte</div>
-            <div class="action-description">Elabora y guarda tus reportes de actividades</div>
-        </div>
+            <div class="action-description">
+              Elabora y guarda tus reportes de actividades
+            </div>
+          </div>
 
-       
-        <div class="action-card" onclick="verReportes()">
-            <div class="action-icon">📋</div>
-            <div class="action-title">Mis Reportes</div>
-            <div class="action-description">Revisa el estado de tus reportes enviados</div>
-        </div>
-
-        <div class="action-card" onclick="subirDocumentos()">
+          <div class="action-card" onclick="subirDocumentos()">
             <div class="action-icon">📎</div>
             <div class="action-title">Subir Documentos</div>
-            <div class="action-description">Carga documentos requeridos para tu servicio</div>
-        </div>
+            <div class="action-description">
+              Carga documentos requeridos para tu servicio
+            </div>
+          </div>
 
-        <div class="action-card" onclick="verMensajes()">
+          <div class="action-card" onclick="verMensajes()">
             <div class="action-icon">💬</div>
             <div class="action-title">Mensajes</div>
             <div class="action-description">Comunícate con tu supervisor</div>
-        </div>
-    </div>
-</div>
+            <span
+              id="mensajesBadge"
+              class="unread-badge"
+              style="display: none"
+            ></span>
+          </div>
 
-
-        <!-- ACTIVIDADES RECIENTES -->
-        <div class="actions-section">
-            <h2 class="section-title">Actividades Recientes</h2>
-            <div class="plaza-info">
-                <div id="actividadesContent">
-                    <p>Cargando actividades recientes...</p>
-                </div>
+          <div class="action-card" onclick="verReportes()">
+            <div class="action-icon">📋</div>
+            <div class="action-title">Ver Reportes</div>
+            <div class="action-description">
+              Revisa tus reportes enviados y su estado
             </div>
+          </div>
         </div>
+      </div>
+
+      <!-- ACTIVIDADES RECIENTES -->
+      <div class="actions-section">
+        <h2 class="section-title">Actividades Recientes</h2>
+        <div class="plaza-info">
+          <div id="actividadesContent">
+            <p>Cargando actividades recientes...</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Cargar información del usuario al iniciar
-        document.addEventListener('DOMContentLoaded', function() {
-            const usuario = JSON.parse(localStorage.getItem('usuario'));
-            if (!usuario) {
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Mostrar información del usuario
-            document.getElementById('userName').textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
-            document.getElementById('welcomeMessage').textContent = `Bienvenido, ${usuario.nombre}`;
-            
-            // Cargar estadísticas y información
-            cargarEstadisticas(usuario.codigo_udg);
-            cargarInformacionPlaza(usuario.codigo_udg);
-            cargarActividadesRecientes(usuario.codigo_udg);
-        });
-
-        function cargarEstadisticas(codigoUdg) {
-            // Simular carga de estadísticas (en producción, harías fetch a la API)
-            setTimeout(() => {
-                const horasRealizadas = 120;
-                const horasRestantes = 480 - horasRealizadas;
-                const porcentaje = Math.round((horasRealizadas / 480) * 100);
-                
-                document.getElementById('horasRealizadas').textContent = horasRealizadas;
-                document.getElementById('horasRestantes').textContent = horasRestantes;
-                document.getElementById('porcentajeCompletado').textContent = porcentaje + '%';
-                document.getElementById('progressFill').style.width = porcentaje + '%';
-            }, 1000);
+      // Cargar información del usuario al iniciar
+      document.addEventListener("DOMContentLoaded", function () {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (!usuario) {
+          window.location.href = "login.html";
+          return;
         }
 
-        function cargarInformacionPlaza(codigoUdg) {
-            // Simular información de plaza (en producción, harías fetch a la API)
-            setTimeout(() => {
-                document.getElementById('plazaContent').innerHTML = `
+        // Mostrar información del usuario
+        document.getElementById(
+          "userName"
+        ).textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
+        document.getElementById(
+          "welcomeMessage"
+        ).textContent = `Bienvenido, ${usuario.nombre}`;
+
+        // Cargar estadísticas y información
+        cargarEstadisticas(usuario.codigo_udg);
+        cargarInformacionPlaza(usuario.codigo_udg);
+        cargarActividadesRecientes(usuario.codigo_udg);
+        loadMessageCount();
+      });
+
+      function cargarEstadisticas(codigoUdg) {
+        // Simular carga de estadísticas (en producción, harías fetch a la API)
+        setTimeout(() => {
+          const horasRealizadas = 120;
+          const horasRestantes = 480 - horasRealizadas;
+          const porcentaje = Math.round((horasRealizadas / 480) * 100);
+
+          document.getElementById("horasRealizadas").textContent =
+            horasRealizadas;
+          document.getElementById("horasRestantes").textContent =
+            horasRestantes;
+          document.getElementById("porcentajeCompletado").textContent =
+            porcentaje + "%";
+          document.getElementById("progressFill").style.width =
+            porcentaje + "%";
+        }, 1000);
+      }
+
+      function cargarInformacionPlaza(codigoUdg) {
+        // Simular información de plaza (en producción, harías fetch a la API)
+        setTimeout(() => {
+          document.getElementById("plazaContent").innerHTML = `
                     <h3>Desarrollo de Sistema Web - Departamento de Sistemas</h3>
                     <p><strong>Descripción:</strong> Desarrollo de aplicaciones web para gestión interna del departamento</p>
                     <p><strong>Actividades:</strong> Desarrollo frontend y backend, pruebas de software, documentación</p>
                 `;
-                
-                document.getElementById('plazaOrganizacion').textContent = 'Centro Universitario de la Ciénega';
-                document.getElementById('plazaDepartamento').textContent = 'Departamento de Sistemas';
-                document.getElementById('plazaSupervisor').textContent = 'Roberto Silva Mendoza';
-                
-                document.getElementById('plazaDetails').style.display = 'grid';
-            }, 1500);
-        }
 
-        function cargarActividadesRecientes(codigoUdg) {
-            // Simular actividades recientes
-            setTimeout(() => {
-                document.getElementById('actividadesContent').innerHTML = `
+          document.getElementById("plazaOrganizacion").textContent =
+            "Centro Universitario de la Ciénega";
+          document.getElementById("plazaDepartamento").textContent =
+            "Departamento de Sistemas";
+          document.getElementById("plazaSupervisor").textContent =
+            "Roberto Silva Mendoza";
+
+          document.getElementById("plazaDetails").style.display = "grid";
+        }, 1500);
+      }
+
+      function cargarActividadesRecientes(codigoUdg) {
+        // Simular actividades recientes
+        setTimeout(() => {
+          document.getElementById("actividadesContent").innerHTML = `
                     <div style="display: grid; gap: 10px;">
                         <div style="padding: 10px; background: #f8f9fa; border-radius: 5px;">
                             <strong>Hoy:</strong> Desarrollo del módulo de reportes - 4 horas
@@ -415,49 +453,70 @@
                         </div>
                     </div>
                 `;
-            }, 2000);
-        }
+        }, 2000);
+      }
 
-        // Funciones de las acciones
-        function registrarAsistencia() {
-            alert('📅 Función de registro de asistencia\n\nAquí podrás registrar tu entrada y salida del servicio social.');
-        }
-
-        function verAsistencias() {
-            alert('📊 Función de ver asistencias\n\nConsulta tu historial completo de asistencias y horas realizadas.');
-        }
-
-        function crearReporte() {
-            alert('📝 Función de crear reporte bimestral\n\nElabora y envía tu reporte de actividades del período.');
-        }
-
-        function verReportes() {
-            alert('📋 Función de ver reportes\n\nRevisa el estado de tus reportes enviados y observaciones.');
-        }
-
-        function subirDocumentos() {
-            alert('📎 Función de subir documentos\n\nCarga documentos como oficio de comisión, constancias, etc.');
-        }
-
-        function verMensajes() {
-            alert('💬 Función de mensajes\n\nComunícate con tu supervisor y revisa mensajes importantes.');
-        }
-       
-
-
-        function logout() {
-            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-                localStorage.removeItem('usuario');
-                localStorage.removeItem('token');
-                window.location.href = 'login.html';
+      // Cargar contador de mensajes no leídos
+      async function loadMessageCount() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:3000/mensajes/estadisticas",
+            {
+              headers: { Authorization: `Bearer ${token}` },
             }
+          );
+
+          const data = await response.json();
+
+          if (data.status === "ok" && data.estadisticas.no_leidos > 0) {
+            const badge = document.getElementById("mensajesBadge");
+            badge.textContent = data.estadisticas.no_leidos;
+            badge.style.display = "inline";
+          }
+        } catch (error) {
+          console.error("Error cargando contador de mensajes:", error);
         }
- function crearReporte() {
-    window.location.href = 'crear_reporte.html';
-}
- function verReportes() {
-    window.location.href = 'ver_reportes.html';
-}
+      }
+
+      // Funciones de las acciones
+      function registrarAsistencia() {
+        alert(
+          "📅 Función de registro de asistencia\n\nAquí podrás registrar tu entrada y salida del servicio social."
+        );
+      }
+
+      function verAsistencias() {
+        alert(
+          "📊 Función de ver asistencias\n\nConsulta tu historial completo de asistencias y horas realizadas."
+        );
+      }
+
+      function crearReporte() {
+        window.location.href = "crear_reporte.html";
+      }
+
+      function verReportes() {
+        window.location.href = "ver_reportes.html";
+      }
+
+      function subirDocumentos() {
+        alert(
+          "📎 Función de subir documentos\n\nCarga documentos como oficio de comisión, constancias, etc."
+        );
+      }
+
+      function verMensajes() {
+        window.location.href = "mensajes.html";
+      }
+
+      function logout() {
+        if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+          localStorage.removeItem("usuario");
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+        }
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -1,1343 +1,1625 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sistema de Servicio Social - Reporte Mensual</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
 
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
+      body {
+        background-color: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-        header {
-            background: linear-gradient(135deg, #1a3a8f 0%, #2c5aa0 100%);
-            color: white;
-            padding: 20px 0;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
+      header {
+        background: linear-gradient(135deg, #1a3a8f 0%, #2c5aa0 100%);
+        color: white;
+        padding: 20px 0;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
 
-        .university-banner {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 12px 0;
-            text-align: center;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 15px;
-        }
+      .university-banner {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 12px 0;
+        text-align: center;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        margin-bottom: 15px;
+      }
 
-        .university-banner-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-        }
+      .university-banner-text {
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
 
-        .center-banner {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 0;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+      .center-banner {
+        background: rgba(255, 255, 255, 0.15);
+        padding: 8px 0;
+        text-align: center;
+        margin-bottom: 10px;
+      }
 
-        .center-banner-text {
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
+      .center-banner-text {
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+      }
 
-        .logo {
-            display: flex;
-            align-items: center;
-        }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
 
-        .logo img {
-            height: 60px;
-            margin-right: 15px;
-        }
+      .logo img {
+        height: 60px;
+        margin-right: 15px;
+      }
 
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
+      .logo h1 {
+        font-size: 1.8rem;
+        font-weight: 600;
+      }
 
-        .user-info {
-            text-align: right;
-        }
+      .user-info {
+        text-align: right;
+      }
 
-        .user-info p {
-            margin-bottom: 5px;
-        }
+      .user-info p {
+        margin-bottom: 5px;
+      }
 
-        .info-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+      .info-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
 
-        .info-card {
-            background: #f8f9fa;
-            border: 2px solid #1a3a8f;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+      .info-card {
+        background: #f8f9fa;
+        border: 2px solid #1a3a8f;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        .info-card h3 {
-            color: #1a3a8f;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            border-bottom: 2px solid #1a3a8f;
-            padding-bottom: 8px;
-        }
+      .info-card h3 {
+        color: #1a3a8f;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        border-bottom: 2px solid #1a3a8f;
+        padding-bottom: 8px;
+      }
 
-        .info-item {
-            margin-bottom: 8px;
-            display: flex;
-        }
+      .info-item {
+        margin-bottom: 8px;
+        display: flex;
+      }
 
-        .info-label {
-            font-weight: bold;
-            color: #333;
-            min-width: 120px;
-            font-size: 0.9rem;
-        }
+      .info-label {
+        font-weight: bold;
+        color: #333;
+        min-width: 120px;
+        font-size: 0.9rem;
+      }
 
-        .info-value {
-            color: #666;
-            flex: 1;
-            font-size: 0.9rem;
-        }
+      .info-value {
+        color: #666;
+        flex: 1;
+        font-size: 0.9rem;
+      }
 
-        .report-form {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
+      .report-form {
+        background-color: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+      }
 
-        .form-title {
-            color: #1a3a8f;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eaeaea;
-            font-size: 1.8rem;
-        }
+      .form-title {
+        color: #1a3a8f;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #eaeaea;
+        font-size: 1.8rem;
+      }
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+      .form-group {
+        margin-bottom: 25px;
+      }
 
+      .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+      }
+
+      .form-col {
+        flex: 1;
+        padding: 0 10px;
+        min-width: 250px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #444;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border 0.3s;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #1a3a8f;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(26, 58, 143, 0.2);
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        color: #1a3a8f;
+        margin: 30px 0 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eaeaea;
+      }
+
+      .percentage-inputs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .percentage-input {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      .percentage-input input {
+        text-align: center;
+      }
+
+      .signature-section {
+        background-color: #f9fafc;
+        border: 1px dashed #ccc;
+        border-radius: 8px;
+        padding: 25px;
+        margin-top: 40px;
+      }
+
+      .signature-title {
+        font-size: 1.3rem;
+        color: #1a3a8f;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .signature-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 30px;
+      }
+
+      .signature-box {
+        flex: 1;
+        min-width: 280px;
+        text-align: center;
+      }
+
+      .signature-line {
+        height: 2px;
+        background-color: #333;
+        margin: 60px 0 5px;
+        position: relative;
+      }
+
+      .signature-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #444;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+      }
+
+      .signature-role {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+
+      .signature-person {
+        color: #333;
+        font-size: 0.95rem;
+        margin-top: 10px;
+        font-weight: 500;
+        min-height: 20px;
+      }
+
+      .signature-instruction {
+        color: #888;
+        font-size: 0.8rem;
+        font-style: italic;
+        margin-top: 5px;
+      }
+
+      .print-notice {
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 6px;
+        padding: 15px;
+        margin-top: 20px;
+        text-align: center;
+        color: #856404;
+      }
+
+      .print-notice h4 {
+        margin-bottom: 10px;
+        color: #1a3a8f;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background-color: #1a3a8f;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: #152c6e;
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background-color: #5a6268;
+      }
+
+      .btn-print {
+        background-color: #28a745;
+        color: white;
+      }
+
+      .btn-print:hover {
+        background-color: #218838;
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: #666;
+        font-size: 0.9rem;
+        border-top: 1px solid #eaeaea;
+      }
+
+      .type-selector {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .type-btn {
+        flex: 1;
+        padding: 20px;
+        border: 2px solid #1a3a8f;
+        border-radius: 10px;
+        background: white;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-align: center;
+      }
+
+      .type-btn:hover {
+        background: #f0f8ff;
+        transform: translateY(-2px);
+      }
+
+      .type-btn.active {
+        background: #1a3a8f;
+        color: white;
+      }
+
+      .type-btn h3 {
+        margin-bottom: 10px;
+      }
+
+      /* ESTILOS PARA PDF COMPACTO */
+      .pdf-compact-view {
+        display: none;
+        font-family: Arial, sans-serif;
+        font-size: 11px;
+        line-height: 1.3;
+        padding: 20px;
+        background: white;
+        width: 794px;
+        box-sizing: border-box;
+        border: 2px solid #1a3a8f;
+      }
+
+      .pdf-header-compact {
+        text-align: center;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #1a3a8f;
+        padding-bottom: 10px;
+      }
+
+      .pdf-content-compact {
+        margin-bottom: 15px;
+      }
+
+      .pdf-section-compact {
+        margin-bottom: 12px;
+        page-break-inside: avoid;
+      }
+
+      .pdf-section-title {
+        font-weight: bold;
+        color: #1a3a8f;
+        font-size: 12px;
+        margin-bottom: 8px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+      }
+
+      .pdf-field-compact {
+        margin-bottom: 6px;
+      }
+
+      .pdf-field-label {
+        font-weight: bold;
+        display: inline-block;
+        width: 140px;
+        font-size: 10px;
+        color: #333;
+      }
+
+      .pdf-field-value {
+        font-size: 10px;
+        color: #666;
+      }
+
+      .pdf-textarea-content {
+        border: 1px solid #ccc;
+        padding: 8px;
+        min-height: 60px;
+        max-height: 100px;
+        font-size: 10px;
+        background: #f9f9f9;
+        margin-top: 5px;
+        overflow: hidden;
+        line-height: 1.4;
+      }
+
+      .pdf-signatures-compact {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+        margin-top: 20px;
+        border-top: 2px solid #333;
+        padding-top: 15px;
+      }
+
+      .pdf-signature-box {
+        text-align: center;
+      }
+
+      .pdf-signature-line {
+        border-bottom: 1px solid #000;
+        margin: 40px 0 8px;
+        height: 1px;
+      }
+
+      .pdf-signature-name {
+        font-weight: bold;
+        font-size: 10px;
+        margin-bottom: 4px;
+        color: #1a3a8f;
+      }
+
+      .pdf-signature-role {
+        font-size: 9px;
+        color: #666;
+        margin-bottom: 6px;
+      }
+
+      .pdf-grid-2cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 10px;
+      }
+
+      .pdf-grid-3cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      @media (max-width: 768px) {
         .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
+          flex-direction: column;
         }
 
         .form-col {
-            flex: 1;
-            padding: 0 10px;
-            min-width: 250px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: #1a3a8f;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(26, 58, 143, 0.2);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            color: #1a3a8f;
-            margin: 30px 0 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .percentage-inputs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .percentage-input {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .percentage-input input {
-            text-align: center;
-        }
-
-        .signature-section {
-            background-color: #f9fafc;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
-            padding: 25px;
-            margin-top: 40px;
-        }
-
-        .signature-title {
-            font-size: 1.3rem;
-            color: #1a3a8f;
-            margin-bottom: 30px;
-            text-align: center;
+          width: 100%;
         }
 
         .signature-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 30px;
+          flex-direction: column;
         }
 
-        .signature-box {
-            flex: 1;
-            min-width: 280px;
-            text-align: center;
+        .header-content {
+          flex-direction: column;
+          text-align: center;
         }
 
-        .signature-line {
-            height: 2px;
-            background-color: #333;
-            margin: 60px 0 5px;
-            position: relative;
-        }
-
-        .signature-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #444;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-        }
-
-        .signature-role {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .signature-person {
-            color: #333;
-            font-size: 0.95rem;
-            margin-top: 10px;
-            font-weight: 500;
-            min-height: 20px;
-        }
-
-        .signature-instruction {
-            color: #888;
-            font-size: 0.8rem;
-            font-style: italic;
-            margin-top: 5px;
-        }
-
-        .print-notice {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-            color: #856404;
-        }
-
-        .print-notice h4 {
-            margin-bottom: 10px;
-            color: #1a3a8f;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #1a3a8f;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #152c6e;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .btn-print {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-print:hover {
-            background-color: #218838;
+        .user-info {
+          text-align: center;
+          margin-top: 15px;
         }
 
         .form-actions {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid #eaeaea;
+          flex-direction: column;
         }
 
         .type-selector {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
+          flex-direction: column;
         }
 
-        .type-btn {
-            flex: 1;
-            padding: 20px;
-            border: 2px solid #1a3a8f;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
+        .info-cards {
+          grid-template-columns: 1fr;
         }
 
-        .type-btn:hover {
-            background: #f0f8ff;
-            transform: translateY(-2px);
+        .university-banner-text {
+          font-size: 1.1rem;
         }
 
-        .type-btn.active {
-            background: #1a3a8f;
-            color: white;
+        .center-banner-text {
+          font-size: 0.9rem;
+        }
+      }
+
+      @media print {
+        .no-print {
+          display: none;
         }
 
-        .type-btn h3 {
-            margin-bottom: 10px;
+        .signature-section {
+          border: 2px solid #333;
+          page-break-inside: avoid;
         }
 
-        /* ESTILOS PARA PDF COMPACTO */
-        .pdf-compact-view {
-            display: none;
-            font-family: Arial, sans-serif;
-            font-size: 11px;
-            line-height: 1.3;
-            padding: 20px;
-            background: white;
-            width: 794px;
-            box-sizing: border-box;
-            border: 2px solid #1a3a8f;
+        .signature-line {
+          background-color: #000;
         }
 
-        .pdf-header-compact {
-            text-align: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #1a3a8f;
-            padding-bottom: 10px;
+        .print-notice {
+          display: none;
         }
 
-        .pdf-content-compact {
-            margin-bottom: 15px;
+        .signature-person {
+          font-weight: bold;
         }
 
-        .pdf-section-compact {
-            margin-bottom: 12px;
-            page-break-inside: avoid;
+        .info-cards {
+          display: none;
         }
 
-        .pdf-section-title {
-            font-weight: bold;
-            color: #1a3a8f;
-            font-size: 12px;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
+        body {
+          background: white;
+          font-size: 12px;
+          line-height: 1.4;
         }
 
-        .pdf-field-compact {
-            margin-bottom: 6px;
+        .container {
+          max-width: 100%;
+          padding: 10px;
+          box-shadow: none;
         }
 
-        .pdf-field-label {
-            font-weight: bold;
-            display: inline-block;
-            width: 140px;
-            font-size: 10px;
-            color: #333;
+        header {
+          background: #1a3a8f;
+          color: white;
+          padding: 15px;
+          margin-bottom: 20px;
+          border-radius: 0;
         }
 
-        .pdf-field-value {
-            font-size: 10px;
-            color: #666;
+        .report-form {
+          box-shadow: none;
+          padding: 0;
+          border: none;
         }
 
-        .pdf-textarea-content {
-            border: 1px solid #ccc;
-            padding: 8px;
-            min-height: 60px;
-            max-height: 100px;
-            font-size: 10px;
-            background: #f9f9f9;
-            margin-top: 5px;
-            overflow: hidden;
-            line-height: 1.4;
+        .form-title {
+          font-size: 16px;
+          text-align: center;
+          margin-bottom: 15px;
         }
 
-        .pdf-signatures-compact {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-            border-top: 2px solid #333;
-            padding-top: 15px;
+        .section-title {
+          font-size: 14px;
+          margin: 20px 0 10px;
         }
+      }
 
-        .pdf-signature-box {
-            text-align: center;
-        }
-
-        .pdf-signature-line {
-            border-bottom: 1px solid #000;
-            margin: 40px 0 8px;
-            height: 1px;
-        }
-
-        .pdf-signature-name {
-            font-weight: bold;
-            font-size: 10px;
-            margin-bottom: 4px;
-            color: #1a3a8f;
-        }
-
-        .pdf-signature-role {
-            font-size: 9px;
-            color: #666;
-            margin-bottom: 6px;
-        }
-
-        .pdf-grid-2cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
-
-        .pdf-grid-3cols {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-            }
-            
-            .form-col {
-                width: 100%;
-            }
-            
-            .signature-container {
-                flex-direction: column;
-            }
-            
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .user-info {
-                text-align: center;
-                margin-top: 15px;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .type-selector {
-                flex-direction: column;
-            }
-            
-            .info-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .university-banner-text {
-                font-size: 1.1rem;
-            }
-            
-            .center-banner-text {
-                font-size: 0.9rem;
-            }
-        }
-
-        @media print {
-            .no-print {
-                display: none;
-            }
-            
-            .signature-section {
-                border: 2px solid #333;
-                page-break-inside: avoid;
-            }
-            
-            .signature-line {
-                background-color: #000;
-            }
-            
-            .print-notice {
-                display: none;
-            }
-            
-            .signature-person {
-                font-weight: bold;
-            }
-            
-            .info-cards {
-                display: none;
-            }
-            
-            body {
-                background: white;
-                font-size: 12px;
-                line-height: 1.4;
-            }
-            
-            .container {
-                max-width: 100%;
-                padding: 10px;
-                box-shadow: none;
-            }
-            
-            header {
-                background: #1a3a8f;
-                color: white;
-                padding: 15px;
-                margin-bottom: 20px;
-                border-radius: 0;
-            }
-            
-            .report-form {
-                box-shadow: none;
-                padding: 0;
-                border: none;
-            }
-            
-            .form-title {
-                font-size: 16px;
-                text-align: center;
-                margin-bottom: 15px;
-            }
-            
-            .section-title {
-                font-size: 14px;
-                margin: 20px 0 10px;
-            }
-        }
-
-        .pdf-info-section {
-            display: none;
-        }
+      .pdf-info-section {
+        display: none;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <header class="no-print">
-            <div class="university-banner">
-                <div class="university-banner-text">
-                    UNIVERSIDAD DE GUADALAJARA
-                </div>
+      <header class="no-print">
+        <div class="university-banner">
+          <div class="university-banner-text">UNIVERSIDAD DE GUADALAJARA</div>
+        </div>
+        <div class="center-banner">
+          <div class="center-banner-text">
+            CENTRO UNIVERSITARIO DE LA CIÉNEGA
+          </div>
+        </div>
+        <div class="header-content">
+          <div class="logo">
+            <div
+              style="
+                width: 60px;
+                height: 60px;
+                background-color: #fff;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                color: #1a3a8f;
+              "
+            >
+              UDG
             </div>
-            <div class="center-banner">
-                <div class="center-banner-text">
-                    CENTRO UNIVERSITARIO DE LA CIÉNEGA
-                </div>
+            <h1>Sistema de Servicio Social</h1>
+          </div>
+          <div class="user-info">
+            <p><strong id="userName">Cargando...</strong></p>
+            <p id="userInfo">Cargando información...</p>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <div class="type-selector no-print">
+          <div class="type-btn active" onclick="selectReportType('mensual')">
+            <h3>📅 Reporte Mensual</h3>
+            <p>Reporte de actividades del mes</p>
+          </div>
+          <div
+            class="type-btn"
+            id="finalReportBtn"
+            onclick="selectReportType('final')"
+          >
+            <h3>🎓 Reporte Final</h3>
+            <p>Reporte de conclusión del servicio social</p>
+          </div>
+        </div>
+
+        <div class="info-cards no-print">
+          <div class="info-card">
+            <h3>👤 Información del Prestador</h3>
+            <div class="info-item">
+              <span class="info-label">Nombre:</span>
+              <span class="info-value" id="prestadorNombre">Cargando...</span>
             </div>
-            <div class="header-content">
-                <div class="logo">
-                    <div style="width: 60px; height: 60px; background-color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1a3a8f;">UDG</div>
-                    <h1>Sistema de Servicio Social</h1>
-                </div>
-                <div class="user-info">
-                    <p><strong id="userName">Cargando...</strong></p>
-                    <p id="userInfo">Cargando información...</p>
-                </div>
+            <div class="info-item">
+              <span class="info-label">Código UDG:</span>
+              <span class="info-value" id="prestadorCodigo">Cargando...</span>
             </div>
-        </header>
-
-        <main>
-            <div class="type-selector no-print">
-                <div class="type-btn active" onclick="selectReportType('mensual')">
-                    <h3>📅 Reporte Mensual</h3>
-                    <p>Reporte de actividades del mes</p>
-                </div>
-                <div class="type-btn" id="finalReportBtn" onclick="selectReportType('final')">
-                    <h3>🎓 Reporte Final</h3>
-                    <p>Reporte de conclusión del servicio social</p>
-                </div>
+            <div class="info-item">
+              <span class="info-label">Carrera:</span>
+              <span class="info-value" id="prestadorCarrera">Cargando...</span>
             </div>
-
-            <div class="info-cards no-print">
-                <div class="info-card">
-                    <h3>👤 Información del Prestador</h3>
-                    <div class="info-item">
-                        <span class="info-label">Nombre:</span>
-                        <span class="info-value" id="prestadorNombre">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Código UDG:</span>
-                        <span class="info-value" id="prestadorCodigo">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Carrera:</span>
-                        <span class="info-value" id="prestadorCarrera">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Semestre:</span>
-                        <span class="info-value" id="prestadorSemestre">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Créditos:</span>
-                        <span class="info-value" id="prestadorCreditos">Cargando...</span>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <h3>🏢 Información de la Dependencia</h3>
-                    <div class="info-item">
-                        <span class="info-label">Organización:</span>
-                        <span class="info-value" id="dependenciaOrganizacion">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Departamento:</span>
-                        <span class="info-value" id="dependenciaDepartamento">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Plaza:</span>
-                        <span class="info-value" id="dependenciaPlaza">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Receptor:</span>
-                        <span class="info-value" id="dependenciaReceptor">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Horas Acumuladas:</span>
-                        <span class="info-value" id="dependenciaHoras">Cargando...</span>
-                    </div>
-                </div>
+            <div class="info-item">
+              <span class="info-label">Semestre:</span>
+              <span class="info-value" id="prestadorSemestre">Cargando...</span>
             </div>
+            <div class="info-item">
+              <span class="info-label">Créditos:</span>
+              <span class="info-value" id="prestadorCreditos">Cargando...</span>
+            </div>
+          </div>
 
-            <!-- SECCIÓN OCULTA PARA PDF COMPACTO -->
-            <div id="pdfCompactView" class="pdf-compact-view">
-                <div class="pdf-header-compact">
-                    <h2 style="margin: 0; font-size: 16px; color: #1a3a8f;">UNIVERSIDAD DE GUADALAJARA</h2>
-                    <h3 style="margin: 4px 0; font-size: 14px; color: #1a3a8f;">CENTRO UNIVERSITARIO DE LA CIÉNEGA</h3>
-                    <h4 style="margin: 4px 0; font-size: 13px; font-weight: normal;">REPORTE MENSUAL DE SERVICIO SOCIAL</h4>
+          <div class="info-card">
+            <h3>🏢 Información de la Dependencia</h3>
+            <div class="info-item">
+              <span class="info-label">Organización:</span>
+              <span class="info-value" id="dependenciaOrganizacion"
+                >Cargando...</span
+              >
+            </div>
+            <div class="info-item">
+              <span class="info-label">Departamento:</span>
+              <span class="info-value" id="dependenciaDepartamento"
+                >Cargando...</span
+              >
+            </div>
+            <div class="info-item">
+              <span class="info-label">Plaza:</span>
+              <span class="info-value" id="dependenciaPlaza">Cargando...</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Receptor:</span>
+              <span class="info-value" id="dependenciaReceptor"
+                >Cargando...</span
+              >
+            </div>
+            <div class="info-item">
+              <span class="info-label">Horas Acumuladas:</span>
+              <span class="info-value" id="dependenciaHoras">Cargando...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN OCULTA PARA PDF COMPACTO -->
+        <div id="pdfCompactView" class="pdf-compact-view">
+          <div class="pdf-header-compact">
+            <h2 style="margin: 0; font-size: 16px; color: #1a3a8f">
+              UNIVERSIDAD DE GUADALAJARA
+            </h2>
+            <h3 style="margin: 4px 0; font-size: 14px; color: #1a3a8f">
+              CENTRO UNIVERSITARIO DE LA CIÉNEGA
+            </h3>
+            <h4 style="margin: 4px 0; font-size: 13px; font-weight: normal">
+              REPORTE MENSUAL DE SERVICIO SOCIAL
+            </h4>
+          </div>
+
+          <div class="pdf-content-compact">
+            <!-- INFORMACIÓN DEL PRESTADOR Y DEPENDENCIA -->
+            <div class="pdf-section-compact">
+              <div class="pdf-section-title">INFORMACIÓN GENERAL</div>
+              <div class="pdf-grid-2cols">
+                <div>
+                  <div
+                    class="pdf-section-title"
+                    style="font-size: 11px; margin-bottom: 5px"
+                  >
+                    INFORMACIÓN DEL PRESTADOR
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Nombre:</span>
+                    <span class="pdf-field-value" id="pdfCompactNombre">-</span>
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Código UDG:</span>
+                    <span class="pdf-field-value" id="pdfCompactCodigo">-</span>
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Carrera:</span>
+                    <span class="pdf-field-value" id="pdfCompactCarrera"
+                      >-</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Semestre:</span>
+                    <span class="pdf-field-value" id="pdfCompactSemestre"
+                      >-</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Créditos:</span>
+                    <span class="pdf-field-value" id="pdfCompactCreditos"
+                      >-</span
+                    >
+                  </div>
                 </div>
-
-                <div class="pdf-content-compact">
-                    <!-- INFORMACIÓN DEL PRESTADOR Y DEPENDENCIA -->
-                    <div class="pdf-section-compact">
-                        <div class="pdf-section-title">INFORMACIÓN GENERAL</div>
-                        <div class="pdf-grid-2cols">
-                            <div>
-                                <div class="pdf-section-title" style="font-size: 11px; margin-bottom: 5px;">INFORMACIÓN DEL PRESTADOR</div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Nombre:</span>
-                                    <span class="pdf-field-value" id="pdfCompactNombre">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Código UDG:</span>
-                                    <span class="pdf-field-value" id="pdfCompactCodigo">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Carrera:</span>
-                                    <span class="pdf-field-value" id="pdfCompactCarrera">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Semestre:</span>
-                                    <span class="pdf-field-value" id="pdfCompactSemestre">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Créditos:</span>
-                                    <span class="pdf-field-value" id="pdfCompactCreditos">-</span>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="pdf-section-title" style="font-size: 11px; margin-bottom: 5px;">INFORMACIÓN DE LA DEPENDENCIA</div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Organización:</span>
-                                    <span class="pdf-field-value" id="pdfCompactOrganizacion">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Departamento:</span>
-                                    <span class="pdf-field-value" id="pdfCompactDepartamento">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Plaza:</span>
-                                    <span class="pdf-field-value" id="pdfCompactPlaza">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Receptor:</span>
-                                    <span class="pdf-field-value" id="pdfCompactReceptor">-</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Horas Acumuladas:</span>
-                                    <span class="pdf-field-value" id="pdfCompactHorasAcumuladas">-</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- INFORMACIÓN DEL REPORTE -->
-                    <div class="pdf-section-compact">
-                        <div class="pdf-section-title">INFORMACIÓN DEL REPORTE</div>
-                        <div class="pdf-grid-3cols">
-                            <div class="pdf-field-compact">
-                                <span class="pdf-field-label">Fecha Elaboración:</span>
-                                <span class="pdf-field-value" id="pdfCompactFechaElaboracion">-</span>
-                            </div>
-                            <div class="pdf-field-compact">
-                                <span class="pdf-field-label">Turno:</span>
-                                <span class="pdf-field-value" id="pdfCompactTurno">-</span>
-                            </div>
-                            <div class="pdf-field-compact">
-                                <span class="pdf-field-label">Periodo:</span>
-                                <span class="pdf-field-value" id="pdfCompactPeriodo">-</span>
-                            </div>
-                            <div class="pdf-field-compact">
-                                <span class="pdf-field-label">Horas Reportadas:</span>
-                                <span class="pdf-field-value" id="pdfCompactHoras">-</span>
-                            </div>
-                            <div class="pdf-field-compact">
-                                <span class="pdf-field-label">Cumplió expectativas:</span>
-                                <span class="pdf-field-value" id="pdfCompactExpectativas">-</span>
-                            </div>
-                            <div class="pdf-field-compact">
-                                <span class="pdf-field-label">Actividades satisfactorias:</span>
-                                <span class="pdf-field-value" id="pdfCompactSatisfactorio">-</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ACTIVIDADES Y CONTENIDO -->
-                    <div class="pdf-section-compact">
-                        <div class="pdf-section-title">ACTIVIDADES REALIZADAS</div>
-                        <div class="pdf-textarea-content" id="pdfCompactActividades">-</div>
-                    </div>
-
-                    <div class="pdf-grid-2cols">
-                        <div class="pdf-section-compact">
-                            <div class="pdf-section-title">LOGROS ALCANZADOS</div>
-                            <div class="pdf-textarea-content" id="pdfCompactLogros">-</div>
-                        </div>
-                        <div class="pdf-section-compact">
-                            <div class="pdf-section-title">APRENDIZAJES OBTENIDOS</div>
-                            <div class="pdf-textarea-content" id="pdfCompactAprendizajes">-</div>
-                        </div>
-                    </div>
-
-                    <div class="pdf-section-compact">
-                        <div class="pdf-section-title">DIFICULTADES ENCONTRADAS</div>
-                        <div class="pdf-textarea-content" id="pdfCompactDificultades">-</div>
-                    </div>
-
-                    <div class="pdf-section-compact">
-                        <div class="pdf-section-title">APORTACIONES A LA INSTITUCIÓN</div>
-                        <div class="pdf-textarea-content" id="pdfCompactAportaciones">-</div>
-                    </div>
-
-                    <!-- PORCENTAJES DE APROVECHAMIENTO -->
-                    <div class="pdf-section-compact">
-                        <div class="pdf-section-title">PORCENTAJES DE APROVECHAMIENTO</div>
-                        <div class="pdf-grid-2cols">
-                            <div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Conocimientos:</span>
-                                    <span class="pdf-field-value" id="pdfCompactPorcConocimientos">0%</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Experiencias:</span>
-                                    <span class="pdf-field-value" id="pdfCompactPorcExperiencias">0%</span>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Profesionales:</span>
-                                    <span class="pdf-field-value" id="pdfCompactPorcProfesionales">0%</span>
-                                </div>
-                                <div class="pdf-field-compact">
-                                    <span class="pdf-field-label">Habilidades:</span>
-                                    <span class="pdf-field-value" id="pdfCompactPorcHabilidades">0%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                  <div
+                    class="pdf-section-title"
+                    style="font-size: 11px; margin-bottom: 5px"
+                  >
+                    INFORMACIÓN DE LA DEPENDENCIA
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Organización:</span>
+                    <span class="pdf-field-value" id="pdfCompactOrganizacion"
+                      >-</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Departamento:</span>
+                    <span class="pdf-field-value" id="pdfCompactDepartamento"
+                      >-</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Plaza:</span>
+                    <span class="pdf-field-value" id="pdfCompactPlaza">-</span>
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Receptor:</span>
+                    <span class="pdf-field-value" id="pdfCompactReceptor"
+                      >-</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Horas Acumuladas:</span>
+                    <span class="pdf-field-value" id="pdfCompactHorasAcumuladas"
+                      >-</span
+                    >
+                  </div>
                 </div>
-
-                <!-- FIRMAS -->
-                <div class="pdf-signatures-compact">
-                    <div class="pdf-signature-box">
-                        <div class="pdf-signature-name">PRESTADOR</div>
-                        <div class="pdf-signature-role">(Estudiante)</div>
-                        <div class="pdf-signature-line"></div>
-                        <div style="font-size: 10px; margin-top: 6px;" id="pdfCompactFirmaEstudiante">-</div>
-                    </div>
-                    <div class="pdf-signature-box">
-                        <div class="pdf-signature-name">RECEPTOR</div>
-                        <div class="pdf-signature-role">(Responsable)</div>
-                        <div class="pdf-signature-line"></div>
-                        <div style="font-size: 10px; margin-top: 6px;" id="pdfCompactFirmaReceptor">-</div>
-                    </div>
-                    <div class="pdf-signature-box">
-                        <div class="pdf-signature-name">COORDINADOR</div>
-                        <div class="pdf-signature-role">(Académico)</div>
-                        <div class="pdf-signature-line"></div>
-                        <div style="font-size: 10px; margin-top: 6px;">Coordinador de Servicio Social</div>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 12px; font-size: 9px; color: #666; border-top: 1px solid #eee; padding-top: 10px;">
-                    Centro Universitario de la Ciénega - Universidad de Guadalajara<br>
-                    Fecha de generación: <span id="pdfCompactFecha">-</span>
-                </div>
+              </div>
             </div>
 
-            <!-- FORMULARIO PRINCIPAL -->
-            <div class="report-form" id="mensualForm">
-                <h2 class="form-title">Reporte Mensual de Servicio Social</h2>
-                
-                <form id="reportForm">
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="form-col">
-                                <label for="elaborationDate">Fecha de Elaboración</label>
-                                <input type="date" id="elaborationDate" name="elaborationDate" required>
-                            </div>
-                            <div class="form-col">
-                                <label for="turn">Turno</label>
-                                <select id="turn" name="turn" required>
-                                    <option value="">Seleccione turno</option>
-                                    <option value="matutino">Matutino</option>
-                                    <option value="vespertino">Vespertino</option>
-                                    <option value="mixto">Mixto</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="form-col">
-                                <label for="periodStart">Periodo Inicio</label>
-                                <input type="date" id="periodStart" name="periodStart" required>
-                            </div>
-                            <div class="form-col">
-                                <label for="periodEnd">Periodo Fin</label>
-                                <input type="date" id="periodEnd" name="periodEnd" required>
-                            </div>
-                            <div class="form-col">
-                                <label for="hoursReported">Horas Reportadas</label>
-                                <input type="number" id="hoursReported" name="hoursReported" step="0.5" min="0" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="section-title">Actividades Realizadas</h3>
-                    <div class="form-group">
-                        <label for="activities">Descripción de Actividades</label>
-                        <textarea id="activities" name="activities" placeholder="Describa detalladamente las actividades realizadas durante el periodo..." required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="form-col">
-                                <label for="achievements">Logros Alcanzados</label>
-                                <textarea id="achievements" name="achievements" placeholder="Describa los logros alcanzados..."></textarea>
-                            </div>
-                            <div class="form-col">
-                                <label for="difficulties">Dificultades Encontradas</label>
-                                <textarea id="difficulties" name="difficulties" placeholder="Describa las dificultades encontradas..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="learnings">Aprendizajes Obtenidos</label>
-                        <textarea id="learnings" name="learnings" placeholder="Describa los aprendizajes obtenidos durante el periodo..."></textarea>
-                    </div>
-
-                    <h3 class="section-title">Evaluación del Programa</h3>
-                    <div class="form-group">
-                        <div class="form-row">
-                            <div class="form-col">
-                                <label for="expectations">¿Cumplió con sus expectativas el programa?</label>
-                                <select id="expectations" name="expectations" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Si">Sí</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="form-col">
-                                <label for="satisfactory">¿Cumplió satisfactoriamente con las actividades?</label>
-                                <select id="satisfactory" name="satisfactory" required>
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Si">Sí</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Porcentaje de Aprovechamiento (%)</label>
-                        <div class="percentage-inputs">
-                            <div class="percentage-input">
-                                <label for="knowledgePercentage">Conocimientos</label>
-                                <input type="number" id="knowledgePercentage" name="knowledgePercentage" min="0" max="100" placeholder="0-100">
-                            </div>
-                            <div class="percentage-input">
-                                <label for="experiencePercentage">Experiencias</label>
-                                <input type="number" id="experiencePercentage" name="experiencePercentage" min="0" max="100" placeholder="0-100">
-                            </div>
-                            <div class="percentage-input">
-                                <label for="professionalPercentage">Profesionales</label>
-                                <input type="number" id="professionalPercentage" name="professionalPercentage" min="0" max="100" placeholder="0-100">
-                            </div>
-                            <div class="percentage-input">
-                                <label for="skillsPercentage">Habilidades</label>
-                                <input type="number" id="skillsPercentage" name="skillsPercentage" min="0" max="100" placeholder="0-100">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="contributions">Aportaciones a la Institución</label>
-                        <textarea id="contributions" name="contributions" placeholder="Describa las aportaciones realizadas a la institución..."></textarea>
-                    </div>
-
-                    <div class="signature-section">
-                        <h3 class="signature-title">Validación del Reporte</h3>
-                        <p class="signature-instruction">* Este documento deberá ser impreso para obtener las firmas correspondientes</p>
-                        
-                        <div class="signature-container">
-                            <div class="signature-box">
-                                <div class="signature-name">PRESTADOR DE SERVICIO SOCIAL</div>
-                                <div class="signature-role">(Estudiante)</div>
-                                <div class="signature-line"></div>
-                                <div class="signature-person" id="studentSignature"></div>
-                                <div class="signature-instruction">Firma</div>
-                            </div>
-
-                            <div class="signature-box">
-                                <div class="signature-name">RECEPTOR DEL SERVICIO SOCIAL</div>
-                                <div class="signature-role">(Responsable en la dependencia)</div>
-                                <div class="signature-line"></div>
-                                <div class="signature-person" id="receptorSignature"></div>
-                                <div class="signature-instruction">Firma</div>
-                            </div>
-
-                            <div class="signature-box">
-                                <div class="signature-name">COORDINADOR DE SERVICIO SOCIAL</div>
-                                <div class="signature-role">(Responsable académico)</div>
-                                <div class="signature-line"></div>
-                                <div class="signature-person" id="coordinatorSignature"></div>
-                                <div class="signature-instruction">Firma</div>
-                            </div>
-                        </div>
-
-                        <div class="print-notice">
-                            <h4>⚠️ Importante</h4>
-                            <p>Después de llenar el formulario, imprima este documento para obtener las firmas físicas requeridas.</p>
-                            <p>El documento firmado deberá ser escaneado y subido al sistema para su validación final.</p>
-                        </div>
-                    </div>
-
-                    <div class="form-actions no-print">
-                        <div>
-                            <button type="button" class="btn btn-secondary" onclick="saveAsDraft()">Guardar Borrador</button>
-                            <button type="button" class="btn btn-print" onclick="generatePDF('mensual')">Generar PDF</button>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Enviar Reporte</button>
-                    </div>
-                </form>
+            <!-- INFORMACIÓN DEL REPORTE -->
+            <div class="pdf-section-compact">
+              <div class="pdf-section-title">INFORMACIÓN DEL REPORTE</div>
+              <div class="pdf-grid-3cols">
+                <div class="pdf-field-compact">
+                  <span class="pdf-field-label">Fecha Elaboración:</span>
+                  <span class="pdf-field-value" id="pdfCompactFechaElaboracion"
+                    >-</span
+                  >
+                </div>
+                <div class="pdf-field-compact">
+                  <span class="pdf-field-label">Turno:</span>
+                  <span class="pdf-field-value" id="pdfCompactTurno">-</span>
+                </div>
+                <div class="pdf-field-compact">
+                  <span class="pdf-field-label">Periodo:</span>
+                  <span class="pdf-field-value" id="pdfCompactPeriodo">-</span>
+                </div>
+                <div class="pdf-field-compact">
+                  <span class="pdf-field-label">Horas Reportadas:</span>
+                  <span class="pdf-field-value" id="pdfCompactHoras">-</span>
+                </div>
+                <div class="pdf-field-compact">
+                  <span class="pdf-field-label">Cumplió expectativas:</span>
+                  <span class="pdf-field-value" id="pdfCompactExpectativas"
+                    >-</span
+                  >
+                </div>
+                <div class="pdf-field-compact">
+                  <span class="pdf-field-label"
+                    >Actividades satisfactorias:</span
+                  >
+                  <span class="pdf-field-value" id="pdfCompactSatisfactorio"
+                    >-</span
+                  >
+                </div>
+              </div>
             </div>
-        </main>
 
-        <footer class="no-print">
-            <p>Centro Universitario de la Ciénega - Universidad de Guadalajara</p>
-            <p>Sistema de Servicio Social &copy; 2025</p>
-        </footer>
+            <!-- ACTIVIDADES Y CONTENIDO -->
+            <div class="pdf-section-compact">
+              <div class="pdf-section-title">ACTIVIDADES REALIZADAS</div>
+              <div class="pdf-textarea-content" id="pdfCompactActividades">
+                -
+              </div>
+            </div>
+
+            <div class="pdf-grid-2cols">
+              <div class="pdf-section-compact">
+                <div class="pdf-section-title">LOGROS ALCANZADOS</div>
+                <div class="pdf-textarea-content" id="pdfCompactLogros">-</div>
+              </div>
+              <div class="pdf-section-compact">
+                <div class="pdf-section-title">APRENDIZAJES OBTENIDOS</div>
+                <div class="pdf-textarea-content" id="pdfCompactAprendizajes">
+                  -
+                </div>
+              </div>
+            </div>
+
+            <div class="pdf-section-compact">
+              <div class="pdf-section-title">DIFICULTADES ENCONTRADAS</div>
+              <div class="pdf-textarea-content" id="pdfCompactDificultades">
+                -
+              </div>
+            </div>
+
+            <div class="pdf-section-compact">
+              <div class="pdf-section-title">APORTACIONES A LA INSTITUCIÓN</div>
+              <div class="pdf-textarea-content" id="pdfCompactAportaciones">
+                -
+              </div>
+            </div>
+
+            <!-- PORCENTAJES DE APROVECHAMIENTO -->
+            <div class="pdf-section-compact">
+              <div class="pdf-section-title">
+                PORCENTAJES DE APROVECHAMIENTO
+              </div>
+              <div class="pdf-grid-2cols">
+                <div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Conocimientos:</span>
+                    <span
+                      class="pdf-field-value"
+                      id="pdfCompactPorcConocimientos"
+                      >0%</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Experiencias:</span>
+                    <span
+                      class="pdf-field-value"
+                      id="pdfCompactPorcExperiencias"
+                      >0%</span
+                    >
+                  </div>
+                </div>
+                <div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Profesionales:</span>
+                    <span
+                      class="pdf-field-value"
+                      id="pdfCompactPorcProfesionales"
+                      >0%</span
+                    >
+                  </div>
+                  <div class="pdf-field-compact">
+                    <span class="pdf-field-label">Habilidades:</span>
+                    <span class="pdf-field-value" id="pdfCompactPorcHabilidades"
+                      >0%</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FIRMAS -->
+          <div class="pdf-signatures-compact">
+            <div class="pdf-signature-box">
+              <div class="pdf-signature-name">PRESTADOR</div>
+              <div class="pdf-signature-role">(Estudiante)</div>
+              <div class="pdf-signature-line"></div>
+              <div
+                style="font-size: 10px; margin-top: 6px"
+                id="pdfCompactFirmaEstudiante"
+              >
+                -
+              </div>
+            </div>
+            <div class="pdf-signature-box">
+              <div class="pdf-signature-name">RECEPTOR</div>
+              <div class="pdf-signature-role">(Responsable)</div>
+              <div class="pdf-signature-line"></div>
+              <div
+                style="font-size: 10px; margin-top: 6px"
+                id="pdfCompactFirmaReceptor"
+              >
+                -
+              </div>
+            </div>
+            <div class="pdf-signature-box">
+              <div class="pdf-signature-name">COORDINADOR</div>
+              <div class="pdf-signature-role">(Académico)</div>
+              <div class="pdf-signature-line"></div>
+              <div style="font-size: 10px; margin-top: 6px">
+                Coordinador de Servicio Social
+              </div>
+            </div>
+          </div>
+
+          <div
+            style="
+              text-align: center;
+              margin-top: 12px;
+              font-size: 9px;
+              color: #666;
+              border-top: 1px solid #eee;
+              padding-top: 10px;
+            "
+          >
+            Centro Universitario de la Ciénega - Universidad de Guadalajara<br />
+            Fecha de generación: <span id="pdfCompactFecha">-</span>
+          </div>
+        </div>
+
+        <!-- FORMULARIO PRINCIPAL -->
+        <div class="report-form" id="mensualForm">
+          <h2 class="form-title">Reporte Mensual de Servicio Social</h2>
+
+          <form id="reportForm">
+            <div class="form-group">
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="elaborationDate">Fecha de Elaboración</label>
+                  <input
+                    type="date"
+                    id="elaborationDate"
+                    name="elaborationDate"
+                    required
+                  />
+                </div>
+                <div class="form-col">
+                  <label for="turn">Turno</label>
+                  <select id="turn" name="turn" required>
+                    <option value="">Seleccione turno</option>
+                    <option value="matutino">Matutino</option>
+                    <option value="vespertino">Vespertino</option>
+                    <option value="mixto">Mixto</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="periodStart">Periodo Inicio</label>
+                  <input
+                    type="date"
+                    id="periodStart"
+                    name="periodStart"
+                    required
+                  />
+                </div>
+                <div class="form-col">
+                  <label for="periodEnd">Periodo Fin</label>
+                  <input type="date" id="periodEnd" name="periodEnd" required />
+                </div>
+                <div class="form-col">
+                  <label for="hoursReported">Horas Reportadas</label>
+                  <input
+                    type="number"
+                    id="hoursReported"
+                    name="hoursReported"
+                    step="0.5"
+                    min="0"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <h3 class="section-title">Actividades Realizadas</h3>
+            <div class="form-group">
+              <label for="activities">Descripción de Actividades</label>
+              <textarea
+                id="activities"
+                name="activities"
+                placeholder="Describa detalladamente las actividades realizadas durante el periodo..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="achievements">Logros Alcanzados</label>
+                  <textarea
+                    id="achievements"
+                    name="achievements"
+                    placeholder="Describa los logros alcanzados..."
+                  ></textarea>
+                </div>
+                <div class="form-col">
+                  <label for="difficulties">Dificultades Encontradas</label>
+                  <textarea
+                    id="difficulties"
+                    name="difficulties"
+                    placeholder="Describa las dificultades encontradas..."
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="learnings">Aprendizajes Obtenidos</label>
+              <textarea
+                id="learnings"
+                name="learnings"
+                placeholder="Describa los aprendizajes obtenidos durante el periodo..."
+              ></textarea>
+            </div>
+
+            <h3 class="section-title">Evaluación del Programa</h3>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="expectations"
+                    >¿Cumplió con sus expectativas el programa?</label
+                  >
+                  <select id="expectations" name="expectations" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Si">Sí</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+                <div class="form-col">
+                  <label for="satisfactory"
+                    >¿Cumplió satisfactoriamente con las actividades?</label
+                  >
+                  <select id="satisfactory" name="satisfactory" required>
+                    <option value="">Seleccione una opción</option>
+                    <option value="Si">Sí</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Porcentaje de Aprovechamiento (%)</label>
+              <div class="percentage-inputs">
+                <div class="percentage-input">
+                  <label for="knowledgePercentage">Conocimientos</label>
+                  <input
+                    type="number"
+                    id="knowledgePercentage"
+                    name="knowledgePercentage"
+                    min="0"
+                    max="100"
+                    placeholder="0-100"
+                  />
+                </div>
+                <div class="percentage-input">
+                  <label for="experiencePercentage">Experiencias</label>
+                  <input
+                    type="number"
+                    id="experiencePercentage"
+                    name="experiencePercentage"
+                    min="0"
+                    max="100"
+                    placeholder="0-100"
+                  />
+                </div>
+                <div class="percentage-input">
+                  <label for="professionalPercentage">Profesionales</label>
+                  <input
+                    type="number"
+                    id="professionalPercentage"
+                    name="professionalPercentage"
+                    min="0"
+                    max="100"
+                    placeholder="0-100"
+                  />
+                </div>
+                <div class="percentage-input">
+                  <label for="skillsPercentage">Habilidades</label>
+                  <input
+                    type="number"
+                    id="skillsPercentage"
+                    name="skillsPercentage"
+                    min="0"
+                    max="100"
+                    placeholder="0-100"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contributions">Aportaciones a la Institución</label>
+              <textarea
+                id="contributions"
+                name="contributions"
+                placeholder="Describa las aportaciones realizadas a la institución..."
+              ></textarea>
+            </div>
+
+            <div class="signature-section">
+              <h3 class="signature-title">Validación del Reporte</h3>
+              <p class="signature-instruction">
+                * Este documento deberá ser impreso para obtener las firmas
+                correspondientes
+              </p>
+
+              <div class="signature-container">
+                <div class="signature-box">
+                  <div class="signature-name">PRESTADOR DE SERVICIO SOCIAL</div>
+                  <div class="signature-role">(Estudiante)</div>
+                  <div class="signature-line"></div>
+                  <div class="signature-person" id="studentSignature"></div>
+                  <div class="signature-instruction">Firma</div>
+                </div>
+
+                <div class="signature-box">
+                  <div class="signature-name">RECEPTOR DEL SERVICIO SOCIAL</div>
+                  <div class="signature-role">
+                    (Responsable en la dependencia)
+                  </div>
+                  <div class="signature-line"></div>
+                  <div class="signature-person" id="receptorSignature"></div>
+                  <div class="signature-instruction">Firma</div>
+                </div>
+
+                <div class="signature-box">
+                  <div class="signature-name">
+                    COORDINADOR DE SERVICIO SOCIAL
+                  </div>
+                  <div class="signature-role">(Responsable académico)</div>
+                  <div class="signature-line"></div>
+                  <div class="signature-person" id="coordinatorSignature"></div>
+                  <div class="signature-instruction">Firma</div>
+                </div>
+              </div>
+
+              <div class="print-notice">
+                <h4>⚠️ Importante</h4>
+                <p>
+                  Después de llenar el formulario, imprima este documento para
+                  obtener las firmas físicas requeridas.
+                </p>
+                <p>
+                  El documento firmado deberá ser escaneado y subido al sistema
+                  para su validación final.
+                </p>
+              </div>
+            </div>
+
+            <div class="form-actions no-print">
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  onclick="saveAsDraft()"
+                >
+                  Guardar Borrador
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-print"
+                  onclick="generatePDF('mensual')"
+                >
+                  Generar PDF
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <footer class="no-print">
+        <p>Centro Universitario de la Ciénega - Universidad de Guadalajara</p>
+        <p>Sistema de Servicio Social &copy; 2025</p>
+      </footer>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
-        let usuario = null;
-        let asignacion = null;
-        let reportType = 'mensual';
-        let prestadorInfo = null;
-        let dependenciaInfo = null;
+      let usuario = null;
+      let asignacion = null;
+      let reportType = "mensual";
+      let prestadorInfo = null;
+      let dependenciaInfo = null;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            usuario = JSON.parse(localStorage.getItem('usuario'));
-            if (!usuario) {
-                window.location.href = 'login.html';
-                return;
+      document.addEventListener("DOMContentLoaded", function () {
+        usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (!usuario) {
+          window.location.href = "login.html";
+          return;
+        }
+
+        loadUserInfo();
+        loadAsignacionInfo();
+        checkFinalReportEligibility();
+        setupDefaultDates();
+        loadPrestadorInfo();
+      });
+
+      function loadUserInfo() {
+        document.getElementById(
+          "userName"
+        ).textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
+        document.getElementById("userInfo").textContent = `${
+          usuario.codigo_udg
+        } | ${usuario.carrera || "Carrera no especificada"}`;
+        document.getElementById("studentSignature").textContent = `${
+          usuario.nombre
+        } ${usuario.apellido_paterno} ${usuario.apellido_materno || ""}`;
+      }
+
+      async function loadPrestadorInfo() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:3000/perfil/${usuario.codigo_udg}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
             }
+          );
+          const data = await response.json();
 
-            loadUserInfo();
-            loadAsignacionInfo();
-            checkFinalReportEligibility();
-            setupDefaultDates();
-            loadPrestadorInfo();
+          if (data.status === "ok") {
+            prestadorInfo = data.perfil;
+            updatePrestadorInfo();
+          }
+        } catch (error) {
+          console.error("Error cargando información del prestador:", error);
+        }
+      }
+
+      function updatePrestadorInfo() {
+        if (prestadorInfo) {
+          document.getElementById("prestadorNombre").textContent = `${
+            prestadorInfo.nombre
+          } ${prestadorInfo.apellido_paterno} ${
+            prestadorInfo.apellido_materno || ""
+          }`;
+          document.getElementById("prestadorCodigo").textContent =
+            prestadorInfo.codigo_udg;
+          document.getElementById("prestadorCarrera").textContent =
+            prestadorInfo.carrera || "No especificada";
+          document.getElementById("prestadorSemestre").textContent =
+            prestadorInfo.semestre || "No especificado";
+          document.getElementById("prestadorCreditos").textContent = `${
+            prestadorInfo.creditos_aprobados || 0
+          } (${prestadorInfo.porcentaje_creditos || 0}%)`;
+        }
+      }
+
+      async function loadAsignacionInfo() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:3000/asignacion-activa",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const data = await response.json();
+
+          if (data.status === "ok" && data.asignacion) {
+            asignacion = data.asignacion;
+            dependenciaInfo = data.asignacion;
+            updateDependenciaInfo();
+
+            const receptorNombreCompleto = `${
+              asignacion.receptor_nombre || ""
+            } ${asignacion.receptor_apellido_paterno || ""} ${
+              asignacion.receptor_apellido_materno || ""
+            }`.trim();
+
+            document.getElementById("receptorSignature").textContent =
+              receptorNombreCompleto || "No especificado";
+            document.getElementById("coordinatorSignature").textContent =
+              "Coordinador de Servicio Social";
+
+            document.getElementById("dependenciaReceptor").textContent =
+              receptorNombreCompleto || "No especificado";
+          } else {
+            document.getElementById("dependenciaOrganizacion").textContent =
+              "Sin asignación activa";
+            document.getElementById("dependenciaDepartamento").textContent =
+              "N/A";
+            document.getElementById("dependenciaPlaza").textContent = "N/A";
+            document.getElementById("dependenciaReceptor").textContent = "N/A";
+            document.getElementById("dependenciaHoras").textContent = "N/A";
+          }
+        } catch (error) {
+          console.error("Error cargando información de asignación:", error);
+        }
+      }
+
+      function updateDependenciaInfo() {
+        if (dependenciaInfo) {
+          document.getElementById("dependenciaOrganizacion").textContent =
+            dependenciaInfo.organizacion || "No especificada";
+          document.getElementById("dependenciaDepartamento").textContent =
+            dependenciaInfo.departamento || "No especificado";
+          document.getElementById("dependenciaPlaza").textContent =
+            dependenciaInfo.plaza_titulo || "No especificada";
+          document.getElementById("dependenciaReceptor").textContent =
+            dependenciaInfo.receptor_nombre || "No especificado";
+          document.getElementById("dependenciaHoras").textContent = `${
+            dependenciaInfo.horas_acumuladas || 0
+          } / ${dependenciaInfo.horas_requeridas || 480} horas`;
+        }
+      }
+
+      async function checkFinalReportEligibility() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:3000/estadisticas/${usuario.codigo_udg}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const data = await response.json();
+
+          if (data.status === "ok") {
+            const stats = data.estadisticas;
+            const finalReportBtn = document.getElementById("finalReportBtn");
+
+            if (stats.horas_acumuladas >= stats.horas_requeridas) {
+              finalReportBtn.style.opacity = "1";
+              finalReportBtn.style.cursor = "pointer";
+            } else {
+              finalReportBtn.style.opacity = "0.5";
+              finalReportBtn.style.cursor = "not-allowed";
+              finalReportBtn.onclick = null;
+              finalReportBtn.title = `Completa ${
+                stats.horas_requeridas - stats.horas_acumuladas
+              } horas más para acceder al reporte final`;
+            }
+          }
+        } catch (error) {
+          console.error("Error verificando elegibilidad:", error);
+        }
+      }
+
+      function setupDefaultDates() {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("elaborationDate").value = today;
+
+        const periodEnd = new Date();
+        const periodStart = new Date();
+        periodStart.setMonth(periodStart.getMonth() - 1);
+
+        document.getElementById("periodStart").value = periodStart
+          .toISOString()
+          .split("T")[0];
+        document.getElementById("periodEnd").value = periodEnd
+          .toISOString()
+          .split("T")[0];
+      }
+
+      function selectReportType(type) {
+        reportType = type;
+
+        document.querySelectorAll(".type-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.closest(".type-btn").classList.add("active");
+
+        if (type === "final") {
+          window.location.href = "crear_reporte_final.html";
+        }
+      }
+
+      function validateForm() {
+        const requiredFields = document.querySelectorAll(
+          "#reportForm [required]"
+        );
+        let isValid = true;
+
+        requiredFields.forEach((field) => {
+          if (!field.value.trim()) {
+            field.style.borderColor = "red";
+            isValid = false;
+          } else {
+            field.style.borderColor = "#ddd";
+          }
         });
 
-        function loadUserInfo() {
-            document.getElementById('userName').textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
-            document.getElementById('userInfo').textContent = `${usuario.codigo_udg} | ${usuario.carrera || 'Carrera no especificada'}`;
-            document.getElementById('studentSignature').textContent = `${usuario.nombre} ${usuario.apellido_paterno} ${usuario.apellido_materno || ''}`;
+        return isValid;
+      }
+
+      async function generatePDF(type) {
+        if (!validateForm()) {
+          alert(
+            "Por favor, complete todos los campos obligatorios antes de generar el PDF."
+          );
+          return;
         }
 
-        async function loadPrestadorInfo() {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:3000/perfil/${usuario.codigo_udg}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await response.json();
-                
-                if (data.status === 'ok') {
-                    prestadorInfo = data.perfil;
-                    updatePrestadorInfo();
-                }
-            } catch (error) {
-                console.error('Error cargando información del prestador:', error);
-            }
+        const originalText = document.querySelector(".btn-print").textContent;
+        document.querySelector(".btn-print").textContent = "Generando PDF...";
+        document.querySelector(".btn-print").disabled = true;
+
+        try {
+          // Actualizar datos en la vista compacta
+          updateCompactPDFData();
+
+          // Mostrar la vista compacta
+          const pdfContainer = document.getElementById("pdfCompactView");
+          pdfContainer.style.display = "block";
+
+          const { jsPDF } = window.jspdf;
+
+          const canvas = await html2canvas(pdfContainer, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: "#ffffff",
+            logging: false,
+            width: pdfContainer.scrollWidth,
+            height: pdfContainer.scrollHeight,
+            onclone: function (clonedDoc) {
+              const container = clonedDoc.getElementById("pdfCompactView");
+              if (container) {
+                container.style.display = "block";
+                container.style.width = "794px";
+                container.style.padding = "20px";
+              }
+            },
+          });
+
+          // Ocultar la vista compacta
+          pdfContainer.style.display = "none";
+
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("p", "mm", "a4");
+          const imgWidth = 210; // Ancho completo de A4
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          // Usar toda la página
+          pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+
+          const fileName =
+            type === "mensual"
+              ? `reporte_mensual_${usuario.codigo_udg}_${
+                  new Date().toISOString().split("T")[0]
+                }.pdf`
+              : `reporte_final_${usuario.codigo_udg}_${
+                  new Date().toISOString().split("T")[0]
+                }.pdf`;
+
+          pdf.save(fileName);
+        } catch (error) {
+          console.error("Error generando PDF:", error);
+          alert("Error al generar el PDF: " + error.message);
+
+          // Asegurarse de ocultar la vista compacta en caso de error
+          document.getElementById("pdfCompactView").style.display = "none";
+        } finally {
+          document.querySelector(".btn-print").textContent = originalText;
+          document.querySelector(".btn-print").disabled = false;
+
+          // Asegurarse de ocultar la vista compacta
+          document.getElementById("pdfCompactView").style.display = "none";
         }
+      }
 
-        function updatePrestadorInfo() {
-            if (prestadorInfo) {
-                document.getElementById('prestadorNombre').textContent = 
-                    `${prestadorInfo.nombre} ${prestadorInfo.apellido_paterno} ${prestadorInfo.apellido_materno || ''}`;
-                document.getElementById('prestadorCodigo').textContent = prestadorInfo.codigo_udg;
-                document.getElementById('prestadorCarrera').textContent = prestadorInfo.carrera || 'No especificada';
-                document.getElementById('prestadorSemestre').textContent = prestadorInfo.semestre || 'No especificado';
-                document.getElementById('prestadorCreditos').textContent = 
-                    `${prestadorInfo.creditos_aprobados || 0} (${prestadorInfo.porcentaje_creditos || 0}%)`;
-            }
+      function updateCompactPDFData() {
+        // Información del prestador
+        document.getElementById("pdfCompactNombre").textContent =
+          document.getElementById("prestadorNombre").textContent;
+        document.getElementById("pdfCompactCodigo").textContent =
+          document.getElementById("prestadorCodigo").textContent;
+        document.getElementById("pdfCompactCarrera").textContent =
+          document.getElementById("prestadorCarrera").textContent;
+        document.getElementById("pdfCompactSemestre").textContent =
+          document.getElementById("prestadorSemestre").textContent;
+        document.getElementById("pdfCompactCreditos").textContent =
+          document.getElementById("prestadorCreditos").textContent;
+
+        // Información de la dependencia
+        document.getElementById("pdfCompactOrganizacion").textContent =
+          document.getElementById("dependenciaOrganizacion").textContent;
+        document.getElementById("pdfCompactDepartamento").textContent =
+          document.getElementById("dependenciaDepartamento").textContent;
+        document.getElementById("pdfCompactPlaza").textContent =
+          document.getElementById("dependenciaPlaza").textContent;
+        document.getElementById("pdfCompactReceptor").textContent =
+          document.getElementById("dependenciaReceptor").textContent;
+        document.getElementById("pdfCompactHorasAcumuladas").textContent =
+          document.getElementById("dependenciaHoras").textContent;
+
+        // Información del reporte
+        document.getElementById("pdfCompactFechaElaboracion").textContent =
+          document.getElementById("elaborationDate").value || "No especificado";
+        document.getElementById("pdfCompactTurno").textContent =
+          document.getElementById("turn").value || "No especificado";
+        document.getElementById("pdfCompactPeriodo").textContent = `${
+          document.getElementById("periodStart").value
+        } a ${document.getElementById("periodEnd").value}`;
+        document.getElementById("pdfCompactHoras").textContent = `${
+          document.getElementById("hoursReported").value
+        } horas`;
+        document.getElementById("pdfCompactExpectativas").textContent =
+          document.getElementById("expectations").value || "No especificado";
+        document.getElementById("pdfCompactSatisfactorio").textContent =
+          document.getElementById("satisfactory").value || "No especificado";
+
+        // Contenido del formulario
+        document.getElementById("pdfCompactActividades").textContent =
+          document.getElementById("activities").value || "No especificado";
+        document.getElementById("pdfCompactLogros").textContent =
+          document.getElementById("achievements").value || "No especificado";
+        document.getElementById("pdfCompactAprendizajes").textContent =
+          document.getElementById("learnings").value || "No especificado";
+        document.getElementById("pdfCompactDificultades").textContent =
+          document.getElementById("difficulties").value || "No especificado";
+        document.getElementById("pdfCompactAportaciones").textContent =
+          document.getElementById("contributions").value || "No especificado";
+
+        // Porcentajes
+        document.getElementById("pdfCompactPorcConocimientos").textContent = `${
+          document.getElementById("knowledgePercentage").value || 0
+        }%`;
+        document.getElementById("pdfCompactPorcExperiencias").textContent = `${
+          document.getElementById("experiencePercentage").value || 0
+        }%`;
+        document.getElementById("pdfCompactPorcProfesionales").textContent = `${
+          document.getElementById("professionalPercentage").value || 0
+        }%`;
+        document.getElementById("pdfCompactPorcHabilidades").textContent = `${
+          document.getElementById("skillsPercentage").value || 0
+        }%`;
+
+        // Firmas
+        document.getElementById("pdfCompactFirmaEstudiante").textContent =
+          document.getElementById("studentSignature").textContent;
+        document.getElementById("pdfCompactFirmaReceptor").textContent =
+          document.getElementById("receptorSignature").textContent;
+
+        // Fecha
+        document.getElementById("pdfCompactFecha").textContent =
+          new Date().toLocaleDateString();
+      }
+
+      function saveAsDraft() {
+        if (validateForm()) {
+          alert("Borrador guardado exitosamente");
+        } else {
+          alert("Complete los campos obligatorios para guardar el borrador");
         }
+      }
 
-        async function loadAsignacionInfo() {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/asignacion-activa', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await response.json();
-                
-                if (data.status === 'ok' && data.asignacion) {
-                    asignacion = data.asignacion;
-                    dependenciaInfo = data.asignacion;
-                    updateDependenciaInfo();
-                    
-                    const receptorNombreCompleto = 
-                        `${asignacion.receptor_nombre || ''} ${asignacion.receptor_apellido_paterno || ''} ${asignacion.receptor_apellido_materno || ''}`.trim();
-                    
-                    document.getElementById('receptorSignature').textContent = receptorNombreCompleto || 'No especificado';
-                    document.getElementById('coordinatorSignature').textContent = 'Coordinador de Servicio Social';
-                    
-                    document.getElementById('dependenciaReceptor').textContent = receptorNombreCompleto || 'No especificado';
-                    
-                } else {
-                    document.getElementById('dependenciaOrganizacion').textContent = 'Sin asignación activa';
-                    document.getElementById('dependenciaDepartamento').textContent = 'N/A';
-                    document.getElementById('dependenciaPlaza').textContent = 'N/A';
-                    document.getElementById('dependenciaReceptor').textContent = 'N/A';
-                    document.getElementById('dependenciaHoras').textContent = 'N/A';
-                }
-            } catch (error) {
-                console.error('Error cargando información de asignación:', error);
-            }
-        }
+      document
+        .getElementById("reportForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-        function updateDependenciaInfo() {
-            if (dependenciaInfo) {
-                document.getElementById('dependenciaOrganizacion').textContent = dependenciaInfo.organizacion || 'No especificada';
-                document.getElementById('dependenciaDepartamento').textContent = dependenciaInfo.departamento || 'No especificado';
-                document.getElementById('dependenciaPlaza').textContent = dependenciaInfo.plaza_titulo || 'No especificada';
-                document.getElementById('dependenciaReceptor').textContent = dependenciaInfo.receptor_nombre || 'No especificado';
-                document.getElementById('dependenciaHoras').textContent = 
-                    `${dependenciaInfo.horas_acumuladas || 0} / ${dependenciaInfo.horas_requeridas || 480} horas`;
-            }
-        }
-
-        async function checkFinalReportEligibility() {
-            try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:3000/estadisticas/${usuario.codigo_udg}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await response.json();
-                
-                if (data.status === 'ok') {
-                    const stats = data.estadisticas;
-                    const finalReportBtn = document.getElementById('finalReportBtn');
-                    
-                    if (stats.horas_acumuladas >= stats.horas_requeridas) {
-                        finalReportBtn.style.opacity = '1';
-                        finalReportBtn.style.cursor = 'pointer';
-                    } else {
-                        finalReportBtn.style.opacity = '0.5';
-                        finalReportBtn.style.cursor = 'not-allowed';
-                        finalReportBtn.onclick = null;
-                        finalReportBtn.title = `Completa ${stats.horas_requeridas - stats.horas_acumuladas} horas más para acceder al reporte final`;
-                    }
-                }
-            } catch (error) {
-                console.error('Error verificando elegibilidad:', error);
-            }
-        }
-
-        function setupDefaultDates() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('elaborationDate').value = today;
-
-            const periodEnd = new Date();
-            const periodStart = new Date();
-            periodStart.setMonth(periodStart.getMonth() - 1);
-            
-            document.getElementById('periodStart').value = periodStart.toISOString().split('T')[0];
-            document.getElementById('periodEnd').value = periodEnd.toISOString().split('T')[0];
-        }
-
-        function selectReportType(type) {
-            reportType = type;
-            
-            document.querySelectorAll('.type-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.closest('.type-btn').classList.add('active');
-            
-            if (type === 'final') {
-                window.location.href = 'crear_reporte_final.html';
-            }
-        }
-
-        function validateForm() {
-            const requiredFields = document.querySelectorAll('#reportForm [required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.style.borderColor = 'red';
-                    isValid = false;
-                } else {
-                    field.style.borderColor = '#ddd';
-                }
-            });
-            
-            return isValid;
-        }
-
-        async function generatePDF(type) {
-            if (!validateForm()) {
-                alert('Por favor, complete todos los campos obligatorios antes de generar el PDF.');
-                return;
-            }
-
-            const originalText = document.querySelector('.btn-print').textContent;
-            document.querySelector('.btn-print').textContent = 'Generando PDF...';
-            document.querySelector('.btn-print').disabled = true;
-
-            try {
-                // Actualizar datos en la vista compacta
-                updateCompactPDFData();
-
-                // Mostrar la vista compacta
-                const pdfContainer = document.getElementById('pdfCompactView');
-                pdfContainer.style.display = 'block';
-
-                const { jsPDF } = window.jspdf;
-                
-                const canvas = await html2canvas(pdfContainer, {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    logging: false,
-                    width: pdfContainer.scrollWidth,
-                    height: pdfContainer.scrollHeight,
-                    onclone: function(clonedDoc) {
-                        const container = clonedDoc.getElementById('pdfCompactView');
-                        if (container) {
-                            container.style.display = 'block';
-                            container.style.width = '794px';
-                            container.style.padding = '20px';
-                        }
-                    }
-                });
-
-                // Ocultar la vista compacta
-                pdfContainer.style.display = 'none';
-
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210; // Ancho completo de A4
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                // Usar toda la página
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                
-                const fileName = type === 'mensual' 
-                    ? `reporte_mensual_${usuario.codigo_udg}_${new Date().toISOString().split('T')[0]}.pdf`
-                    : `reporte_final_${usuario.codigo_udg}_${new Date().toISOString().split('T')[0]}.pdf`;
-                
-                pdf.save(fileName);
-                
-            } catch (error) {
-                console.error('Error generando PDF:', error);
-                alert('Error al generar el PDF: ' + error.message);
-                
-                // Asegurarse de ocultar la vista compacta en caso de error
-                document.getElementById('pdfCompactView').style.display = 'none';
-            } finally {
-                document.querySelector('.btn-print').textContent = originalText;
-                document.querySelector('.btn-print').disabled = false;
-                
-                // Asegurarse de ocultar la vista compacta
-                document.getElementById('pdfCompactView').style.display = 'none';
-            }
-        }
-
-        function updateCompactPDFData() {
-            // Información del prestador
-            document.getElementById('pdfCompactNombre').textContent = document.getElementById('prestadorNombre').textContent;
-            document.getElementById('pdfCompactCodigo').textContent = document.getElementById('prestadorCodigo').textContent;
-            document.getElementById('pdfCompactCarrera').textContent = document.getElementById('prestadorCarrera').textContent;
-            document.getElementById('pdfCompactSemestre').textContent = document.getElementById('prestadorSemestre').textContent;
-            document.getElementById('pdfCompactCreditos').textContent = document.getElementById('prestadorCreditos').textContent;
-            
-            // Información de la dependencia
-            document.getElementById('pdfCompactOrganizacion').textContent = document.getElementById('dependenciaOrganizacion').textContent;
-            document.getElementById('pdfCompactDepartamento').textContent = document.getElementById('dependenciaDepartamento').textContent;
-            document.getElementById('pdfCompactPlaza').textContent = document.getElementById('dependenciaPlaza').textContent;
-            document.getElementById('pdfCompactReceptor').textContent = document.getElementById('dependenciaReceptor').textContent;
-            document.getElementById('pdfCompactHorasAcumuladas').textContent = document.getElementById('dependenciaHoras').textContent;
-            
-            // Información del reporte
-            document.getElementById('pdfCompactFechaElaboracion').textContent = document.getElementById('elaborationDate').value || 'No especificado';
-            document.getElementById('pdfCompactTurno').textContent = document.getElementById('turn').value || 'No especificado';
-            document.getElementById('pdfCompactPeriodo').textContent = `${document.getElementById('periodStart').value} a ${document.getElementById('periodEnd').value}`;
-            document.getElementById('pdfCompactHoras').textContent = `${document.getElementById('hoursReported').value} horas`;
-            document.getElementById('pdfCompactExpectativas').textContent = document.getElementById('expectations').value || 'No especificado';
-            document.getElementById('pdfCompactSatisfactorio').textContent = document.getElementById('satisfactory').value || 'No especificado';
-            
-            // Contenido del formulario
-            document.getElementById('pdfCompactActividades').textContent = document.getElementById('activities').value || 'No especificado';
-            document.getElementById('pdfCompactLogros').textContent = document.getElementById('achievements').value || 'No especificado';
-            document.getElementById('pdfCompactAprendizajes').textContent = document.getElementById('learnings').value || 'No especificado';
-            document.getElementById('pdfCompactDificultades').textContent = document.getElementById('difficulties').value || 'No especificado';
-            document.getElementById('pdfCompactAportaciones').textContent = document.getElementById('contributions').value || 'No especificado';
-            
-            // Porcentajes
-            document.getElementById('pdfCompactPorcConocimientos').textContent = `${document.getElementById('knowledgePercentage').value || 0}%`;
-            document.getElementById('pdfCompactPorcExperiencias').textContent = `${document.getElementById('experiencePercentage').value || 0}%`;
-            document.getElementById('pdfCompactPorcProfesionales').textContent = `${document.getElementById('professionalPercentage').value || 0}%`;
-            document.getElementById('pdfCompactPorcHabilidades').textContent = `${document.getElementById('skillsPercentage').value || 0}%`;
-            
-            // Firmas
-            document.getElementById('pdfCompactFirmaEstudiante').textContent = document.getElementById('studentSignature').textContent;
-            document.getElementById('pdfCompactFirmaReceptor').textContent = document.getElementById('receptorSignature').textContent;
-            
-            // Fecha
-            document.getElementById('pdfCompactFecha').textContent = new Date().toLocaleDateString();
-        }
-
-        function saveAsDraft() {
-            if (validateForm()) {
-                alert('Borrador guardado exitosamente');
-            } else {
-                alert('Complete los campos obligatorios para guardar el borrador');
-            }
-        }
-
-        document.getElementById('reportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (!validateForm()) {
-                alert('Por favor, complete todos los campos obligatorios antes de enviar el reporte.');
-                return;
-            }
-            
-            alert('Reporte enviado exitosamente');
+          alert("Reporte enviado exitosamente");
         });
     </script>
-</body>
+  </body>
 </html>

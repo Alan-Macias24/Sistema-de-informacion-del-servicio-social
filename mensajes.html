@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mensajes - Sistema de Servicio Social</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        background: #010248;
+        padding: 15px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar-brand {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .navbar-user {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logout-btn {
+        background: #d32f2f;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .messages-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .messages-container {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 20px;
+        height: 70vh;
+      }
+
+      .contacts-sidebar {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .messages-main {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .btn-primary {
+        background: #010248;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .btn-primary:hover {
+        background: #003366;
+      }
+
+      .contact-list {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .contact-item {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+      }
+
+      .contact-item:hover {
+        background: #f5f5f5;
+      }
+
+      .contact-item.active {
+        background: #e3f2fd;
+        border-left: 3px solid #010248;
+      }
+
+      .messages-list {
+        flex: 1;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      .message {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+      }
+
+      .message.sent {
+        background: #e3f2fd;
+        margin-left: 50px;
+      }
+
+      .message.received {
+        background: #f5f5f5;
+        margin-right: 50px;
+      }
+
+      .message-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .message-form {
+        display: flex;
+        gap: 10px;
+      }
+
+      .message-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: vertical;
+      }
+
+      .tabs {
+        display: flex;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+      }
+
+      .tab.active {
+        border-bottom: 2px solid #010248;
+        color: #010248;
+        font-weight: bold;
+      }
+
+      .unread-badge {
+        background: #ff4444;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        margin-left: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="navbar-brand">
+        <a
+          href="dashboard_prestador.html"
+          style="color: white; text-decoration: none"
+          >← Volver al Dashboard</a
+        >
+      </div>
+      <div class="navbar-user">
+        <span id="userName">Usuario</span>
+        <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="messages-header">
+        <h1>Mensajes</h1>
+        <button class="btn-primary" onclick="showNewMessageModal()">
+          Nuevo Mensaje
+        </button>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('recibidos')">Recibidos</div>
+        <div class="tab" onclick="switchTab('enviados')">Enviados</div>
+      </div>
+
+      <div class="messages-container">
+        <div class="contacts-sidebar">
+          <h3>Contactos</h3>
+          <div class="contact-list" id="contactList">
+            <!-- Contactos se cargarán aquí -->
+          </div>
+        </div>
+
+        <div class="messages-main">
+          <div id="noContactSelected" style="text-align: center; padding: 50px">
+            <p>Selecciona un contacto para ver los mensajes</p>
+          </div>
+
+          <div id="conversationView" style="display: none">
+            <h3 id="contactName">Nombre del Contacto</h3>
+            <div class="messages-list" id="messagesList">
+              <!-- Mensajes se cargarán aquí -->
+            </div>
+            <div class="message-form">
+              <textarea
+                id="messageInput"
+                class="message-input"
+                placeholder="Escribe tu mensaje..."
+                rows="3"
+              ></textarea>
+              <button class="btn-primary" onclick="sendMessage()">
+                Enviar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para nuevo mensaje -->
+    <div
+      id="newMessageModal"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      "
+    >
+      <div
+        style="
+          background: white;
+          margin: 50px auto;
+          padding: 20px;
+          border-radius: 10px;
+          width: 500px;
+        "
+      >
+        <h3>Nuevo Mensaje</h3>
+        <div style="margin-bottom: 15px">
+          <label>Para:</label>
+          <select
+            id="recipientSelect"
+            style="width: 100%; padding: 8px; margin-top: 5px"
+          >
+            <option value="">Selecciona un destinatario</option>
+          </select>
+        </div>
+        <div style="margin-bottom: 15px">
+          <label>Asunto:</label>
+          <input
+            type="text"
+            id="subjectInput"
+            style="width: 100%; padding: 8px; margin-top: 5px"
+          />
+        </div>
+        <div style="margin-bottom: 15px">
+          <label>Mensaje:</label>
+          <textarea
+            id="newMessageInput"
+            style="
+              width: 100%;
+              padding: 8px;
+              margin-top: 5px;
+              height: 100px;
+              resize: vertical;
+            "
+          ></textarea>
+        </div>
+        <div style="display: flex; gap: 10px; justify-content: flex-end">
+          <button class="btn-primary" onclick="sendNewMessage()">Enviar</button>
+          <button
+            onclick="hideNewMessageModal()"
+            style="
+              background: #ccc;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 5px;
+              cursor: pointer;
+            "
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentTab = "recibidos";
+      let selectedContact = null;
+      let contacts = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadUserInfo();
+        loadContacts();
+        loadMessages();
+        loadUnreadCount();
+      });
+
+      function loadUserInfo() {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (usuario) {
+          document.getElementById(
+            "userName"
+          ).textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
+        }
+      }
+
+      async function loadContacts() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:3000/mensajes/contactos",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.status === "ok") {
+            contacts = data.contactos;
+            renderContacts();
+            populateRecipientSelect();
+          }
+        } catch (error) {
+          console.error("Error cargando contactos:", error);
+        }
+      }
+
+      function renderContacts() {
+        const contactList = document.getElementById("contactList");
+        contactList.innerHTML = "";
+
+        if (contacts.length === 0) {
+          contactList.innerHTML = "<p>No hay contactos disponibles</p>";
+          return;
+        }
+
+        contacts.forEach((contact) => {
+          const contactElement = document.createElement("div");
+          contactElement.className = "contact-item";
+          contactElement.innerHTML = `
+                    <strong>${contact.nombre} ${contact.apellido_paterno}</strong>
+                    <br>
+                    <small>${contact.tipo}</small>
+                `;
+          contactElement.onclick = () => selectContact(contact);
+          contactList.appendChild(contactElement);
+        });
+      }
+
+      function populateRecipientSelect() {
+        const select = document.getElementById("recipientSelect");
+        select.innerHTML =
+          '<option value="">Selecciona un destinatario</option>';
+
+        contacts.forEach((contact) => {
+          const option = document.createElement("option");
+          option.value = contact.codigo_udg;
+          option.textContent = `${contact.nombre} ${contact.apellido_paterno} (${contact.tipo})`;
+          select.appendChild(option);
+        });
+      }
+
+      async function loadMessages(tipo = "recibidos") {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:3000/mensajes?tipo=${tipo}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.status === "ok") {
+            // Aquí podrías mostrar una lista de mensajes si lo prefieres
+            console.log("Mensajes cargados:", data.mensajes);
+          }
+        } catch (error) {
+          console.error("Error cargando mensajes:", error);
+        }
+      }
+
+      async function selectContact(contact) {
+        selectedContact = contact;
+        document.getElementById("noContactSelected").style.display = "none";
+        document.getElementById("conversationView").style.display = "flex";
+        document.getElementById(
+          "contactName"
+        ).textContent = `${contact.nombre} ${contact.apellido_paterno} (${contact.tipo})`;
+
+        await loadConversation(contact.codigo_udg);
+      }
+
+      async function loadConversation(contactId) {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            `http://localhost:3000/mensajes?tipo=recibidos`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.status === "ok") {
+            const messages = data.mensajes.filter(
+              (msg) =>
+                msg.remitente_codigo_udg == contactId ||
+                msg.destinatario_codigo_udg == contactId
+            );
+
+            renderMessages(messages);
+          }
+        } catch (error) {
+          console.error("Error cargando conversación:", error);
+        }
+      }
+
+      function renderMessages(messages) {
+        const messagesList = document.getElementById("messagesList");
+        messagesList.innerHTML = "";
+
+        messages.sort(
+          (a, b) => new Date(a.fecha_envio) - new Date(b.fecha_envio)
+        );
+
+        messages.forEach((message) => {
+          const messageElement = document.createElement("div");
+          const isSent =
+            message.remitente_codigo_udg ==
+            JSON.parse(localStorage.getItem("usuario")).codigo_udg;
+
+          messageElement.className = `message ${isSent ? "sent" : "received"}`;
+          messageElement.innerHTML = `
+                    <div class="message-header">
+                        <span>${isSent ? "Tú" : message.remitente_nombre}</span>
+                        <span>${new Date(
+                          message.fecha_envio
+                        ).toLocaleString()}</span>
+                    </div>
+                    <div><strong>${message.asunto}</strong></div>
+                    <div>${message.contenido}</div>
+                `;
+          messagesList.appendChild(messageElement);
+        });
+
+        messagesList.scrollTop = messagesList.scrollHeight;
+      }
+
+      async function sendMessage() {
+        if (!selectedContact) return;
+
+        const messageInput = document.getElementById("messageInput");
+        const content = messageInput.value.trim();
+
+        if (!content) {
+          alert("Por favor escribe un mensaje");
+          return;
+        }
+
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch("http://localhost:3000/mensajes", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              destinatario_codigo_udg: selectedContact.codigo_udg,
+              asunto: "Nuevo mensaje",
+              contenido: content,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.status === "ok") {
+            messageInput.value = "";
+            await loadConversation(selectedContact.codigo_udg);
+          } else {
+            alert("Error al enviar mensaje: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error enviando mensaje:", error);
+          alert("Error al enviar mensaje");
+        }
+      }
+
+      function showNewMessageModal() {
+        document.getElementById("newMessageModal").style.display = "block";
+      }
+
+      function hideNewMessageModal() {
+        document.getElementById("newMessageModal").style.display = "none";
+      }
+
+      async function sendNewMessage() {
+        const recipientSelect = document.getElementById("recipientSelect");
+        const subjectInput = document.getElementById("subjectInput");
+        const newMessageInput = document.getElementById("newMessageInput");
+
+        const recipient = recipientSelect.value;
+        const subject = subjectInput.value.trim();
+        const content = newMessageInput.value.trim();
+
+        if (!recipient || !subject || !content) {
+          alert("Por favor completa todos los campos");
+          return;
+        }
+
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch("http://localhost:3000/mensajes", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              destinatario_codigo_udg: recipient,
+              asunto: subject,
+              contenido: content,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.status === "ok") {
+            hideNewMessageModal();
+            recipientSelect.value = "";
+            subjectInput.value = "";
+            newMessageInput.value = "";
+            alert("Mensaje enviado exitosamente");
+            loadMessages(currentTab);
+          } else {
+            alert("Error al enviar mensaje: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error enviando mensaje:", error);
+          alert("Error al enviar mensaje");
+        }
+      }
+
+      function switchTab(tab) {
+        currentTab = tab;
+        document
+          .querySelectorAll(".tab")
+          .forEach((t) => t.classList.remove("active"));
+        event.target.classList.add("active");
+        loadMessages(tab);
+      }
+
+      async function loadUnreadCount() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "http://localhost:3000/mensajes/estadisticas",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.status === "ok" && data.estadisticas.no_leidos > 0) {
+            // Aquí podrías mostrar el contador de no leídos en la UI
+            console.log("Mensajes no leídos:", data.estadisticas.no_leidos);
+          }
+        } catch (error) {
+          console.error("Error cargando estadísticas:", error);
+        }
+      }
+
+      function logout() {
+        if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+          localStorage.removeItem("usuario");
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+        }
+      }
+
+      // Permitir enviar mensaje con Enter (Ctrl+Enter)
+      document
+        .getElementById("messageInput")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter" && e.ctrlKey) {
+            sendMessage();
+          }
+        });
+    </script>
+  </body>
+</html>
