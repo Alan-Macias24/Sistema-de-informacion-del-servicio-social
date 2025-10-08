@@ -717,3 +717,413 @@ app.post("/reportes/final", authenticateToken, (req, res) => {
         });
     });
 });
+// Ruta para obtener reportes con filtros por tipo de usuario
+app.get("/reportes", authenticateToken, (req, res) => {
+  const { tipo_usuario, usuario_codigo } = req.query;
+  
+  let sql = "";
+  let params = [];
+
+  if (tipo_usuario === 'prestador') {
+    // Prestador ve solo sus reportes
+    sql = `
+      SELECT r.*, a.plaza_id, p.titulo as plaza_titulo, 
+             rec.organizacion, rec.departamento,
+             u.nombre as receptor_nombre, u.apellido_paterno as receptor_apellido_paterno,
+             u.apellido_materno as receptor_apellido_materno
+      FROM reportes r
+      JOIN asignaciones a ON r.asignacion_id = a.id
+      JOIN plazas p ON a.plaza_id = p.id
+      JOIN receptores rec ON a.receptor_codigo_udg = rec.codigo_udg
+      JOIN usuarios u ON rec.codigo_udg = u.codigo_udg
+      WHERE a.prestador_codigo_udg = ?
+      ORDER BY r.fecha_entrega DESC;
+    `;
+    params = [usuario_codigo];
+  } else if (tipo_usuario === 'receptor') {
+    // Receptor ve reportes de sus prestadores
+    sql = `
+      SELECT r.*, a.plaza_id, p.titulo as plaza_titulo,
+             prest.carrera, prest.semestre,
+             u.nombre as prestador_nombre, u.apellido_paterno as prestador_apellido_paterno,
+             u.apellido_materno as prestador_apellido_materno
+      FROM reportes r
+      JOIN asignaciones a ON r.asignacion_id = a.id
+      JOIN plazas p ON a.plaza_id = p.id
+      JOIN prestadores prest ON a.prestador_codigo_udg = prest.codigo_udg
+      JOIN usuarios u ON prest.codigo_udg = u.codigo_udg
+      WHERE a.receptor_codigo_udg = ?
+      ORDER BY r.fecha_entrega DESC;
+    `;
+    params = [usuario_codigo];
+  } else if (tipo_usuario === 'administrador') {
+    // Administrador ve todos los reportes
+    sql = `
+      SELECT r.*, a.plaza_id, p.titulo as plaza_titulo,
+             prest.carrera, prest.semestre,
+             u_prest.nombre as prestador_nombre, 
+             u_prest.apellido_paterno as prestador_apellido_paterno,
+             u_prest.apellido_materno as prestador_apellido_materno,
+             rec.organizacion, rec.departamento,
+             u_rec.nombre as receptor_nombre,
+             u_rec.apellido_paterno as receptor_apellido_paterno,
+             u_rec.apellido_materno as receptor_apellido_materno
+      FROM reportes r
+      JOIN asignaciones a ON r.asignacion_id = a.id
+      JOIN plazas p ON a.plaza_id = p.id
+      JOIN prestadores prest ON a.prestador_codigo_udg = prest.codigo_udg
+      JOIN usuarios u_prest ON prest.codigo_udg = u_prest.codigo_udg
+      JOIN receptores rec ON a.receptor_codigo_udg = rec.codigo_udg
+      JOIN usuarios u_rec ON rec.codigo_udg = u_rec.codigo_udg
+      ORDER BY r.fecha_entrega DESC;
+    `;
+  }
+
+  db.query(sql, params, (err, results) => {
+    if (err) {
+      console.error("❌ Error en consulta de reportes:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    res.json({ status: "ok", reportes: results });
+  });
+});
+
+// Ruta para que receptores validen reportes
+app.put("/reportes/:id/validar", authenticateToken, (req, res) => {
+  const reporteId = req.params.id;
+  const { estado, observaciones_revisor } = req.body;
+
+  if (!estado || !['aprobado', 'rechazado'].includes(estado)) {
+    return res.status(400).json({ 
+      status: "error", 
+      message: "Estado inválido. Debe ser 'aprobado' o 'rechazado'" 
+    });
+  }
+
+  const sql = `
+    UPDATE reportes 
+    SET estado = ?, 
+        observaciones_revisor = ?,
+        fecha_revision = NOW(),
+        revisor_codigo_udg = ?
+    WHERE id = ?;
+  `;
+
+  db.query(sql, [estado, observaciones_revisor, req.user.codigo_udg, reporteId], (err, result) => {
+    if (err) {
+      console.error("❌ Error al validar reporte:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ status: "error", message: "Reporte no encontrado" });
+    }
+
+    // Si el reporte es aprobado y es final, marcar asignación como concluida
+    if (estado === 'aprobado') {
+      const getReporteSql = `SELECT tipo, asignacion_id FROM reportes WHERE id = ?`;
+      
+      db.query(getReporteSql, [reporteId], (err, reporteResults) => {
+        if (err) {
+          console.error("❌ Error al obtener tipo de reporte:", err);
+          return;
+        }
+
+        if (reporteResults.length > 0 && reporteResults[0].tipo === 'final') {
+          const updateAsignacionSql = `
+            UPDATE asignaciones 
+            SET estado = 'concluida', fecha_termino_real = NOW()
+            WHERE id = ?;
+          `;
+          
+          db.query(updateAsignacionSql, [reporteResults[0].asignacion_id], (updateErr) => {
+            if (updateErr) {
+              console.error("❌ Error al actualizar asignación:", updateErr);
+            } else {
+              console.log("✅ Asignación marcada como concluida");
+            }
+          });
+        }
+      });
+    }
+
+    res.json({ 
+      status: "ok", 
+      message: `Reporte ${estado === 'aprobado' ? 'aprobado' : 'rechazado'} correctamente` 
+    });
+  });
+});
+
+// Ruta para que administradores validen horas
+app.put("/reportes/:id/validar-horas", authenticateToken, (req, res) => {
+  const reporteId = req.params.id;
+  const { horas_validadas, observaciones_horas } = req.body;
+
+  if (!horas_validadas || horas_validadas < 0) {
+    return res.status(400).json({ 
+      status: "error", 
+      message: "Horas validadas son requeridas y deben ser mayor o igual a 0" 
+    });
+  }
+
+  const sql = `
+    UPDATE reportes 
+    SET horas_validadas = ?,
+        observaciones_horas = ?,
+        validador_horas_codigo_udg = ?,
+        fecha_validacion_horas = NOW()
+    WHERE id = ?;
+  `;
+
+  db.query(sql, [horas_validadas, observaciones_horas, req.user.codigo_udg, reporteId], (err, result) => {
+    if (err) {
+      console.error("❌ Error al validar horas:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ status: "error", message: "Reporte no encontrado" });
+    }
+
+    // Actualizar horas acumuladas en la asignación
+    const getReporteSql = `SELECT asignacion_id, horas_validadas FROM reportes WHERE id = ?`;
+    
+    db.query(getReporteSql, [reporteId], (err, reporteResults) => {
+      if (err) {
+        console.error("❌ Error al obtener datos del reporte:", err);
+        return;
+      }
+
+      if (reporteResults.length > 0) {
+        const asignacionId = reporteResults[0].asignacion_id;
+        const horasValidadas = reporteResults[0].horas_validadas;
+
+        const updateHorasSql = `
+          UPDATE asignaciones 
+          SET horas_acumuladas = horas_acumuladas + ?
+          WHERE id = ?;
+        `;
+        
+        db.query(updateHorasSql, [horasValidadas, asignacionId], (updateErr) => {
+          if (updateErr) {
+            console.error("❌ Error al actualizar horas acumuladas:", updateErr);
+          } else {
+            console.log("✅ Horas acumuladas actualizadas");
+          }
+        });
+      }
+    });
+
+    res.json({ 
+      status: "ok", 
+      message: "Horas validadas correctamente" 
+    });
+  });
+});
+
+// Ruta para obtener detalles completos de un reporte
+app.get("/reportes/:id", authenticateToken, (req, res) => {
+  const reporteId = req.params.id;
+
+  const sql = `
+    SELECT r.*, 
+           a.plaza_id, a.horas_acumuladas, a.horas_requeridas,
+           p.titulo as plaza_titulo, p.descripcion as plaza_descripcion,
+           prest.carrera, prest.semestre,
+           u_prest.nombre as prestador_nombre, 
+           u_prest.apellido_paterno as prestador_apellido_paterno,
+           u_prest.apellido_materno as prestador_apellido_materno,
+           rec.organizacion, rec.departamento,
+           u_rec.nombre as receptor_nombre,
+           u_rec.apellido_paterno as receptor_apellido_paterno,
+           u_rec.apellido_materno as receptor_apellido_materno
+    FROM reportes r
+    JOIN asignaciones a ON r.asignacion_id = a.id
+    JOIN plazas p ON a.plaza_id = p.id
+    JOIN prestadores prest ON a.prestador_codigo_udg = prest.codigo_udg
+    JOIN usuarios u_prest ON prest.codigo_udg = u_prest.codigo_udg
+    JOIN receptores rec ON a.receptor_codigo_udg = rec.codigo_udg
+    JOIN usuarios u_rec ON rec.codigo_udg = u_rec.codigo_udg
+    WHERE r.id = ?;
+  `;
+
+  db.query(sql, [reporteId], (err, results) => {
+    if (err) {
+      console.error("❌ Error en consulta de reporte:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ status: "error", message: "Reporte no encontrado" });
+    }
+
+    res.json({ status: "ok", reporte: results[0] });
+  });
+});
+// Ruta para validar reportes (SOLO administradores)
+app.put("/reportes/:id/validar", authenticateToken, (req, res) => {
+  const reporteId = req.params.id;
+  const { estado, observaciones_revisor } = req.body;
+  const usuario = req.user;
+
+  // SOLO administradores pueden validar reportes
+  if (usuario.tipo !== 'administrador') {
+    return res.status(403).json({ 
+      status: "error", 
+      message: "Solo los administradores pueden validar reportes" 
+    });
+  }
+
+  if (!estado || !['aprobado', 'rechazado'].includes(estado)) {
+    return res.status(400).json({ 
+      status: "error", 
+      message: "Estado inválido. Debe ser 'aprobado' o 'rechazado'" 
+    });
+  }
+
+  const sql = `
+    UPDATE reportes 
+    SET estado = ?, 
+        observaciones_revisor = ?,
+        fecha_revision = NOW(),
+        revisor_codigo_udg = ?
+    WHERE id = ?;
+  `;
+
+  db.query(sql, [estado, observaciones_revisor, usuario.codigo_udg, reporteId], (err, result) => {
+    if (err) {
+      console.error("❌ Error al validar reporte:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ status: "error", message: "Reporte no encontrado" });
+    }
+
+    // Si el reporte es aprobado y es final, marcar asignación como concluida
+    if (estado === 'aprobado') {
+      const getReporteSql = `SELECT tipo, asignacion_id FROM reportes WHERE id = ?`;
+      
+      db.query(getReporteSql, [reporteId], (err, reporteResults) => {
+        if (err) {
+          console.error("❌ Error al obtener tipo de reporte:", err);
+          return;
+        }
+
+        if (reporteResults.length > 0 && reporteResults[0].tipo === 'final') {
+          const updateAsignacionSql = `
+            UPDATE asignaciones 
+            SET estado = 'concluida', fecha_termino_real = NOW()
+            WHERE id = ?;
+          `;
+          
+          db.query(updateAsignacionSql, [reporteResults[0].asignacion_id], (updateErr) => {
+            if (updateErr) {
+              console.error("❌ Error al actualizar asignación:", updateErr);
+            } else {
+              console.log("✅ Asignación marcada como concluida");
+            }
+          });
+        }
+      });
+    }
+
+    res.json({ 
+      status: "ok", 
+      message: `Reporte ${estado === 'aprobado' ? 'aprobado' : 'rechazado'} correctamente` 
+    });
+  });
+});
+
+// Ruta para validar horas (SOLO administradores)
+app.put("/reportes/:id/validar-horas", authenticateToken, (req, res) => {
+  const reporteId = req.params.id;
+  const { horas_validadas, observaciones_horas } = req.body;
+  const usuario = req.user;
+
+  // SOLO administradores pueden validar horas
+  if (usuario.tipo !== 'administrador') {
+    return res.status(403).json({ 
+      status: "error", 
+      message: "Solo los administradores pueden validar horas" 
+    });
+  }
+
+  if (!horas_validadas || horas_validadas < 0) {
+    return res.status(400).json({ 
+      status: "error", 
+      message: "Horas validadas son requeridas y deben ser mayor o igual a 0" 
+    });
+  }
+
+  const sql = `
+    UPDATE reportes 
+    SET horas_validadas = ?,
+        observaciones_horas = ?,
+        validador_horas_codigo_udg = ?,
+        fecha_validacion_horas = NOW()
+    WHERE id = ?;
+  `;
+
+  db.query(sql, [horas_validadas, observaciones_horas, usuario.codigo_udg, reporteId], (err, result) => {
+    if (err) {
+      console.error("❌ Error al validar horas:", err);
+      return res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ status: "error", message: "Reporte no encontrado" });
+    }
+
+    // Actualizar horas acumuladas en la asignación
+    const getReporteSql = `SELECT asignacion_id, horas_validadas FROM reportes WHERE id = ?`;
+    
+    db.query(getReporteSql, [reporteId], (err, reporteResults) => {
+      if (err) {
+        console.error("❌ Error al obtener datos del reporte:", err);
+        return;
+      }
+
+      if (reporteResults.length > 0) {
+        const asignacionId = reporteResults[0].asignacion_id;
+        const horasValidadas = parseFloat(horas_validadas);
+
+        // Obtener horas actuales para calcular la diferencia
+        const getHorasActualesSql = `SELECT horas_acumuladas FROM asignaciones WHERE id = ?`;
+        
+        db.query(getHorasActualesSql, [asignacionId], (err, horasResults) => {
+          if (err) {
+            console.error("❌ Error al obtener horas actuales:", err);
+            return;
+          }
+
+          if (horasResults.length > 0) {
+            const horasActuales = parseFloat(horasResults[0].horas_acumuladas) || 0;
+            
+            // Calcular diferencia y actualizar
+            const updateHorasSql = `
+              UPDATE asignaciones 
+              SET horas_acumuladas = horas_acumuladas + ?
+              WHERE id = ?;
+            `;
+            
+            // Solo sumar la diferencia si es positiva
+            db.query(updateHorasSql, [horasValidadas, asignacionId], (updateErr) => {
+              if (updateErr) {
+                console.error("❌ Error al actualizar horas acumuladas:", updateErr);
+              } else {
+                console.log(`✅ Horas acumuladas actualizadas: +${horasValidadas} horas`);
+              }
+            });
+          }
+        });
+      }
+    });
+
+    res.json({ 
+      status: "ok", 
+      message: "Horas validadas correctamente" 
+    });
+  });
+});

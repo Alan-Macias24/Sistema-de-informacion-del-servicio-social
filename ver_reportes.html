@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Servicio Social - Ver Reportes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a3a8f 0%, #2c5aa0 100%);
+            color: white;
+            padding: 20px 0;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .filters-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1a3a8f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #152c6e;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .reportes-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .reporte-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #1a3a8f;
+        }
+
+        .reporte-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .reporte-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a3a8f;
+        }
+
+        .reporte-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-pendiente { background: #fff3cd; color: #856404; }
+        .badge-aprobado { background: #d1edff; color: #004085; }
+        .badge-rechazado { background: #f8d7da; color: #721c24; }
+        .badge-en_revision { background: #d4edda; color: #155724; }
+        .badge-final { background: #e2e3e5; color: #383d41; }
+
+        .reporte-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .reporte-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #1a3a8f;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .detalle-section {
+            margin-bottom: 20px;
+        }
+
+        .detalle-title {
+            font-size: 1.1rem;
+            color: #1a3a8f;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 5px;
+        }
+
+        .detalle-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
+
+        .validation-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .validation-title {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            background: white;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .filter-row {
+                flex-direction: column;
+            }
+            
+            .reporte-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .reporte-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <div style="width: 60px; height: 60px; background-color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1a3a8f;">UDG</div>
+                    <h1>Sistema de Servicio Social - Reportes</h1>
+                </div>
+                <div class="user-info">
+                    <p><strong id="userName">Cargando...</strong></p>
+                    <p id="userRole">Cargando rol...</p>
+                    <button class="btn btn-secondary" onclick="logout()" style="margin-top: 10px;">Cerrar Sesión</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filtros -->
+        <div class="filters-section">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="filterTipo">Tipo de Reporte</label>
+                    <select id="filterTipo">
+                        <option value="">Todos los tipos</option>
+                        <option value="mensual">Mensual</option>
+                        <option value="bimestral">Bimestral</option>
+                        <option value="final">Final</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterEstado">Estado</label>
+                    <select id="filterEstado">
+                        <option value="">Todos los estados</option>
+                        <option value="borrador">Borrador</option>
+                        <option value="en_revision">En Revisión</option>
+                        <option value="aprobado">Aprobado</option>
+                        <option value="rechazado">Rechazado</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterPeriodo">Periodo</label>
+                    <input type="month" id="filterPeriodo">
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="cargarReportes()">Aplicar Filtros</button>
+        </div>
+
+        <!-- Lista de Reportes -->
+        <div id="reportesContainer">
+            <div class="loading">
+                <p>Cargando reportes...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para detalles del reporte -->
+    <div id="detalleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Detalles del Reporte</h2>
+                <span class="close" onclick="cerrarModal()">&times;</span>
+            </div>
+            <div id="modalBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para validación -->
+    <div id="validacionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Validar Reporte</h2>
+                <span class="close" onclick="cerrarValidacionModal()">&times;</span>
+            </div>
+            <div id="validacionBody">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usuario = null;
+        let reportes = [];
+        let reporteSeleccionado = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            usuario = JSON.parse(localStorage.getItem('usuario'));
+            if (!usuario) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = `${usuario.nombre} ${usuario.apellido_paterno}`;
+            document.getElementById('userRole').textContent = `Rol: ${usuario.tipo}`;
+            
+            cargarReportes();
+        });
+
+        async function cargarReportes() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:3000/reportes?tipo_usuario=${usuario.tipo}&usuario_codigo=${usuario.codigo_udg}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    reportes = data.reportes;
+                    mostrarReportes();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error('Error cargando reportes:', error);
+                document.getElementById('reportesContainer').innerHTML = `
+                    <div class="no-data">
+                        <p>Error al cargar los reportes: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+       function mostrarReportes() {
+    const container = document.getElementById('reportesContainer');
+    
+    if (reportes.length === 0) {
+        container.innerHTML = `
+            <div class="no-data">
+                <p>No se encontraron reportes</p>
+            </div>
+        `;
+        return;
+    }
+
+    let html = '<div class="reportes-grid">';
+    
+    reportes.forEach(reporte => {
+        const tipoTexto = getTipoTexto(reporte.tipo);
+        const estadoTexto = getEstadoTexto(reporte.estado);
+        const badgeClass = `badge-${reporte.estado}`;
+        
+        // Información específica según el tipo de usuario
+        let infoEspecifica = '';
+        if (usuario.tipo === 'prestador') {
+            infoEspecifica = `
+                <div class="info-item">
+                    <span class="info-label">Receptor:</span>
+                    <span class="info-value">${reporte.receptor_nombre || 'N/A'} ${reporte.receptor_apellido_paterno || ''}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Organización:</span>
+                    <span class="info-value">${reporte.organizacion || 'N/A'}</span>
+                </div>
+            `;
+        } else if (usuario.tipo === 'receptor') {
+            infoEspecifica = `
+                <div class="info-item">
+                    <span class="info-label">Prestador:</span>
+                    <span class="info-value">${reporte.prestador_nombre || 'N/A'} ${reporte.prestador_apellido_paterno || ''}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Carrera:</span>
+                    <span class="info-value">${reporte.carrera || 'N/A'}</span>
+                </div>
+            `;
+        } else if (usuario.tipo === 'administrador') {
+            infoEspecifica = `
+                <div class="info-item">
+                    <span class="info-label">Prestador:</span>
+                    <span class="info-value">${reporte.prestador_nombre || 'N/A'} ${reporte.prestador_apellido_paterno || ''}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Receptor:</span>
+                    <span class="info-value">${reporte.receptor_nombre || 'N/A'} ${reporte.receptor_apellido_paterno || ''}</span>
+                </div>
+            `;
+        }
+
+        // Determinar qué acciones mostrar según el tipo de usuario
+        let accionesHTML = '';
+        
+        if (usuario.tipo === 'prestador') {
+            // Prestadores solo pueden ver detalles de sus propios reportes
+            accionesHTML = `
+                <button class="btn btn-primary" onclick="verDetalles(${reporte.id})">
+                    Ver Detalles
+                </button>
+            `;
+        } else if (usuario.tipo === 'receptor') {
+            // Receptores solo pueden ver detalles de los reportes de sus prestadores
+            accionesHTML = `
+                <button class="btn btn-primary" onclick="verDetalles(${reporte.id})">
+                    Ver Detalles
+                </button>
+            `;
+        } else if (usuario.tipo === 'administrador') {
+            // Administradores pueden ver detalles, validar reportes y validar horas
+            accionesHTML = `
+                <button class="btn btn-primary" onclick="verDetalles(${reporte.id})">
+                    Ver Detalles
+                </button>
+            `;
+            
+            // Solo mostrar botones de validación si el reporte está en revisión o borrador
+            if (reporte.estado === 'en_revision' || reporte.estado === 'borrador') {
+                accionesHTML += `
+                    <button class="btn btn-success" onclick="abrirValidacion(${reporte.id}, 'aprobado')">
+                        Aprobar
+                    </button>
+                    <button class="btn btn-danger" onclick="abrirValidacion(${reporte.id}, 'rechazado')">
+                        Rechazar
+                    </button>
+                `;
+            }
+            
+            // Administradores siempre pueden validar horas
+            accionesHTML += `
+                <button class="btn btn-warning" onclick="validarHoras(${reporte.id})">
+                    Validar Horas
+                </button>
+            `;
+        }
+
+        html += `
+            <div class="reporte-card">
+                <div class="reporte-header">
+                    <div class="reporte-title">
+                        ${tipoTexto} - ${reporte.plaza_titulo || 'Sin título'}
+                    </div>
+                    <div class="reporte-badge ${badgeClass}">
+                        ${estadoTexto}
+                    </div>
+                </div>
+                
+                <div class="reporte-info">
+                    <div class="info-item">
+                        <span class="info-label">Periodo:</span>
+                        <span class="info-value">${formatFecha(reporte.periodo_inicio)} - ${formatFecha(reporte.periodo_fin)}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Horas Reportadas:</span>
+                        <span class="info-value">${reporte.horas_reportadas || 0} hrs</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Horas Validadas:</span>
+                        <span class="info-value">${reporte.horas_validadas || 'Pendiente'} hrs</span>
+                    </div>
+                    ${infoEspecifica}
+                    <div class="info-item">
+                        <span class="info-label">Fecha Entrega:</span>
+                        <span class="info-value">${formatFecha(reporte.fecha_entrega)}</span>
+                    </div>
+                </div>
+                
+                <div class="reporte-actions">
+                    ${accionesHTML}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+}
+function mostrarDetallesModal() {
+    const reporte = reporteSeleccionado;
+    const modalBody = document.getElementById('modalBody');
+    
+    let accionesHTML = '';
+    
+    // SOLO administradores pueden validar
+    if (usuario.tipo === 'administrador') {
+        accionesHTML = `
+            <div class="validation-section">
+                <h3 class="validation-title">Acciones de Administrador</h3>
+        `;
+        
+        // Solo mostrar botones de validación si el reporte está en revisión o borrador
+        if (reporte.estado === 'en_revision' || reporte.estado === 'borrador') {
+            accionesHTML += `
+                <button class="btn btn-success" onclick="abrirValidacion(${reporte.id}, 'aprobado')">Aprobar Reporte</button>
+                <button class="btn btn-danger" onclick="abrirValidacion(${reporte.id}, 'rechazado')">Rechazar Reporte</button>
+            `;
+        }
+        
+        accionesHTML += `
+                <button class="btn btn-warning" onclick="validarHoras(${reporte.id})">Validar Horas</button>
+            </div>
+        `;
+    }
+
+    modalBody.innerHTML = `
+        <div class="detalle-section">
+            <h3 class="detalle-title">Información General</h3>
+            <div class="reporte-info">
+                <div class="info-item">
+                    <span class="info-label">Prestador:</span>
+                    <span class="info-value">${reporte.prestador_nombre} ${reporte.prestador_apellido_paterno} ${reporte.prestador_apellido_materno || ''}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Receptor:</span>
+                    <span class="info-value">${reporte.receptor_nombre} ${reporte.receptor_apellido_paterno} ${reporte.receptor_apellido_materno || ''}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Plaza:</span>
+                    <span class="info-value">${reporte.plaza_titulo}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tipo:</span>
+                    <span class="info-value">${getTipoTexto(reporte.tipo)}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Estado:</span>
+                    <span class="info-value">${getEstadoTexto(reporte.estado)}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detalle-section">
+            <h3 class="detalle-title">Periodo y Horas</h3>
+            <div class="reporte-info">
+                <div class="info-item">
+                    <span class="info-label">Periodo:</span>
+                    <span class="info-value">${formatFecha(reporte.periodo_inicio)} - ${formatFecha(reporte.periodo_fin)}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Horas Reportadas:</span>
+                    <span class="info-value">${reporte.horas_reportadas} hrs</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Horas Validadas:</span>
+                    <span class="info-value">${reporte.horas_validadas || 'Pendiente'} hrs</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Horas Acumuladas:</span>
+                    <span class="info-value">${reporte.horas_acumuladas || 0} / ${reporte.horas_requeridas || 480} hrs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detalle-section">
+            <h3 class="detalle-title">Actividades Realizadas</h3>
+            <div class="detalle-content">${reporte.actividades_realizadas || 'No especificado'}</div>
+        </div>
+
+        <div class="detalle-section">
+            <h3 class="detalle-title">Logros Alcanzados</h3>
+            <div class="detalle-content">${reporte.logros || 'No especificado'}</div>
+        </div>
+
+        <div class="detalle-section">
+            <h3 class="detalle-title">Aprendizajes Obtenidos</h3>
+            <div class="detalle-content">${reporte.aprendizajes || 'No especificado'}</div>
+        </div>
+
+        ${reporte.dificultades ? `
+        <div class="detalle-section">
+            <h3 class="detalle-title">Dificultades Encontradas</h3>
+            <div class="detalle-content">${reporte.dificultades}</div>
+        </div>
+        ` : ''}
+
+        ${reporte.observaciones_revisor ? `
+        <div class="detalle-section">
+            <h3 class="detalle-title">Observaciones del Revisor</h3>
+            <div class="detalle-content">${reporte.observaciones_revisor}</div>
+        </div>
+        ` : ''}
+
+        ${accionesHTML}
+    `;
+
+    document.getElementById('detalleModal').style.display = 'block';
+}
+        function abrirValidacion(reporteId, accion) {
+            reporteSeleccionado = reportes.find(r => r.id === reporteId);
+            const validacionBody = document.getElementById('validacionBody');
+            
+            validacionBody.innerHTML = `
+                <p>Reporte: <strong>${getTipoTexto(reporteSeleccionado.tipo)} - ${reporteSeleccionado.plaza_titulo}</strong></p>
+                <p>Prestador: <strong>${reporteSeleccionado.prestador_nombre || 'N/A'} ${reporteSeleccionado.prestador_apellido_paterno || ''}</strong></p>
+                <p>Periodo: <strong>${formatFecha(reporteSeleccionado.periodo_inicio)} - ${formatFecha(reporteSeleccionado.periodo_fin)}</strong></p>
+                
+                <div style="margin: 20px 0;">
+                    <label>Observaciones:</label>
+                    <textarea id="observacionesValidacion" rows="4" placeholder="Ingrese observaciones sobre la validación..."></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn ${accion === 'aprobado' ? 'btn-success' : 'btn-danger'}" 
+                            onclick="validarReporte('${accion}')">
+                        ${accion === 'aprobado' ? 'Aprobar' : 'Rechazar'} Reporte
+                    </button>
+                    <button class="btn btn-secondary" onclick="cerrarValidacionModal()">Cancelar</button>
+                </div>
+            `;
+
+            document.getElementById('validacionModal').style.display = 'block';
+        }
+
+        async function validarReporte(accion) {
+            try {
+                const observaciones = document.getElementById('observacionesValidacion').value;
+                const token = localStorage.getItem('token');
+                
+                const response = await fetch(`http://localhost:3000/reportes/${reporteSeleccionado.id}/validar`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        estado: accion,
+                        observaciones_revisor: observaciones
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    alert(data.message);
+                    cerrarValidacionModal();
+                    cerrarModal();
+                    cargarReportes();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error('Error validando reporte:', error);
+                alert('Error al validar el reporte: ' + error.message);
+            }
+        }
+
+        async function validarHoras(reporteId) {
+            const reporte = reportes.find(r => r.id === reporteId);
+            const validacionBody = document.getElementById('validacionBody');
+            
+            validacionBody.innerHTML = `
+                <p>Reporte: <strong>${getTipoTexto(reporte.tipo)} - ${reporte.plaza_titulo}</strong></p>
+                <p>Horas Reportadas: <strong>${reporte.horas_reportadas} hrs</strong></p>
+                
+                <div style="margin: 20px 0;">
+                    <label>Horas Validadas:</label>
+                    <input type="number" id="horasValidadas" step="0.5" min="0" max="${reporte.horas_reportadas}" 
+                           value="${reporte.horas_reportadas}" style="margin-bottom: 15px;">
+                    
+                    <label>Observaciones sobre horas:</label>
+                    <textarea id="observacionesHoras" rows="4" placeholder="Observaciones sobre la validación de horas...">${reporte.observaciones_horas || ''}</textarea>
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-warning" onclick="guardarValidacionHoras(${reporteId})">
+                        Guardar Validación
+                    </button>
+                    <button class="btn btn-secondary" onclick="cerrarValidacionModal()">Cancelar</button>
+                </div>
+            `;
+
+            document.getElementById('validacionModal').style.display = 'block';
+        }
+
+        async function guardarValidacionHoras(reporteId) {
+            try {
+                const horasValidadas = parseFloat(document.getElementById('horasValidadas').value);
+                const observaciones = document.getElementById('observacionesHoras').value;
+                const token = localStorage.getItem('token');
+                
+                const response = await fetch(`http://localhost:3000/reportes/${reporteId}/validar-horas`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        horas_validadas: horasValidadas,
+                        observaciones_horas: observaciones
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    alert(data.message);
+                    cerrarValidacionModal();
+                    cargarReportes();
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                console.error('Error validando horas:', error);
+                alert('Error al validar las horas: ' + error.message);
+            }
+        }
+
+        function cerrarModal() {
+            document.getElementById('detalleModal').style.display = 'none';
+        }
+
+        function cerrarValidacionModal() {
+            document.getElementById('validacionModal').style.display = 'none';
+        }
+
+        function getTipoTexto(tipo) {
+            const tipos = {
+                'mensual': 'Reporte Mensual',
+                'bimestral': 'Reporte Bimestral',
+                'final': 'Reporte Final'
+            };
+            return tipos[tipo] || tipo;
+        }
+
+        function getEstadoTexto(estado) {
+            const estados = {
+                'borrador': 'Borrador',
+                'en_revision': 'En Revisión',
+                'aprobado': 'Aprobado',
+                'rechazado': 'Rechazado'
+            };
+            return estados[estado] || estado;
+        }
+
+        function formatFecha(fechaString) {
+            if (!fechaString) return 'N/A';
+            const fecha = new Date(fechaString);
+            return fecha.toLocaleDateString('es-ES');
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            window.location.href = 'login.html';
+        }
+
+        // Cerrar modales al hacer clic fuera
+        window.onclick = function(event) {
+            const detalleModal = document.getElementById('detalleModal');
+            const validacionModal = document.getElementById('validacionModal');
+            
+            if (event.target === detalleModal) {
+                cerrarModal();
+            }
+            if (event.target === validacionModal) {
+                cerrarValidacionModal();
+            }
+        }
+    </script>
+</body>
+</html>

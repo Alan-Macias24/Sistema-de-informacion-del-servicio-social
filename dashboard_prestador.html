@@ -294,47 +294,49 @@
             </div>
         </div>
 
-        <!-- ACCIONES PRINCIPALES -->
-        <div class="actions-section">
-            <h2 class="section-title">Acciones Disponibles</h2>
-            <div class="actions-grid">
-                <div class="action-card" onclick="registrarAsistencia()">
-                    <div class="action-icon">⏰</div>
-                    <div class="action-title">Registrar Asistencia</div>
-                    <div class="action-description">Registra tu entrada y salida del servicio social</div>
-                </div>
+      <!-- ACCIONES PRINCIPALES -->
+<div class="actions-section">
+    <h2 class="section-title">Acciones Disponibles</h2>
+    <div class="actions-grid">
+        <div class="action-card" onclick="registrarAsistencia()">
+            <div class="action-icon">⏰</div>
+            <div class="action-title">Registrar Asistencia</div>
+            <div class="action-description">Registra tu entrada y salida del servicio social</div>
+        </div>
 
-                <div class="action-card" onclick="verAsistencias()">
-                    <div class="action-icon">📊</div>
-                    <div class="action-title">Mi Historial de Asistencias</div>
-                    <div class="action-description">Consulta tu historial completo de asistencias</div>
-                </div>
+        <div class="action-card" onclick="verAsistencias()">
+            <div class="action-icon">📊</div>
+            <div class="action-title">Mi Historial de Asistencias</div>
+            <div class="action-description">Consulta tu historial completo de asistencias</div>
+        </div>
 
-               <div class="action-card" onclick="crearReporte()">
-    <div class="action-icon">📝</div>
-    <div class="action-title">Crear Reporte</div>
-    <div class="action-description">Elabora y guarda tus reportes de actividades</div>
+        <div class="action-card" onclick="crearReporte()">
+            <div class="action-icon">📝</div>
+            <div class="action-title">Crear Reporte</div>
+            <div class="action-description">Elabora y guarda tus reportes de actividades</div>
+        </div>
+
+       
+        <div class="action-card" onclick="verReportes()">
+            <div class="action-icon">📋</div>
+            <div class="action-title">Mis Reportes</div>
+            <div class="action-description">Revisa el estado de tus reportes enviados</div>
+        </div>
+
+        <div class="action-card" onclick="subirDocumentos()">
+            <div class="action-icon">📎</div>
+            <div class="action-title">Subir Documentos</div>
+            <div class="action-description">Carga documentos requeridos para tu servicio</div>
+        </div>
+
+        <div class="action-card" onclick="verMensajes()">
+            <div class="action-icon">💬</div>
+            <div class="action-title">Mensajes</div>
+            <div class="action-description">Comunícate con tu supervisor</div>
+        </div>
+    </div>
 </div>
 
-                <div class="action-card" onclick="verReportes()">
-                    <div class="action-icon">📋</div>
-                    <div class="action-title">Mis Reportes</div>
-                    <div class="action-description">Revisa el estado de tus reportes enviados</div>
-                </div>
-
-                <div class="action-card" onclick="subirDocumentos()">
-                    <div class="action-icon">📎</div>
-                    <div class="action-title">Subir Documentos</div>
-                    <div class="action-description">Carga documentos requeridos para tu servicio</div>
-                </div>
-
-                <div class="action-card" onclick="verMensajes()">
-                    <div class="action-icon">💬</div>
-                    <div class="action-title">Mensajes</div>
-                    <div class="action-description">Comunícate con tu supervisor</div>
-                </div>
-            </div>
-        </div>
 
         <!-- ACTIVIDADES RECIENTES -->
         <div class="actions-section">
@@ -440,6 +442,8 @@
         function verMensajes() {
             alert('💬 Función de mensajes\n\nComunícate con tu supervisor y revisa mensajes importantes.');
         }
+       
+
 
         function logout() {
             if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
@@ -448,8 +452,11 @@
                 window.location.href = 'login.html';
             }
         }
-        function crearReporte() {
+ function crearReporte() {
     window.location.href = 'crear_reporte.html';
+}
+ function verReportes() {
+    window.location.href = 'ver_reportes.html';
 }
     </script>
 </body>
